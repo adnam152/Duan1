@@ -1,0 +1,14 @@
+{
+    "name": "nguyennga/da1",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nguyen Nga"
+        }
+    ],
+    "require": {}
+}
