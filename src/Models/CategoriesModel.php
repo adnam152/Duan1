@@ -14,13 +14,6 @@ class CategoriesModel extends Model{
         $result->execute([$name]);
     }
 
-    function delete($id){
-        $sql= "DELETE FROM $this->table Where id=?";
-        $result=$this->connect->prepare($sql);
-        $result->execute([$id]);
-        return $result->rowCount();
-    }
-
     function update($id,$name){ 
         $sql= "UPDATE $this->table SET name=? WHERE id=?";
         $result=$this->connect->prepare($sql);

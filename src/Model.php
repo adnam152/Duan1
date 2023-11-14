@@ -36,4 +36,10 @@ class Model
             return $result->fetch(\PDO::FETCH_ASSOC);
         }
     }
+    function delete($id){
+        $sql= "DELETE FROM $this->table Where id=?";
+        $result=$this->connect->prepare($sql);
+        $result->execute([$id]);
+        return $result->rowCount();
+    }
 }
