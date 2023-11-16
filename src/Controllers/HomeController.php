@@ -7,8 +7,7 @@ use MVC\Model;
 
 class HomeController extends Controller{
     public function index(){
-        echo "hihi";
-        $model = new Model();
+        header("location: /DA1/admin");
     }
 }
 

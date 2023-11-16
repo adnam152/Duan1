@@ -11,8 +11,6 @@ class AdminController extends Controller
     public function index()
     {
 
-
-
         $this->render([
             "view" => "admin/index",
             "page" => "admin",
