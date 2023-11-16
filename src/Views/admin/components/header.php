@@ -1,7 +1,7 @@
 <nav class="navbar header-navbar pcoded-header">
     <div class="navbar-wrapper">
         <div class="navbar-logo">
-            <a href="index.html">
+            <a href="/DA1">
                 LOGO
                 <!-- <img class="img-fluid" src="files/assets/images/logo.png" alt="Theme-Logo" /> -->
             </a>
@@ -37,7 +37,7 @@
                 <li class="user-profile header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="./assets/image/no-avatar.webp" class="rounded-circle" alt="User-Profile-Image">
+                            <img src="/DA1/assets/image/no-avatar.webp" class="rounded-circle" alt="User-Profile-Image">
                             <span>John Doe</span>
                             <i class="feather icon-chevron-down"></i>
                         </div>
