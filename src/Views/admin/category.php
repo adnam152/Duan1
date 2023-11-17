@@ -3,12 +3,12 @@
     <button type="button" name="add_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Thêm
     </button>
-    <table class="table">
+    <table class="table text-center" >
         <thead>
             <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Danh mục</th>
-                <th scope="col">Action</th>
+                <th scope="col-3">STT</th>
+                <th scope="col-5">Danh mục</th>
+                <th scope="col-4">Action</th>
             </tr>
         </thead>
         <tbody>
