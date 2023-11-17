@@ -7,5 +7,6 @@ class ProductsModel extends Model{
         $this->table = "products";
         parent::__construct();
     }
+    
 }
 ?>
