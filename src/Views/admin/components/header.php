@@ -43,28 +43,8 @@
                         </div>
                         <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                             <li>
-                                <a href="#!">
-                                    <i class="feather icon-settings"></i> Settings
-                                </a>
-                            </li>
-                            <li>
                                 <a href="#">
-                                    <i class="feather icon-user"></i> Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a href="email-inbox.html">
-                                    <i class="feather icon-mail"></i> My Messages
-                                </a>
-                            </li>
-                            <li>
-                                <a href="auth-lock-screen.html">
-                                    <i class="feather icon-lock"></i> Lock Screen
-                                </a>
-                            </li>
-                            <li>
-                                <a href="auth-sign-in-social.html">
-                                    <i class="feather icon-log-out"></i> Logout
+                                    <i class="feather icon-log-out"></i> Đăng xuất
                                 </a>
                             </li>
                         </ul>
