@@ -23,7 +23,7 @@
             echo "</pre>";
             foreach ($allProducts as $key => $product) {
             ?>
-                <tr data-product-id="<?= $product['id'] ?>">
+                <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?=$key?>">
                     <td><?= $stt++ ?></td>
                     <td><?= $product['name'] ?></td>
                     <td><?= $product['category'] ?></td>
@@ -36,7 +36,7 @@
                         <button>delete</button>
                     </td>
                 </tr>
-                <tr>
+                <tr data-accordion-show="<?=$key?>">
                     <td colspan="8" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div>
                             <div class="card accordion-body p-3">
@@ -118,3 +118,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    const trs = document.querySelectorAll('tr[data-accordion]');
+    trs.forEach(tr => {
+        tr.addEventListener('click', () => {
+            const accordion = tr.dataset.accordion;
+            const trShow = document.querySelector(`tr[data-accordion-show="${accordion}"] >td`);
+            trShow.classList.toggle('show');
+        })
+    })
+
+</script>
