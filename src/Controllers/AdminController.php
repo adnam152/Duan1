@@ -9,6 +9,7 @@ use MVC\Models\SizesModel;
 use MVC\Models\ColorsModel;
 use MVC\Models\PricingModel;
 use MVC\Models\MediasModel;
+use MVC\Models\AccountsModel;
 
 
 class AdminController extends Controller
@@ -208,11 +209,38 @@ class AdminController extends Controller
             "allCategory" => $allCategory,
         ]);
     }
-    function account(){
+    public function account(){
+        $accountModel = new AccountsModel();
+        // delete
+        if (isset($_GET["delete"])) {
+            $id = $_GET["delete"];
+            $accountModel->delete($id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        // update
+        if (isset($_GET['update'])) {
+            $id = $_GET['update'];
+            $username = $_GET['username'];
+            $password = $_GET['password'];
+            $image = $_FILES['image'];
+            $email = $_GET['email'];
+            $phone_number = $_GET['phone_number'];
+            $address = $_GET['address'];
+            $fullname = $_GET['fullname'];
+            $role = $_GET['role'];
+            $accountModel->update($id,$username,$password,$image,$email,$phone_number,$address,$fullname,$role);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $allAccount = $accountModel->get();
         $this->render([
             "view" => "admin/account",
             "page" => "admin",
             "action" => "4",
+            "allAccount" => $allAccount,
         ]);
     }
     function comment(){
