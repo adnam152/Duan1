@@ -6,6 +6,5 @@ define("DB_NAME","duan1");
 
 
 
-define("DIR", "DA1");
 
 ?>

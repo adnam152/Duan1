@@ -15,7 +15,6 @@ class AdminController extends Controller
 {
     public function index()
     {
-
         $this->render([
             "view" => "admin/index",
             "page" => "admin",
@@ -209,9 +208,9 @@ class AdminController extends Controller
             "allCategory" => $allCategory,
         ]);
     }
-    function user(){
+    function account(){
         $this->render([
-            "view" => "admin/user",
+            "view" => "admin/account",
             "page" => "admin",
             "action" => "4",
         ]);
