@@ -5,7 +5,7 @@ use MVC\Controllers\HomeController;
 use MVC\Controllers\AdminController;
 use MVC\Controllers\LoginController;
 
-$uri = trim($_SERVER['REQUEST_URI'],'/');
+$uri = trim($_SERVER['REQUEST_URI'], '/');
 $router = new Router();
 
 
