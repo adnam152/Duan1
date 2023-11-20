@@ -1,5 +1,5 @@
 <div class="container">
-    <button type="button" name="add_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Thêm
     </button>
     <table class="table">
@@ -18,9 +18,9 @@
         <tbody>
             <?php
             $stt = 1;
-            echo "<pre>";
-            print_r($allProducts);
-            echo "</pre>";
+            // echo "<pre>";
+            // print_r($allProducts);
+            // echo "</pre>";
             foreach ($allProducts as $key => $product) {
             ?>
                 <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?=$key?>">
@@ -32,8 +32,8 @@
                     <td><?= $product['purchase'] ?></td>
                     <td><?= $product['count'] ?></td>
                     <td>
-                        <button>Update</button>
-                        <button>delete</button>
+                        <button class="btn btn-primary">Update</button>
+                        <button class="btn btn-danger">delete</button>
                     </td>
                 </tr>
                 <tr data-accordion-show="<?=$key?>">
@@ -49,10 +49,8 @@
                         </div>
                     </td>
                 </tr>
-
             <?php
             }
-
             ?>
         </tbody>
     </table>
@@ -124,8 +122,12 @@
     trs.forEach(tr => {
         tr.addEventListener('click', () => {
             const accordion = tr.dataset.accordion;
-            const trShow = document.querySelector(`tr[data-accordion-show="${accordion}"] >td`);
-            trShow.classList.toggle('show');
+            const tdShow = document.querySelector(`tr[data-accordion-show="${accordion}"] >td`);
+            tdShow.classList.toggle('show');
+        })
+        tr.addEventListener('mouseover', ()=>{
+            // pointer
+            tr.style.cursor = 'pointer';
         })
     })
 
