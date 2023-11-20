@@ -147,6 +147,3 @@
         })
     })
 </script>
-=========
-USER
->>>>>>>>> Temporary merge branch 2
