@@ -23,7 +23,7 @@
             // echo "</pre>";
             foreach ($allProducts as $key => $product) {
             ?>
-                <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?=$key?>">
+                <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?= $key ?>">
                     <td><?= $stt++ ?></td>
                     <td><?= $product['name'] ?></td>
                     <td><?= $product['category'] ?></td>
@@ -36,19 +36,18 @@
                         <button class="btn btn-danger">delete</button>
                     </td>
                 </tr>
-                <tr data-accordion-show="<?=$key?>">
+                <tr data-accordion-show="<?= $key ?>">
                     <td colspan="8" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div>
-                            <div class="card accordion-body p-3">
-                                <?php 
-                                foreach($product['image'] as $link){
-                                    echo "<img src='.$link' alt='' height='100px' width='100px'>";
-                                }
-                                ?>
-                            </div>
+                        <div class="card accordion-body p-3">
+                            <?php
+                            foreach ($product['image'] as $link) {
+                                echo "<img src='.$link' alt='' height='100px' width='100px'>";
+                            }
+                            ?>
                         </div>
                     </td>
                 </tr>
+
             <?php
             }
             ?>

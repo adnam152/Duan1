@@ -6,9 +6,11 @@ class LoginController extends Controller{
     public function login(){
         $accountModel = new AccountsModel();
         $account = $accountModel->get();
-        // echo "<prev>";
-        // print_r($account);
-        // echo"</prev>";
+        
+        $this->render([
+            "view" => "user/login",
+            "page" => "login",
+        ]);
     }
     public function logout(){
 
