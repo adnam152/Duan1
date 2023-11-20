@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+    <title><?=$title??'Document'?></title>
     <!--  -->
     <link rel="icon" href="/assets/files/assets/images/favicon.ico" type="image/x-icon"> <!-- icon -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
@@ -18,7 +17,14 @@
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/widget.css">
 </head>
-
+<style>
+    table td{
+        vertical-align:middle !important;
+    }
+    img{
+        object-fit: cover !important;
+    }
+</style>
 <body>
     
     <?php

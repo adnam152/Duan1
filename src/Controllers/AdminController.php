@@ -19,6 +19,8 @@ class AdminController extends Controller
         $this->render([
             "view" => "admin/index",
             "page" => "admin",
+            "title" => "Dashboard",
+            "action" => "1"
         ]);
     }
     public function category()
@@ -56,6 +58,7 @@ class AdminController extends Controller
         $this->render([
             "view" => "admin/category",
             "page" => "admin",
+            "title"=> "Danh mục",
             "action" => "2",
             "allCategory" => $allCategory,
         ]);
@@ -183,15 +186,19 @@ class AdminController extends Controller
             $allPrices = $pricingModel->getByProductId($product_id); // get price by product id
             $allLinks = $mediaModel->getByProductId($product_id); // get image by product id
 
+            $allProducts[$index]['category_id'] = $product['category_id'];
             $allProducts[$index]['category'] = $categoryModel->get($product['category_id'])['name']; // get category by id
             $allProducts[$index]['count'] = $pricingModel->countByProductId($product_id)['count']; // get count by product id
 
+            $allProducts[$index]['image'] = [];
             foreach ($allLinks as $link) {
                 $allProducts[$index]['image'][] = $link['link'];
             }
             foreach ($allPrices as $price) {
                 $allProducts[$index]['detail'][] = [
+                    "color_id" => $price['color_id'],
                     "color" => $colorModel->get($price['color_id'])['color'],
+                    "size_id" => $price['size_id'],
                     "size" => $sizeModel->get($price['size_id'])['size'],
                     "quantity" => $price['quantity'],
                     "price" => $price['price'],
@@ -203,6 +210,7 @@ class AdminController extends Controller
         $this->render([
             "view" => "admin/product",
             "page" => "admin",
+            "title" => "Sản phẩm",
             "action" => "3",
             "allProducts" => $allProducts,
             "allCategory" => $allCategory,
@@ -240,6 +248,7 @@ class AdminController extends Controller
         $this->render([
             "view" => "admin/account",
             "page" => "admin",
+            "title" => "Tài khoản",
             "action" => "4",
             "allAccount" => $allAccount,
         ]);
@@ -249,6 +258,7 @@ class AdminController extends Controller
         $this->render([
             "view" => "admin/comment",
             "page" => "admin",
+            "title"=> "Bình luận",
             "action" => "5",
         ]);
     }
@@ -257,6 +267,7 @@ class AdminController extends Controller
         $this->render([
             "view" => "admin/order",
             "page" => "admin",
+            "title"=> "Đơn hàng",
             "action" => "6",
         ]);
     }
