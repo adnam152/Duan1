@@ -5,12 +5,8 @@
                 <th>STT</th>
                 <th>Username</th>
                 <th>Mật khẩu</th>
-                <!-- <th>Ảnh</th> -->
-                <!-- <th>Email</th> -->
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
-                <!-- <th>Ngày tạo</th> -->
-                <!-- <th>Họ tên</th> -->
                 <th>Vai trò</th>
 
                 <th>Action</th>
@@ -21,22 +17,31 @@
             foreach ($allAccount as $index => $account) {
                 $index++;
             ?>
-                <tr>
+                <tr data-accordion="<?= $index ?>">
                     <td><?= $index ?></td>
                     <td><?= $account['username'] ?></td>
                     <td><?= $account['password'] ?></td>
-                    <!-- <td><img src="" alt=""></td> -->
-                    <!-- <td><?= $account['email'] ?></td> -->
                     <td><?= $account['phone_number'] ?></td>
                     <td><?= $account['address'] ?></td>
-                    <!-- <td><?= $account['creat_at'] ?></td> -->
-                    <!-- <td><?= $account['fullname'] ?></td> -->
                     <td><?= $account['role'] ?></td>
                     <td>
                         <form action="">
                             <button type="button" name="update_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Sửa</button>
                             <button type="button" name="delete" value="<?= $account['id'] ?>" class="btn btn-danger">Xóa</button>
                         </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="accordion-collapse collapse" data-bs-parent="#accordionExample" data-accordion-show="<?= $index ?>">
+                        <div class="card accordion-body p-3">
+                            <?php
+                            $image = $account['image'] ? $account['image'] : '';
+                            echo "<img src='.$image.' alt='' height='100px' width='100px'>";
+                            ?>
+                            <div>Email: <?= $account['email'] ?></div>
+                            <div>Ngày tạo: <?= $account['create_at'] ?></div>
+                            <div>Họ tên: <?= $account['fullname'] ?></div>
+                        </div>
                     </td>
                 </tr>
             <?php
@@ -122,7 +127,7 @@
                 const id = btn.closest('tr').querySelector('td[data-category-id]').getAttribute(
                     "data-category-id");
 
-                
+
                 categoryName.value = name;
                 // add.hidden = true;
                 update.value = id;
@@ -130,5 +135,15 @@
             }
 
         });
+    })
+    const trs = document.querySelectorAll('tr[data-accordion]');
+    trs.forEach(tr => {
+        tr.addEventListener('click', (e) => {
+            if(e.target.nodeName != "BUTTON"){
+                const accordion = tr.dataset.accordion;
+                const tdShow = document.querySelector(`td[data-accordion-show="${accordion}"]`);
+                tdShow.classList.toggle('show');
+            }
+        })
     })
 </script>

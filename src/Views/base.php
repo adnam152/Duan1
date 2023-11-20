@@ -44,7 +44,10 @@
             </div>
         </div>
     <?php }
-    
+    else{
+        require "./src/Views/user/component/header.php";
+        require "./src/Views/$view.php";
+    }
     ?>
 
 </body>
