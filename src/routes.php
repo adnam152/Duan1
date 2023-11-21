@@ -6,6 +6,8 @@ use MVC\Controllers\AdminController;
 use MVC\Controllers\LoginController;
 
 $uri = $_GET['url']??"";
+
+
 $router = new Router();
 
 

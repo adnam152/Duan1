@@ -5,11 +5,14 @@ namespace MVC\Controllers;
 use MVC\Controller;
 use MVC\Models\CategoriesModel;
 use MVC\Models\ProductsModel;
+use MVC\Models\CommentsModel;
 
 class AdminController extends Controller
 {
+
     public function index()
     {
+
 
         $this->render([
             "view" => "admin/index",
@@ -68,7 +71,7 @@ class AdminController extends Controller
         $allProducts = $productModel->get();
 
         // add
-        if(isset($_GET['add'])){
+        if (isset($_GET['add'])) {
             $product_name = $_GET['product_name'] ?? null;
             $product_price = $_GET['product_price'] ?? null;
             $product_discount = $_GET['product_discount'] ?? null;
@@ -91,21 +94,40 @@ class AdminController extends Controller
             "allCategory" => $allCategory,
         ]);
     }
-    function user(){
+    function user()
+    {
         $this->render([
             "view" => "admin/user",
             "page" => "admin",
             "action" => "4",
         ]);
     }
-    function comment(){
+    function comment()
+    {
+
+
+        $commentmodel = new CommentsModel();
+        $Allcomment = $commentmodel->get();
+        
+        if (isset($_POST["delete"])) {
+            $id = $_POST["delete"];
+            $commentmodel->delete($id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        
+
         $this->render([
             "view" => "admin/comment",
             "page" => "admin",
             "action" => "5",
+            "comments" => $Allcomment
         ]);
     }
-    function order(){
+    
+    function order()
+    {
         $this->render([
             "view" => "admin/order",
             "page" => "admin",
