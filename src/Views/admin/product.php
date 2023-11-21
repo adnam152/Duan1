@@ -1,13 +1,13 @@
 <div class="container">
-    <button type="button" name="add_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Thêm
     </button>
-    <table class="table">
+    <table class="table text-center">
         <thead>
             <tr>
                 <th scope="col">STT</th>
                 <th scope="col">Tên Sản Phẩm</th>
-                <th scope="col">Giá</th>
+                <th scope="col">Danh Mục</th>
                 <th scope="col">Giảm Giá</th>
                 <th scope="col">View</th>
                 <th scope="col">Lượt Bán</th>
@@ -17,26 +17,82 @@
         </thead>
         <tbody>
             <?php
+            $stt = 1;
+            // echo "<pre>";
+            // print_r($allProducts);
+            // echo "</pre>";
             foreach ($allProducts as $key => $product) {
             ?>
-
-                <tr data-collapse-id="collapse-<?= $index ?>">
-
+                <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?= $key ?>" class="table-success">
+                    <td><?= $stt++ ?></td>
+                    <td data-product-name="<?= $product['name'] ?>"><?= $product['name'] ?></td>
+                    <td data-category-id="<?= $product['category_id'] ?>"><?= $product['category'] ?></td>
+                    <td data-discount="<?= $product['discount'] ?>"><?= $product['discount'] ?></td>
+                    <td><?= $product['view'] ?></td>
+                    <td><?= $product['purchase'] ?></td>
+                    <td><?= $product['count'] ?></td>
+                    <td>
+                        <button name="delete_btn" class="btn btn-danger">Delete</button>
+                    </td>
                 </tr>
-                <tr>
-                    <td colspan="8" class="accordion-collapse collapse" id="collapse-<?= $index ?>" data-bs-parent="#accordionExample">
-                        <div>
-                            <div class="card accordion-body p-3">
-                                <p>Số lượng kỳ thi: <?= $exam_quantity ?></p>
-                                <p class="m-0">Điểm trung bình: <?= $score_average ?></p>
+                <tr data-accordion-show="<?= $key ?>">
+                    <td colspan="8" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="card accordion-body p-3">
+                            <div class="row">
+                                <div class="col card">
+                                    <h5 class="py-3 border-bottom bg-inverse">Ảnh</h5>
+                                    <div class="d-flex flex-wrap mb-3 card-block">
+                                        <?php
+                                        if ($product['image']) {
+                                            foreach ($product['image'] as $image) {
+                                                echo "<img data-image='$image' src='.$image' alt='' class='mx-2' height='100px' width='100px'>";
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col card">
+                                    <h5 class="py-3 border-bottom bg-inverse">Mô tả</h5>
+                                    <div class="card-block">
+                                        <div class="text-break" id="description"><?= $product['description'] ?></div>
+                                    </div>
+                                </div>
                             </div>
+                            <h5 class="py-3 border-bottom bg-inverse">Chi tiết</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Màu</th>
+                                        <th scope="col">Size</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col">Giá</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($product['detail'] as $detail) {
+                                    ?>
+                                        <tr data-detail-id="<?=$detail['id']?>">
+                                            <td data-color="<?= $detail['color'] ?>"><?= $detail['color'] ?></td>
+                                            <td data-size="<?= $detail['size'] ?>"><?= $detail['size'] ?></td>
+                                            <td data-quantity="<?= $detail['quantity'] ?>"><?= $detail['quantity'] ?></td>
+                                            <td data-price="<?= $detail['price'] ?>"><?= $detail['price'] ?></td>
+                                            <td>
+                                                <button name="update_btn" class="btn btn-primary">Update</button>
+                                                <button name="delete_detail_btn" class="btn btn-danger">Delete</button>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
                         </div>
                     </td>
                 </tr>
-
             <?php
             }
-
             ?>
         </tbody>
     </table>
@@ -52,44 +108,71 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <!-- modal form -->
                 <div class="modal-body">
-                    <div class="mb-2">
-                        <input type="text" name="product_name" class="form-control" placeholder="Tên Sản Phẩm">
+                    <div class="input-group input-group-button">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Tên Sản Phẩm</button>
+                        </div>
+                        <input type="text" name="product_name" class="form-control">
                     </div>
-                    <div class="mb-2">
-                        <input type="number" name="product_price" class="form-control" placeholder="Giá">
+                    <div class="input-group input-group-button">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Giá (vnđ)</button>
+                        </div>
+                        <input type="number" name="product_price" class="form-control">
                     </div>
-                    <div class="mb-2">
-                        <input type="number" name="product_discount" class="form-control" placeholder="Giảm Giá">
+                    <div class=" input-group input-group-button">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Giảm Giá (%)</button>
+                        </div>
+                        <input type="number" name="product_discount" class="form-control">
                     </div>
-                    <div class="mb-2">
-                        <input type="number" name="product_size" class="form-control" placeholder="Size">
+                    <div class="input-group input-group-button">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Size</button>
+                        </div>
+                        <input type="number" name="product_size" class="form-control">
                     </div>
-                    <div class="mb-2">
-                        <input type="text" name="product_color" class="form-control" placeholder="Màu">
+                    <div class="input-group input-group-button">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Màu</button>
+                        </div>
+                        <input type="text" name="product_color" class="form-control">
                     </div>
-                    <div class="mb-2">
-                        <input type="number" name="product_quantity" class="form-control" placeholder="Số lượng">
+                    <div class="input-group input-group-button">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Số lượng</button>
+                        </div>
+                        <input type="number" name="product_quantity" class="form-control">
                     </div>
-                    <div class="mb-2">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected style="text-align: center;">-- Danh mục --</option>
+                    <div class="mb-2 input-group">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Danh mục</button>
+                        </div>
+                        <select name="product_category" class="form-control form-control-inverse fill">
+                            <option selected></option>
                             <?php
                             foreach ($allCategory as $category) {
                             ?>
-                                <option value="<?=$category['id']?>" style="text-align: center;"><?=$category['name']?></option>
+                                <option value="<?= $category['id'] ?>" style="text-align: center;"><?= $category['name'] ?></option>
                             <?php
                             }
                             ?>
                         </select>
                     </div>
-                    <div class="mb-2">
-                        <textarea name="product_description" class="form-control" aria-label="With textarea" placeholder="Mô tả"></textarea>
+                    <div class="input-group input-group-button">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Mô tả</button>
+                        </div>
+                        <textarea name="product_description" class="form-control" aria-label="With textarea"></textarea>
                     </div>
-                    <div class="mb-2">
-                        <input type="file" class="form-control" id="inputGroupFile02">
+                    <div class="input-group input-group-button">
+                        <div class="input-group-prepend">
+                            <button disabled class="btn btn-light" type="button">Ảnh</button>
+                        </div>
+                        <input type="file" name="product_image[]" class="form-control" id="inputGroupFile02" accept="image/*" multiple>
                     </div>
                 </div>
 
@@ -97,33 +180,10 @@
                     <button type="reset" name="reset_btn" class="btn btn-secondary">Reset</button>
                     <button type="submit" name="add" class="btn btn-primary">Thêm</button>
                     <button type="submit" name="update" value="" hidden class="btn btn-primary">Sửa</button>
-
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-            Product
-                - quantity
-                    + size
-                    + color
--->
+<script src="/public/js/admin_product.js"></script>

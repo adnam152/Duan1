@@ -3,12 +3,12 @@
     <button type="button" name="add_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Thêm
     </button>
-    <table class="table">
+    <table class="table text-center" >
         <thead>
             <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Danh mục</th>
-                <th scope="col">Action</th>
+                <th scope="col-3">STT</th>
+                <th scope="col-5">Danh mục</th>
+                <th scope="col-4">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -16,13 +16,13 @@
             foreach ($allCategory as $index => $category) {
                 $index++;
             ?>
-                <tr>
+                <tr class="table-success">
                     <td><?= $index ?></td>
                     <td data-category-name="<?= $category['name'] ?>" data-category-id="<?= $category['id'] ?>"><?= $category['name'] ?></td>
                     <td>
                         <form action="">
                             <button type="button" name="update_btn" class="btn btn-primary">Sửa</button>
-                            <button type="submit" name="delete" value="<?= $category['id'] ?>" class="btn btn-danger">Xóa</button>
+                            <button type="button" name="delete" value="<?= $category['id'] ?>" class="btn btn-danger">Xóa</button>
                         </form>
                     </td>
                 </tr>
@@ -65,6 +65,16 @@
 </div>
 
 <script>
+    // Xác nhận xóa
+    const deleteBtns = document.querySelectorAll('button[name="delete"]');
+    deleteBtns.forEach(btn =>{
+        btn.addEventListener('click', function(){
+            if(confirm("Bạn có chắc chắn muốn xóa không?")){
+                btn.type = "submit";
+            }
+        })
+    })
+
     window.addEventListener('load', function() {
         const updateBtns = document.querySelectorAll("button[name='update_btn']");
         updateBtns.forEach(btn => {

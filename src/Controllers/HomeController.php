@@ -7,8 +7,7 @@ use MVC\Model;
 
 class HomeController extends Controller{
     public function index(){
-       header("location: /DA1/admin");
-
+        // header("location: /admin");
     }
 }
 
