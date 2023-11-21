@@ -44,11 +44,19 @@
                                     <div class="d-flex flex-wrap mb-3 card-block">
                                         <?php
                                         if ($product['image']) {
-                                            foreach ($product['image'] as $image) {
-                                                echo "<img data-image='$image' src='.$image' alt='' class='mx-2' height='100px' width='100px'>";
+                                            foreach ($product['image'] as $id => $image) {
+                                                echo "<div class='position-relative'>";
+                                                    echo "<img data-image='$image' src='.$image' alt='' class='m-2 img-sm'>";
+                                                    echo "<button name='delete_img_btn' class='x-btn' data-image-id='$id'>x</button>";
+                                                echo "</div>";
                                             }
                                         }
                                         ?>
+                                        <label for="add_img_<?=$key?>"><img class="img-sm m-2 pointer" src="/assets/image/add-image-2.png" alt=""></label>
+                                        <form action="" method="POST" enctype="multipart/form-data">
+                                            <input type="file" name="add_img_btn[]" id="add_img_<?=$key?>" hidden accept="image/*" multiple>
+                                            <input type="submit" name="add_img" value="<?=$product['id']?>" hidden>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="col card">

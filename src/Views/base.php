@@ -16,18 +16,10 @@
     <link rel="stylesheet" href="/assets/files/bower_components/chartist/css/chartist.css" type="text/css" media="all">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/widget.css">
+    <?php if ($page == "admin") { ?>
+        <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
+    <?php } ?>
 </head>
-<style>
-    table td{
-        vertical-align:middle !important;
-    }
-    td, th {
-    white-space:unset !important;
-}
-    img{
-        object-fit: cover !important;
-    }
-</style>
 <body>
     
     <?php

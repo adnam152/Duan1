@@ -1,0 +1,29 @@
+table td{
+    vertical-align:middle !important;
+}
+td, th {
+white-space:unset !important;
+}
+img{
+    object-fit: cover;
+    object-position: center !important;
+}
+.img-sm{
+    object-fit: contain;
+    width: 80px;
+    height: 80px;
+    transition: 0.3s;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.pointer{
+    cursor: pointer !important;
+}
+.x-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background-color: rgba(255, 0, 0, 0.6);
+    color: white;
+}

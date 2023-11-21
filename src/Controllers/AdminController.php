@@ -149,7 +149,28 @@ class AdminController extends Controller
             exit;
         }
 
-        // update
+        // add image
+        if(isset($_POST['add_img'])){
+            // add
+            $product_id = $_POST['add_img'];
+            $images = $_FILES['add_img_btn'];
+            if(count($images['name']) > 0){
+                foreach ($images['name'] as $index => $image) {
+                    $link = './assets/image/' . $image;
+                    if(move_uploaded_file($images['tmp_name'][$index], $link)){
+                        $media_data = [
+                            "product_id" => $product_id,
+                            "link" => $link,
+                        ];
+                        $mediaModel->insert($media_data); // insert media
+                    }
+                }
+            }
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        // update infor
         if(isset($_POST['update'])){
             // Get
             $product_id = $_POST['update'];
@@ -206,6 +227,14 @@ class AdminController extends Controller
             exit;
         }
 
+        // delete image
+        if(isset($_GET['delete_img']) && isset($_GET['img_id'])){
+            $img_id = $_GET['img_id'];
+            $mediaModel->delete($img_id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
 
         // --------------------------------------------
         // Get data để hiển thị ra view
@@ -223,7 +252,7 @@ class AdminController extends Controller
 
             $allProducts[$index]['image'] = [];
             foreach ($allLinks as $link) {
-                $allProducts[$index]['image'][] = $link['link'];
+                $allProducts[$index]['image'][$link['id']] = $link['link'];
             }
             foreach ($allDetails as $detail) {
                 $allProducts[$index]['detail'][] = [
