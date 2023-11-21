@@ -27,7 +27,7 @@
                     <td><?= $stt++ ?></td>
                     <td data-product-name="<?= $product['name'] ?>"><?= $product['name'] ?></td>
                     <td data-category-id="<?= $product['category_id'] ?>"><?= $product['category'] ?></td>
-                    <td data-discount="<?= $product['discount'] ?>"><?= $product['discount'] ?></td>
+                    <td data-discount="<?= $product['discount'] ?>"><?= $product['discount'] ?>%</td>
                     <td><?= $product['view'] ?></td>
                     <td><?= $product['purchase'] ?></td>
                     <td><?= $product['count'] ?></td>
@@ -77,7 +77,7 @@
                                             <td data-color="<?= $detail['color'] ?>"><?= $detail['color'] ?></td>
                                             <td data-size="<?= $detail['size'] ?>"><?= $detail['size'] ?></td>
                                             <td data-quantity="<?= $detail['quantity'] ?>"><?= $detail['quantity'] ?></td>
-                                            <td data-price="<?= $detail['price'] ?>"><?= $detail['price'] ?></td>
+                                            <td data-price="<?= $detail['price'] ?>"><?= number_format($detail['price']) ?> VNĐ</td>
                                             <td>
                                                 <button name="update_btn" class="btn btn-primary">Update</button>
                                                 <button name="delete_detail_btn" class="btn btn-danger">Delete</button>
@@ -119,7 +119,7 @@
                     </div>
                     <div class="input-group input-group-button">
                         <div class="input-group-prepend">
-                            <button disabled class="btn btn-light" type="button">Giá (vnđ)</button>
+                            <button disabled class="btn btn-light" type="button">Giá (VNĐ)</button>
                         </div>
                         <input type="number" name="product_price" class="form-control">
                     </div>

@@ -27,7 +27,9 @@ class AdminController extends Controller
         // add category
         if (isset($_GET["add"]) && isset($_GET["category_name"])) {
             $category_name = $_GET["category_name"];
-            $categoryModel->create($category_name);
+            $categoryModel->insert([
+                "name" => $category_name,
+            ]);
             header("location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -143,6 +145,23 @@ class AdminController extends Controller
             }
             header("location:" . $_SERVER['HTTP_REFERER']);
             exit;
+        }
+
+        // update
+        if(isset($_POST['update'])){
+            // Get
+            $product_id = $_POST['product_id'];
+            $product_name = $_POST['product_name'];
+            $product_price = $_POST['product_price'] ?? 0;
+            $product_discount = $_POST['product_discount'] ?? 0;
+            $product_size = $_POST['product_size'];
+            $product_color = $_POST['product_color'];
+            $product_quantity = $_POST['product_quantity'] ?? 0;
+            $product_description = $_POST['product_description'] ?? '';
+            $product_category = $_POST['product_category'];
+            $images = $_FILES['product_image'];
+
+            // if($product_id) 
         }
 
         // delete  
