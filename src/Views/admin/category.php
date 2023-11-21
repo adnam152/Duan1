@@ -16,7 +16,7 @@
             foreach ($allCategory as $index => $category) {
                 $index++;
             ?>
-                <tr>
+                <tr class="table-success">
                     <td><?= $index ?></td>
                     <td data-category-name="<?= $category['name'] ?>" data-category-id="<?= $category['id'] ?>"><?= $category['name'] ?></td>
                     <td>

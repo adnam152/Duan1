@@ -2,10 +2,10 @@
 namespace MVC\Models;
 use MVC\Model;
 
-class PricingModel extends Model{
+class ProductdetailModel extends Model{
     function __construct(){
         parent::__construct();
-        $this->table = "pricing";
+        $this->table = "product_detail";
     }
     function countByProductId($product_id){
         $sql = "SELECT SUM(quantity) as count FROM $this->table WHERE product_id=?";

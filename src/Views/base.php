@@ -21,6 +21,9 @@
     table td{
         vertical-align:middle !important;
     }
+    td, th {
+    white-space:unset !important;
+}
     img{
         object-fit: cover !important;
     }

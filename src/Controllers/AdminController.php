@@ -5,12 +5,9 @@ namespace MVC\Controllers;
 use MVC\Controller;
 use MVC\Models\CategoriesModel;
 use MVC\Models\ProductsModel;
-use MVC\Models\SizesModel;
-use MVC\Models\ColorsModel;
-use MVC\Models\PricingModel;
 use MVC\Models\MediasModel;
 use MVC\Models\AccountsModel;
-
+use MVC\Models\ProductdetailModel;
 
 class AdminController extends Controller
 {
@@ -69,9 +66,7 @@ class AdminController extends Controller
     {
         $productModel = new ProductsModel();
         $categoryModel = new CategoriesModel();
-        $sizeModel = new SizesModel();
-        $colorModel = new ColorsModel();
-        $pricingModel = new PricingModel();
+        $productDetailModel = new ProductdetailModel();
         $mediaModel = new MediasModel();
 
         // add
@@ -85,7 +80,7 @@ class AdminController extends Controller
             $product_quantity = $_POST['product_quantity'] ?? 0;
             $product_description = $_POST['product_description'] ?? '';
             $product_category = $_POST['product_category'];
-            $image = $_FILES['product_image'];
+            $images = $_FILES['product_image'];
 
             // Nếu đủ dữ liệu thì thêm
             // Tên, size, color, category, quantity không được để trống
@@ -113,63 +108,36 @@ class AdminController extends Controller
                 }
 
                 // --------------------------------------------
-                // Insert size
-                if (!$sizeModel->isExist([
+                // Insert detail
+                if (!$productDetailModel->isExist([
                     "product_id" => $product_id,
                     "size" => $product_size,
-                ])) { // kiểm tra nếu chưa tồn tại size thì thêm mới
-                    $size_data = [
-                        "product_id" => $product_id,
-                        "size" => $product_size,
-                    ];
-                    $sizeModel->insert($size_data); // insert size
-                    $size_id = $sizeModel->getLastId(); //lấy id của size vừa thêm vào
-                } else $size_id = $sizeModel->getByColumn([
-                    "product_id" => $product_id,
-                    "size" => $product_size,
-                ])['id']; // nếu đã tồn tại size thì lấy ra size_id
-                // --------------------------------------------
-                // Insert color
-                if (!$colorModel->isExist([
-                    "product_id" => $product_id,
                     "color" => $product_color,
-                ])) { // kiểm tra nếu chưa tồn tại color thì thêm mới
-                    $color_data = [
-                        "product_id" => $product_id,
-                        "color" => $product_color,
-                    ];
-                    $colorModel->insert($color_data); // insert color
-                    $color_id = $colorModel->getLastId(); //lấy id của color vừa thêm vào
-                } else $color_id = $colorModel->getByColumn([
-                    "product_id" => $product_id,
-                    "color" => $product_color,
-                ])['id']; // nếu đã tồn tại color thì lấy ra color_id
-                // --------------------------------------------
-                // Insert pricing
-                if (!$pricingModel->isExist([
-                    "product_id" => $product_id,
-                    "size_id" => $size_id,
-                    "color_id" => $color_id,
                 ])) { // kiểm tra nếu chưa tồn tại pricing thì thêm mới
                     $pricing_data = [
                         "product_id" => $product_id,
-                        "size_id" => $size_id,
-                        "color_id" => $color_id,
+                        "size" => $product_size,
+                        "color" => $product_color,
                         "quantity" => $product_quantity,
                         "price" => $product_price,
                     ];
-                    $pricingModel->insert($pricing_data); // insert pricing
+                    $productDetailModel->insert($pricing_data); // insert pricing
                 }
                 // --------------------------------------------
                 // Insert media
-                if ($image['name']) { // kiểm tra nếu có ảnh thì thêm mới
-                    $link = './assets/image/' . $image['name'];
-                    if (move_uploaded_file($image['tmp_name'], $link)) {
-                        $media_data = [
-                            "product_id" => $product_id,
-                            "link" => $link,
-                        ];
-                        $mediaModel->insert($media_data); // insert media
+                // echo "<pre>";
+                // print_r($images);
+                // echo "</pre>";
+                if(count($images['name']) > 0){
+                    foreach ($images['name'] as $index => $image) {
+                        $link = './assets/image/' . $image;
+                        if(move_uploaded_file($images['tmp_name'][$index], $link)){
+                            $media_data = [
+                                "product_id" => $product_id,
+                                "link" => $link,
+                            ];
+                            $mediaModel->insert($media_data); // insert media
+                        }
                     }
                 }
             }
@@ -177,31 +145,50 @@ class AdminController extends Controller
             exit;
         }
 
+        // delete  
+        if(isset($_GET['delete']) && isset($_GET['product_id'])){
+            $product_id = $_GET['product_id'];
+            $productDetailModel->deleteByProductId($product_id);
+            $mediaModel->deleteByProductId($product_id);
+            $productModel->delete($product_id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        // delete detail
+        if(isset($_GET['delete_detail']) && isset($_GET['detail_id'])){
+            $detail_id = $_GET['detail_id'];
+            $productDetailModel->delete($detail_id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+
         // --------------------------------------------
         // Get data để hiển thị ra view
         $allProducts = $productModel->get(); // get product
         $allCategory = $categoryModel->get(); // get category
         foreach ($allProducts as $index => $product) {
             $product_id = $product['id'];
-            $allPrices = $pricingModel->getByProductId($product_id); // get price by product id
+            $allDetails = $productDetailModel->getByProductId($product_id); // get price by product id
             $allLinks = $mediaModel->getByProductId($product_id); // get image by product id
 
             $allProducts[$index]['category_id'] = $product['category_id'];
             $allProducts[$index]['category'] = $categoryModel->get($product['category_id'])['name']; // get category by id
-            $allProducts[$index]['count'] = $pricingModel->countByProductId($product_id)['count']; // get count by product id
+            $allProducts[$index]['count'] = $productDetailModel->countByProductId($product_id)['count'] ?? 0; // get count by product id
+            $allProducts[$index]['detail'] = [];
 
             $allProducts[$index]['image'] = [];
             foreach ($allLinks as $link) {
                 $allProducts[$index]['image'][] = $link['link'];
             }
-            foreach ($allPrices as $price) {
+            foreach ($allDetails as $detail) {
                 $allProducts[$index]['detail'][] = [
-                    "color_id" => $price['color_id'],
-                    "color" => $colorModel->get($price['color_id'])['color'],
-                    "size_id" => $price['size_id'],
-                    "size" => $sizeModel->get($price['size_id'])['size'],
-                    "quantity" => $price['quantity'],
-                    "price" => $price['price'],
+                    "id" => $detail['id'],
+                    "color" => $detail['color'],
+                    "size" => $detail['size'],
+                    "quantity" => $detail['quantity'],
+                    "price" => $detail['price'],
                 ];
             }
         }
@@ -218,7 +205,6 @@ class AdminController extends Controller
     }
     function account()
     {
-
         $accountModel = new AccountsModel();
         // delete
         if (isset($_GET["delete"])) {

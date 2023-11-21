@@ -102,6 +102,12 @@ class Model
         $result->execute(array_values($data));
         return $result->fetch(\PDO::FETCH_ASSOC);
     }
+    function deleteByProductId($product_id){
+        $sql = "DELETE FROM $this->table WHERE product_id=?";
+        $result = $this->connect->prepare($sql);
+        $result->execute([$product_id]);
+        return $result->rowCount();
+    }
     public function __destruct()
     { // đóng kết nối
         $this->connect = null;
