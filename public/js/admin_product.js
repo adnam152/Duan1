@@ -55,6 +55,7 @@ updateBtns.forEach(btn => {
         const quantity = this_tr.querySelector('td[data-quantity]').dataset.quantity;
         const categoryId = main_tr.querySelector('td[data-category-id]').dataset.categoryId;
         const description = document.querySelector('#description').innerText;
+        const detailId = this_tr.dataset.detailId;
 
         // set value
         document.querySelector('input[name="product_name"]').value = productName;
@@ -66,6 +67,8 @@ updateBtns.forEach(btn => {
         document.querySelector('select[name="product_category"]').value = categoryId;
         document.querySelector('textarea[name="product_description"]').value = description;
 
+        document.querySelector('input[name="product_detail_id"]').value = detailId;
+        document.querySelector('button[name="update"]').value = productId;
         formImageGroup.style.display = 'none';
     }
 })

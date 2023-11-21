@@ -79,7 +79,7 @@
                                             <td data-quantity="<?= $detail['quantity'] ?>"><?= $detail['quantity'] ?></td>
                                             <td data-price="<?= $detail['price'] ?>"><?= number_format($detail['price']) ?> VNĐ</td>
                                             <td>
-                                                <button name="update_btn" class="btn btn-primary">Update</button>
+                                                <button name="update_btn" class="btn btn-primary" value="">Update</button>
                                                 <button name="delete_detail_btn" class="btn btn-danger">Delete</button>
                                             </td>
                                         </tr>
@@ -179,6 +179,7 @@
                 <div class="modal-footer">
                     <button type="reset" name="reset_btn" class="btn btn-secondary">Reset</button>
                     <button type="submit" name="add" class="btn btn-primary">Thêm</button>
+                    <input type="text" hidden name="product_detail_id" value="">
                     <button type="submit" name="update" value="" hidden class="btn btn-primary">Sửa</button>
                 </div>
             </form>

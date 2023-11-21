@@ -60,20 +60,17 @@ class Model
         $result->execute();
         return $result->rowCount();
     }
-    function update($data){
+    function update($data, $id){
         // $data = [
         //     column1 => value1,
         //    column2 => value2,
-        //   id => id  // id đứng cuối
         // ]
         $allColumn = "";
-        $allValue = "";
         foreach ($data as $key => $value) {
             $allColumn .= $key . "=?,";
-            $allValue .= "'" . $value . "',";
         }
         $allColumn = trim($allColumn, ",");
-        $allValue = trim($allValue, ",");
+        $data[] = $id;
         $sql = "UPDATE $this->table SET $allColumn WHERE id=?";
         $result = $this->connect->prepare($sql);
         $result->execute(array_values($data));
@@ -91,13 +88,10 @@ class Model
         //    column2 => value2,
         // ]
         $allColumn = "";
-        $allValue = "";
         foreach ($data as $key => $value) {
             $allColumn .= $key . "=? AND ";
-            $allValue .= "'" . $value . "',";
         }
         $allColumn = trim($allColumn, "AND ");
-        $allValue = trim($allValue, ",");
         $sql = "SELECT * FROM $this->table WHERE $allColumn";
         $result = $this->connect->prepare($sql);
         $result->execute(array_values($data));

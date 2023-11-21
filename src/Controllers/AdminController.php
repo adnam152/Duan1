@@ -46,7 +46,9 @@ class AdminController extends Controller
         if (isset($_GET['update'])) {
             $id = $_GET['update'];
             $category_name = $_GET['category_name'];
-            $categoryModel->update($id, $category_name);
+            $categoryModel->update([
+                "name" => $category_name
+            ], $id);
             header("location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -150,18 +152,40 @@ class AdminController extends Controller
         // update
         if(isset($_POST['update'])){
             // Get
-            $product_id = $_POST['product_id'];
-            $product_name = $_POST['product_name'];
-            $product_price = $_POST['product_price'] ?? 0;
-            $product_discount = $_POST['product_discount'] ?? 0;
-            $product_size = $_POST['product_size'];
-            $product_color = $_POST['product_color'];
-            $product_quantity = $_POST['product_quantity'] ?? 0;
-            $product_description = $_POST['product_description'] ?? '';
-            $product_category = $_POST['product_category'];
+            $product_id = $_POST['update'];
+            $product_detail_id = $_POST['product_detail_id'];
             $images = $_FILES['product_image'];
 
-            // if($product_id) 
+            $productUpdate = [];
+            $detailUpdate = [];
+
+            $_POST['product_name'] && $productUpdate['name'] = $_POST['product_name'];
+            $_POST['product_discount'] && $productUpdate['discount'] = $_POST['product_discount'];
+            $_POST['product_description'] && $productUpdate['description'] = $_POST['product_description'];
+            $_POST['product_category'] && $productUpdate['category_id'] = $_POST['product_category'];
+
+            $_POST['product_size'] && $detailUpdate['size'] = $_POST['product_size'];
+            $_POST['product_color'] && $detailUpdate['color'] = $_POST['product_color'];
+            $_POST['product_quantity'] && $detailUpdate['quantity'] = $_POST['product_quantity'];
+            $_POST['product_price'] && $detailUpdate['price'] = $_POST['product_price'];
+
+            $productModel->update($productUpdate, $product_id);
+            $productDetailModel->update($detailUpdate, $product_detail_id);
+
+            if(count($images['name']) > 0){
+                foreach ($images['name'] as $index => $image) {
+                    $link = './assets/image/' . $image;
+                    if(move_uploaded_file($images['tmp_name'][$index], $link)){
+                        $media_data = [
+                            "product_id" => $product_id,
+                            "link" => $link,
+                        ];
+                        $mediaModel->insert($media_data); // insert media
+                    }
+                }
+            }
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
         }
 
         // delete  
