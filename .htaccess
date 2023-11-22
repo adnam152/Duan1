@@ -1,6 +1,11 @@
-RewriteEngine On
+# BEGIN WordPress
 
-# Rewrite rule to redirect to index.php
-RewriteCond %{REQUEST_FILENAME} !-d
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+
+# END WordPress

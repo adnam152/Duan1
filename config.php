@@ -7,7 +7,4 @@ define("DB_NAME","duan1");
 
 
 
-
-
-
 ?>

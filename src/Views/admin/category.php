@@ -16,13 +16,13 @@
             foreach ($allCategory as $index => $category) {
                 $index++;
             ?>
-                <tr>
+                <tr class="table-success">
                     <td><?= $index ?></td>
                     <td data-category-name="<?= $category['name'] ?>" data-category-id="<?= $category['id'] ?>"><?= $category['name'] ?></td>
                     <td>
                         <form action="">
                             <button type="button" name="update_btn" class="btn btn-primary">Sửa</button>
-                            <button type="submit" name="delete" value="<?= $category['id'] ?>" class="btn btn-danger">Xóa</button>
+                            <button type="button" name="delete" value="<?= $category['id'] ?>" class="btn btn-danger">Xóa</button>
                         </form>
                     </td>
                 </tr>
@@ -65,6 +65,16 @@
 </div>
 
 <script>
+    // Xác nhận xóa
+    const deleteBtns = document.querySelectorAll('button[name="delete"]');
+    deleteBtns.forEach(btn =>{
+        btn.addEventListener('click', function(){
+            if(confirm("Bạn có chắc chắn muốn xóa không?")){
+                btn.type = "submit";
+            }
+        })
+    })
+
     window.addEventListener('load', function() {
         const updateBtns = document.querySelectorAll("button[name='update_btn']");
         updateBtns.forEach(btn => {
