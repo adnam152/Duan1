@@ -2,7 +2,7 @@
     <button type="button" name="add_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Thêm
     </button>
-    <table class="table">
+    <table class="table text-center">
         <thead>
             <tr>
                 <th scope="col">STT</th>
