@@ -8,9 +8,11 @@ use MVC\Models\ProductsModel;
 use MVC\Models\MediasModel;
 use MVC\Models\AccountsModel;
 use MVC\Models\ProductdetailModel;
+use MVC\Models\CommentsModel;
 
 class AdminController extends Controller
 {
+
     public function index()
     {
         $this->render([
@@ -313,15 +315,29 @@ class AdminController extends Controller
     }
     function comment()
     {
+
+
+        $commentmodel = new CommentsModel();
+        $Allcomment = $commentmodel->get();
+        
+        if (isset($_POST["delete"])) {
+            $id = $_POST["delete"];
+            $commentmodel->delete($id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        
+
         $this->render([
             "view" => "admin/comment",
             "page" => "admin",
             "title"=> "Bình luận",
             "action" => "5",
+            "comments" => $Allcomment
         ]);
     }
-    function order()
-    {
+    function order(){
         $this->render([
             "view" => "admin/order",
             "page" => "admin",
