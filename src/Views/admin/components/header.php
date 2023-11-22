@@ -2,8 +2,7 @@
     <div class="navbar-wrapper">
         <div class="navbar-logo">
             <a href="">
-                LOGO
-                <!-- <img class="img-fluid" src="files/assets/images/logo.png" alt="Theme-Logo" /> -->
+                <img class="img-fluid" src="./assets/files/assets/images/logo.png" alt="Theme-Logo" />
             </a>
             <a class="mobile-menu" id="mobile-collapse" href="#!">
                 <i class="feather icon-menu icon-toggle-right"></i>
