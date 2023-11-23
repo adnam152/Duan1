@@ -73,7 +73,7 @@ class Model
         $data[] = $id;
         $sql = "UPDATE $this->table SET $allColumn WHERE id=?";
         $result = $this->connect->prepare($sql);
-        $result->execute(array_values($data));
+        $result->execute(array_values($data)); // 
         return $result->rowCount();
     }
     function getLastId(){ // lấy id của dữ liệu vừa thêm vào

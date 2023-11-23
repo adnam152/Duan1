@@ -1,29 +1,25 @@
-
 <div class="container">
     <button type="button" name="add_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Thêm
     </button>
-    <table class="table text-center" >
+    <table class="table text-center">
         <thead>
             <tr>
-                <th scope="col-3">STT</th>
+                <th scope="col-3">ID</th>
                 <th scope="col-5">Danh mục</th>
                 <th scope="col-4">Action</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            foreach ($allCategory as $index => $category) {
-                $index++;
+            foreach ($allCategory as $category) {
             ?>
-                <tr class="table-success">
-                    <td><?= $index ?></td>
-                    <td data-category-name="<?= $category['name'] ?>" data-category-id="<?= $category['id'] ?>"><?= $category['name'] ?></td>
+                <tr class="table-success" data-category-name="<?= $category['name'] ?>" data-category-id="<?= $category['id'] ?>">
+                    <td><?= $category['id'] ?></td>
+                    <td name="category_name"><?= $category['name'] ?></td>
                     <td>
-                        <form action="">
-                            <button type="button" name="update_btn" class="btn btn-primary">Sửa</button>
-                            <button type="button" name="delete" value="<?= $category['id'] ?>" class="btn btn-danger">Xóa</button>
-                        </form>
+                        <button type="button" class="btn btn-primary" onclick="openUpdateModal(this)">Sửa</button>
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete(this)">Xóa</button>
                     </td>
                 </tr>
             <?php
@@ -55,61 +51,10 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="add" class="btn btn-primary">Thêm</button>
-                    <button type="submit" name="update" value="" hidden class="btn btn-primary">Sửa</button>
-
+                    <button type="button" name="add" class="btn btn-primary" onclick="addCategory(this)">Thêm</button>
+                    <button type="button" name="update" value="" class="btn btn-primary" onclick="updateCategory(this)">Sửa</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<script>
-    // Xác nhận xóa
-    const deleteBtns = document.querySelectorAll('button[name="delete"]');
-    deleteBtns.forEach(btn =>{
-        btn.addEventListener('click', function(){
-            if(confirm("Bạn có chắc chắn muốn xóa không?")){
-                btn.type = "submit";
-            }
-        })
-    })
-
-    window.addEventListener('load', function() {
-        const updateBtns = document.querySelectorAll("button[name='update_btn']");
-        updateBtns.forEach(btn => {
-            btn.onclick = function() {
-                const addBtn = document.querySelector("button[name='add_btn']");
-                addBtn.click();
-                //sửa thông tin modal
-                const title = document.querySelector("#exampleModalLabel");
-                const categoryName = document.querySelector("#category");
-                const add = document.querySelector("button[name='add']");
-                const update = document.querySelector("button[name='update']");
-                const name = btn.closest('tr').querySelector('td[data-category-name]').getAttribute("data-category-name");
-                const id = btn.closest('tr').querySelector('td[data-category-id]').getAttribute("data-category-id");
-
-                title.innerHTML = "Sửa";
-                categoryName.value = name;
-                add.hidden = true;
-                update.value = id;
-                update.hidden = false;
-            }
-
-        });
-
-        //xử lý nút add
-        const addBtn = document.querySelector("button[name='add_btn']");
-        addBtn.addEventListener('click', function() {
-            const title = document.querySelector("#exampleModalLabel");
-            const categoryName = document.querySelector("#category");
-            const add = document.querySelector("button[name='add']");
-            const update = document.querySelector("button[name='update']");
-
-            title.innerHTML = "Thêm";
-            categoryName.value = "";
-            add.hidden = false;
-            update.hidden = true;
-        })
-    })
-</script>

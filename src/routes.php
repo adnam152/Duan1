@@ -4,6 +4,7 @@ use MVC\Router;
 use MVC\Controllers\HomeController;
 use MVC\Controllers\AdminController;
 use MVC\Controllers\LoginController;
+use MVC\Controllers\APIController;
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 $position = strpos($uri, '?');
@@ -23,5 +24,8 @@ $router->addRoute('admin/product', AdminController::class, 'product');
 $router->addRoute('admin/account', AdminController::class, 'account');
 $router->addRoute('admin/comment', AdminController::class, 'comment');
 $router->addRoute('admin/order', AdminController::class, 'order');
+
+$router->addRoute('api/category', APIController::class, 'category');
+$router->addRoute('api/product', APIController::class, 'product');
 
 $router->dispatch($uri);
