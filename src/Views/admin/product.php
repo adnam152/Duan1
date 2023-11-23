@@ -2,7 +2,7 @@
     <button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Thêm
     </button>
-    <table class="table text-center">
+    <table class="table text-center" id="main_table">
         <thead>
             <tr>
                 <th scope="col">STT</th>
@@ -18,9 +18,6 @@
         <tbody>
             <?php
             $stt = 1;
-            // echo "<pre>";
-            // print_r($allProducts);
-            // echo "</pre>";
             foreach ($allProducts as $key => $product) {
             ?>
                 <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?= $key ?>" class="table-success">
@@ -30,36 +27,42 @@
                     <td data-discount="<?= $product['discount'] ?>"><?= $product['discount'] ?>%</td>
                     <td><?= $product['view'] ?></td>
                     <td><?= $product['purchase'] ?></td>
-                    <td><?= $product['count'] ?></td>
+                    <td id="total-<?= $product['id'] ?>"><?= $product['count'] ?></td>
                     <td>
-                        <button name="delete_btn" class="btn btn-danger">Delete</button>
+                        <button name="delete_btn" class="btn btn-danger" onclick="deleteProduct(this)">Delete</button>
                     </td>
                 </tr>
                 <tr data-accordion-show="<?= $key ?>">
                     <td colspan="8" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="card accordion-body p-3">
                             <div class="row">
-                                <div class="col card">
-                                    <h5 class="py-3 border-bottom bg-inverse">Ảnh</h5>
+                                <div class="col card over-y-auto height-300">
+                                    <h5 class="py-3 border-bottom bg-inverse">Images</h5>
                                     <div class="d-flex flex-wrap mb-3 card-block">
-                                        <?php
-                                        if ($product['image']) {
-                                            foreach ($product['image'] as $image) {
-                                                echo "<img data-image='$image' src='.$image' alt='' class='mx-2' height='100px' width='100px'>";
+                                        <span id="image-container" class="d-flex flex-wrap">
+                                            <?php
+                                            if ($product['image']) {
+                                                foreach ($product['image'] as $id => $image) {
+                                                    echo "<div class='position-relative'>";
+                                                    echo "<img data-image='$image' src='.$image' alt='' class='m-2 img-sm'>";
+                                                    echo "<button name='delete_img_btn' class='x-btn' data-image-id='$id' onclick='deleteImage(this)'>x</button>";
+                                                    echo "</div>";
+                                                }
                                             }
-                                        }
-                                        ?>
+                                            ?>
+                                        </span>
+                                        <label for="add_img_<?= $key ?>"><img class="img-sm m-2 pointer" src="/assets/image/add-image-2.png" alt=""></label>
+                                        <input type="file" data-product-id="<?= $product['id'] ?>" id="add_img_<?= $key ?>" hidden accept="image/*" multiple onchange="addImage(this)">
                                     </div>
                                 </div>
-                                <div class="col card">
-                                    <h5 class="py-3 border-bottom bg-inverse">Mô tả</h5>
+                                <div class="col card over-y-auto height-300">
+                                    <h5 class="py-3 border-bottom bg-inverse">Description</h5>
                                     <div class="card-block">
-                                        <div class="text-break" id="description"><?= $product['description'] ?></div>
+                                        <div class="text-break" id="description-<?= $product['id'] ?>"><?= $product['description'] ?></div>
                                     </div>
                                 </div>
                             </div>
-                            <h5 class="py-3 border-bottom bg-inverse">Chi tiết</h5>
-                            <table class="table">
+                            <table class="table" data-product-id="<?= $product['id'] ?>">
                                 <thead>
                                     <tr>
                                         <th scope="col">Màu</th>
@@ -73,14 +76,14 @@
                                     <?php
                                     foreach ($product['detail'] as $detail) {
                                     ?>
-                                        <tr data-detail-id="<?=$detail['id']?>">
+                                        <tr data-detail-id="<?= $detail['id'] ?>">
                                             <td data-color="<?= $detail['color'] ?>"><?= $detail['color'] ?></td>
                                             <td data-size="<?= $detail['size'] ?>"><?= $detail['size'] ?></td>
                                             <td data-quantity="<?= $detail['quantity'] ?>"><?= $detail['quantity'] ?></td>
-                                            <td data-price="<?= $detail['price'] ?>"><?= number_format($detail['price']) ?> VNĐ</td>
+                                            <td data-price="<?= $detail['price'] ?>"><?= number_format($detail['price']) ?> đ</td>
                                             <td>
-                                                <button name="update_btn" class="btn btn-primary">Update</button>
-                                                <button name="delete_detail_btn" class="btn btn-danger">Delete</button>
+                                                <button name="update_btn" class="btn btn-primary" value="" onclick="openUpdateModal(this)">Update</button>
+                                                <button name="delete_detail_btn" class="btn btn-danger" onclick="deleteDetail(this)">Delete</button>
                                             </td>
                                         </tr>
                                     <?php
@@ -108,7 +111,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="/api/product" method="POST" enctype="multipart/form-data">
                 <!-- modal form -->
                 <div class="modal-body">
                     <div class="input-group input-group-button">
@@ -119,7 +122,7 @@
                     </div>
                     <div class="input-group input-group-button">
                         <div class="input-group-prepend">
-                            <button disabled class="btn btn-light" type="button">Giá (VNĐ)</button>
+                            <button disabled class="btn btn-light" type="button">Giá (đ)</button>
                         </div>
                         <input type="number" name="product_price" class="form-control">
                     </div>
@@ -179,11 +182,9 @@
                 <div class="modal-footer">
                     <button type="reset" name="reset_btn" class="btn btn-secondary">Reset</button>
                     <button type="submit" name="add" class="btn btn-primary">Thêm</button>
-                    <button type="submit" name="update" value="" hidden class="btn btn-primary">Sửa</button>
+                    <button type="button" name="update" data-product-id="" data-detail-id="" class="btn btn-primary" hidden onclick="updateDetail(this)">Sửa</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<script src="/public/js/admin_product.js"></script>
