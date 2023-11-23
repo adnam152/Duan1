@@ -26,35 +26,6 @@ class AdminController extends Controller
     {
         $categoryModel = new CategoriesModel();
 
-        // add category
-        if (isset($_GET["add"]) && isset($_GET["category_name"])) {
-            $category_name = $_GET["category_name"];
-            $categoryModel->insert([
-                "name" => $category_name,
-            ]);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
-        // delete
-        if (isset($_GET["delete"])) {
-            $id = $_GET["delete"];
-            $categoryModel->delete($id);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
-        // update
-        if (isset($_GET['update'])) {
-            $id = $_GET['update'];
-            $category_name = $_GET['category_name'];
-            $categoryModel->update([
-                "name" => $category_name
-            ], $id);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
         // get category
         $allCategory = $categoryModel->get();
 
@@ -74,169 +45,6 @@ class AdminController extends Controller
         $categoryModel = new CategoriesModel();
         $productDetailModel = new ProductdetailModel();
         $mediaModel = new MediasModel();
-
-        // add
-        if (isset($_POST['add'])) {
-            // Get
-            $product_name = $_POST['product_name'];
-            $product_price = $_POST['product_price'] ?? 0;
-            $product_discount = $_POST['product_discount'] ?? 0;
-            $product_size = $_POST['product_size'];
-            $product_color = $_POST['product_color'];
-            $product_quantity = $_POST['product_quantity'] ?? 0;
-            $product_description = $_POST['product_description'] ?? '';
-            $product_category = $_POST['product_category'];
-            $images = $_FILES['product_image'];
-
-            // Nếu đủ dữ liệu thì thêm
-            // Tên, size, color, category, quantity không được để trống
-            if ($product_name && $product_size && $product_color && $product_category && $product_quantity) {
-                // --------------------------------------------
-                // Insert product - get product_id
-                if ($productModel->isExist([
-                    "name" => $product_name,
-                    "category_id" => $product_category,
-                ])) { // Kiểm tra nếu đã tồn tại tên sản phẩm thì lấy ra product_id
-                    $product_id = $productModel->getByColumn([
-                        "name" => $product_name,
-                        "category_id" => $product_category,
-                    ])['id'];
-                } else { // nếu chưa tồn tại sản phẩm thì thêm mới
-                    $product_data = [  //data của product cần thêm, key là tên cột trong database, value là giá trị
-                        "name" => $product_name,
-                        "discount" => $product_discount,
-                        "description" => $product_description,
-                        "category_id" => $product_category,
-                        "create_at" => date("Y-m-d H:i:s", time()),
-                    ];
-                    $productModel->insert($product_data); // insert product
-                    $product_id = $productModel->getLastId(); //lấy id của product vừa thêm vào
-                }
-
-                // --------------------------------------------
-                // Insert detail
-                if (!$productDetailModel->isExist([
-                    "product_id" => $product_id,
-                    "size" => $product_size,
-                    "color" => $product_color,
-                ])) { // kiểm tra nếu chưa tồn tại pricing thì thêm mới
-                    $pricing_data = [
-                        "product_id" => $product_id,
-                        "size" => $product_size,
-                        "color" => $product_color,
-                        "quantity" => $product_quantity,
-                        "price" => $product_price,
-                    ];
-                    $productDetailModel->insert($pricing_data); // insert pricing
-                }
-                // --------------------------------------------
-                // Insert media
-                // echo "<pre>";
-                // print_r($images);
-                // echo "</pre>";
-                if(count($images['name']) > 0){
-                    foreach ($images['name'] as $index => $image) {
-                        $link = './assets/image/' . $image;
-                        if(move_uploaded_file($images['tmp_name'][$index], $link)){
-                            $media_data = [
-                                "product_id" => $product_id,
-                                "link" => $link,
-                            ];
-                            $mediaModel->insert($media_data); // insert media
-                        }
-                    }
-                }
-            }
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
-        // add image
-        if(isset($_POST['add_img'])){
-            // add
-            $product_id = $_POST['add_img'];
-            $images = $_FILES['add_img_btn'];
-            if(count($images['name']) > 0){
-                foreach ($images['name'] as $index => $image) {
-                    $link = './assets/image/' . $image;
-                    if(move_uploaded_file($images['tmp_name'][$index], $link)){
-                        $media_data = [
-                            "product_id" => $product_id,
-                            "link" => $link,
-                        ];
-                        $mediaModel->insert($media_data); // insert media
-                    }
-                }
-            }
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
-        // update infor
-        if(isset($_POST['update'])){
-            // Get
-            $product_id = $_POST['update'];
-            $product_detail_id = $_POST['product_detail_id'];
-            $images = $_FILES['product_image'];
-
-            $productUpdate = [];
-            $detailUpdate = [];
-
-            $_POST['product_name'] && $productUpdate['name'] = $_POST['product_name'];
-            $_POST['product_discount'] && $productUpdate['discount'] = $_POST['product_discount'];
-            $_POST['product_description'] && $productUpdate['description'] = $_POST['product_description'];
-            $_POST['product_category'] && $productUpdate['category_id'] = $_POST['product_category'];
-
-            $_POST['product_size'] && $detailUpdate['size'] = $_POST['product_size'];
-            $_POST['product_color'] && $detailUpdate['color'] = $_POST['product_color'];
-            $_POST['product_quantity'] && $detailUpdate['quantity'] = $_POST['product_quantity'];
-            $_POST['product_price'] && $detailUpdate['price'] = $_POST['product_price'];
-
-            $productModel->update($productUpdate, $product_id);
-            $productDetailModel->update($detailUpdate, $product_detail_id);
-
-            if(count($images['name']) > 0){
-                foreach ($images['name'] as $index => $image) {
-                    $link = './assets/image/' . $image;
-                    if(move_uploaded_file($images['tmp_name'][$index], $link)){
-                        $media_data = [
-                            "product_id" => $product_id,
-                            "link" => $link,
-                        ];
-                        $mediaModel->insert($media_data); // insert media
-                    }
-                }
-            }
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
-        // delete  
-        if(isset($_GET['delete']) && isset($_GET['product_id'])){
-            $product_id = $_GET['product_id'];
-            $productDetailModel->deleteByProductId($product_id);
-            $mediaModel->deleteByProductId($product_id);
-            $productModel->delete($product_id);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
-        // delete detail
-        if(isset($_GET['delete_detail']) && isset($_GET['detail_id'])){
-            $detail_id = $_GET['detail_id'];
-            $productDetailModel->delete($detail_id);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
-        // delete image
-        if(isset($_GET['delete_img']) && isset($_GET['img_id'])){
-            $img_id = $_GET['img_id'];
-            $mediaModel->delete($img_id);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
 
         // --------------------------------------------
         // Get data để hiển thị ra view
@@ -272,6 +80,7 @@ class AdminController extends Controller
             "view" => "admin/product",
             "page" => "admin",
             "title" => "Sản phẩm",
+            "js" => "product",
             "action" => "3",
             "allProducts" => $allProducts,
             "allCategory" => $allCategory,
