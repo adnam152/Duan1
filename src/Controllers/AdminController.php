@@ -78,7 +78,7 @@ class AdminController extends Controller
             "view" => "admin/product",
             "page" => "admin",
             "title" => "Sản phẩm",
-            // "js" => "product",
+            "js" => "product",
             "action" => "3",
             "allProducts" => $allProducts,
             "allCategory" => $allCategory,
