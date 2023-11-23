@@ -19,7 +19,7 @@
     <?php if ($page == "admin") { ?>
         <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
     <?php }
-    if ($css) echo "<link rel='stylesheet' type='text/css' href='/public/css/$css.css'>";
+    if (isset($css)) echo "<link rel='stylesheet' type='text/css' href='/public/css/$css.css'>";
     ?>
 </head>
 <body>
