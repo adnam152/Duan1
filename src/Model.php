@@ -60,6 +60,25 @@ class Model
         $result->execute();
         return $result->rowCount();
     }
+    function update($data){
+        // $data = [
+        //     column1 => value1,
+        //    column2 => value2,
+        //   id => id  // id đứng cuối
+        // ]
+        $allColumn = "";
+        $allValue = "";
+        foreach ($data as $key => $value) {
+            $allColumn .= $key . "=?,";
+            $allValue .= "'" . $value . "',";
+        }
+        $allColumn = trim($allColumn, ",");
+        $allValue = trim($allValue, ",");
+        $sql = "UPDATE $this->table SET $allColumn WHERE id=?";
+        $result = $this->connect->prepare($sql);
+        $result->execute(array_values($data));
+        return $result->rowCount();
+    }
     function getLastId(){ // lấy id của dữ liệu vừa thêm vào
         $sql = "SELECT * FROM $this->table ORDER BY id DESC LIMIT 1";
         $result = $this->connect->prepare($sql);
