@@ -11,8 +11,10 @@ use MVC\Models\ProductdetailModel;
 
 class AdminController extends Controller
 {
+
     public function index()
     {
+
         $this->render([
             "view" => "admin/index",
             "page" => "admin",

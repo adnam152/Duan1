@@ -11,7 +11,7 @@ class Model
     {
 
         try {
-            $this->connect = new \PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
+            $this->connect = new \PDO("mysql:host=" . DB_HOST . ";dbname=duan1" . DB_NAME, DB_USERNAME, DB_PASSWORD);
             $this->connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             // echo"Connect succesfully!";
         } catch (\PDOException $e) {

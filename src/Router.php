@@ -9,7 +9,7 @@ class Router
     public function addRoute($route, $controller, $action)
     {
         $this->routes[$route] = ['controller' => $controller, 'action' => $action];
-
+   
     }
 
     public function dispatch($uri)
