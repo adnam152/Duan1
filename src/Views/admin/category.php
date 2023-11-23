@@ -1,5 +1,5 @@
 <div class="container">
-    <button type="button" name="add_btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Thêm
     </button>
     <table class="table text-center">

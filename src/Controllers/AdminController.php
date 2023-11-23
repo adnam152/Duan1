@@ -86,6 +86,7 @@ class AdminController extends Controller
             "allCategory" => $allCategory,
         ]);
     }
+
     function account()
     {
         $accountModel = new AccountsModel();
@@ -108,7 +109,17 @@ class AdminController extends Controller
             $address = $_GET['address'];
             $fullname = $_GET['fullname'];
             $role = $_GET['role'];
-            $accountModel->update($id,$username,$password,$image,$email,$phone_number,$address,$fullname,$role);
+            $dataUpdate = [
+                "username" => $username,
+                "password" => $password,
+                "image" => $image,
+                "email" => $email,
+                "phone_number" => $phone_number,
+                "address" => $address,
+                "fullname" => $fullname,
+                "role" => $role,
+            ];
+            $accountModel->update($dataUpdate, $id);
             header("location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -118,13 +129,12 @@ class AdminController extends Controller
             "view" => "admin/account",
             "page" => "admin",
             "title" => "Tài khoản",
-            "action" => "4",
+            "action" => "5",
             "allAccount" => $allAccount,
         ]);
     }
     function comment()
     {
-
 
         $commentmodel = new CommentsModel();
         $Allcomment = $commentmodel->get();

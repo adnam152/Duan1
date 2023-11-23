@@ -18,7 +18,9 @@
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/widget.css">
     <?php if ($page == "admin") { ?>
         <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
-    <?php } ?>
+    <?php }
+    if (isset($css)) echo "<link rel='stylesheet' type='text/css' href='/public/css/$css.css'>";
+    ?>
 </head>
 <body>
     
