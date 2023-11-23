@@ -9358,7 +9358,8 @@ body.horizontal-icon-fixed .pcoded[pcoded-device-type=desktop] .pcoded-navbar .p
 }
 
 .form-group {
-    margin-bottom: 1.25em
+    margin-bottom: 1.25em;
+    max-width: 80%;
 }
 
 .form-group .form-control-lg {
