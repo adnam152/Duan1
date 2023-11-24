@@ -179,7 +179,9 @@ class APIController
             $_POST['product_quantity'] && $detailUpdate['quantity'] = $_POST['product_quantity'];
             $_POST['product_price'] && $detailUpdate['price'] = $_POST['product_price'];
 
-            $categoryName = $categoryModel->get($_POST['product_category'])['name'];
+            $categoryName = $categoryModel->get([
+                "id" => $_POST['product_category']
+            ])['name'];
             $allData = array_merge($productUpdate, $detailUpdate);
             $allData['category_name'] = $categoryName;
             $allData['message'] = "Thành công";

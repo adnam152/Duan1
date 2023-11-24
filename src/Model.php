@@ -19,20 +19,36 @@ class Model
         }
     }
     // các hàm dùng chung
-    function get($id = null)
-    { // lấy tất cả dữ liệu hoặc lấy dữ liệu theo id
-        $temp_sql = "SELECT * FROM $this->table";
-        if($id){
-            $temp_sql .= " WHERE id=?";
-            $res = $this->connect->prepare($temp_sql);
-            $res->execute([$id]);
-            return $res->fetch(\PDO::FETCH_ASSOC);
+    function get($data=[])
+    { // lấy tất cả dữ liệu hoặc lấy dữ liệu theo id hoặc lấy dữ liệu theo limit, offset, order
+        // $data = [
+        //     id => value,
+        //     limit => value,
+        //     order => value,
+        //     page => value,
+        // ]
+        $sql = "SELECT * FROM $this->table";
+        if (isset($data['id'])) {
+            $sql .= " WHERE id=?";
+            $result = $this->connect->prepare($sql);
+            $result->execute([$data['id']]);
+            return $result->fetch(\PDO::FETCH_ASSOC);
         }else{
-            $res = $this->connect->prepare($temp_sql);
-            $res->execute();
-            return $res->fetchAll(\PDO::FETCH_ASSOC);
+            if(isset($data['order'])){
+                $sql .= " ORDER BY " . $data['order'];
+            }
+            if(isset($data['limit'])){
+                if($data['limit'])
+                    $sql .= " LIMIT " . $data['limit'];
+            }
+            if(isset($data['page'])){
+                if($data['limit'])
+                    $sql .= " OFFSET " . ($data['page']-1)*$data['limit'];
+            }
         }
-        
+        $result = $this->connect->prepare($sql);
+        $result->execute();
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
     function delete($id)
     {
@@ -41,7 +57,7 @@ class Model
         $result->execute([$id]);
         return $result->rowCount();
     }
-    function insert($data)
+    function insert($data=[])
     {
         // $data = [
         //     column1 => value1,
@@ -97,7 +113,7 @@ class Model
         $result->execute(array_values($data));
         return $result->rowCount();
     }
-    function getByColumn($data){ // lấy dữ liệu theo cột
+    function getByColumn($data=[]){ // lấy dữ liệu theo cột
         // cấu trúc $data = [
         //     column1 => value1,
         //    column2 => value2,
@@ -115,7 +131,7 @@ class Model
         $result->execute(array_values($data));
         return $result->fetch(\PDO::FETCH_ASSOC);
     }
-    function deleteByProductId($product_id){
+    function deleteByProductId($product_id){// dùng cho bảng product_details, comments, medias
         $sql = "DELETE FROM $this->table WHERE product_id=?";
         $result = $this->connect->prepare($sql);
         $result->execute([$product_id]);

@@ -1,6 +1,6 @@
 <div class="container">
     <button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Thêm
+    <i class="fa fa-plus"></i>
     </button>
     <table class="table text-center">
         <thead>
@@ -18,8 +18,8 @@
                     <td><?= $category['id'] ?></td>
                     <td name="category_name"><?= $category['name'] ?></td>
                     <td>
-                        <button type="button" class="btn btn-primary" onclick="openUpdateModal(this)">Sửa</button>
-                        <button type="button" class="btn btn-danger" onclick="confirmDelete(this)">Xóa</button>
+                        <button type="button" class="btn btn-primary" onclick="openUpdateModal(this)"><i class="fa fa-edit"></i></button>
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete(this)"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             <?php
@@ -37,7 +37,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close border-0 bg-danger" data-bs-dismiss="modal" aria-label="Close">x</button>
             </div>
 
             <form action="">
