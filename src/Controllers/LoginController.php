@@ -12,6 +12,13 @@ class LoginController extends Controller{
             "page" => "login",
         ]);
     }
+    function register(){
+        $this->render([
+            "view" => "user/register",
+            "page" => "register",
+            "css" => "login",
+        ]);
+    }
     public function logout(){
 
     }

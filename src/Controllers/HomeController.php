@@ -7,19 +7,13 @@ use MVC\Model;
 
 class HomeController extends Controller{
     public function index(){
-        //header("location: /admin");
+<<<<<<<<< Temporary merge branch 1
+       header("location: /DA1/admin");
+
+=========
+        // header("location: /admin");
+>>>>>>>>> Temporary merge branch 2
     }
-
-
-  function allproducts(){ 
-    $products = array();
-    
-    $this->render([
-        "view" => "user/index",
-        "page" => "user",
-        "products"=> $products
-    ]);
-  }
 }
 
 
