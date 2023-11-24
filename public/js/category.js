@@ -43,7 +43,6 @@ function openUpdateModal(button) {
     document.querySelector("button[name='update']").value = button.closest('tr').getAttribute("data-category-id");
 }
 
-
 function updateCategory(button) {
     const formData = new FormData(button.closest('form'));
     const categoryId = document.querySelector("button[name='update']").value;
@@ -60,6 +59,7 @@ function updateCategory(button) {
             document.querySelector('.btn-close').click();
         })
 }
+
 window.addEventListener('load', function () {
     //xử lý nút add_btn
     document.querySelector("button[name='add_btn']").addEventListener('click', function () {

@@ -1,11 +1,13 @@
 <div class="container">
     <button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Thêm
+        <i class="fa fa-plus"></i>
     </button>
+
+    <!-- TABLE -->
     <table class="table text-center" id="main_table">
         <thead>
             <tr>
-                <th scope="col">STT</th>
+                <th scope="col">ID</th>
                 <th scope="col">Tên Sản Phẩm</th>
                 <th scope="col">Danh Mục</th>
                 <th scope="col">Giảm Giá</th>
@@ -17,11 +19,10 @@
         </thead>
         <tbody>
             <?php
-            $stt = 1;
             foreach ($allProducts as $key => $product) {
             ?>
                 <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?= $key ?>" class="table-success">
-                    <td><?= $stt++ ?></td>
+                    <td><?= $product['id'] ?></td>
                     <td data-product-name="<?= $product['name'] ?>"><?= $product['name'] ?></td>
                     <td data-category-id="<?= $product['category_id'] ?>"><?= $product['category'] ?></td>
                     <td data-discount="<?= $product['discount'] ?>"><?= $product['discount'] ?>%</td>
@@ -29,11 +30,11 @@
                     <td><?= $product['purchase'] ?></td>
                     <td id="total-<?= $product['id'] ?>"><?= $product['count'] ?></td>
                     <td>
-                        <button name="delete_btn" class="btn btn-danger" onclick="deleteProduct(this)">Delete</button>
+                        <button name="delete_btn" class="btn btn-danger" onclick="deleteProduct(this)"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 <tr data-accordion-show="<?= $key ?>">
-                    <td colspan="8" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <td colspan="10" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="card accordion-body p-3">
                             <div class="row">
                                 <div class="col card over-y-auto height-300">
@@ -82,8 +83,8 @@
                                             <td data-quantity="<?= $detail['quantity'] ?>"><?= $detail['quantity'] ?></td>
                                             <td data-price="<?= $detail['price'] ?>"><?= number_format($detail['price']) ?> đ</td>
                                             <td>
-                                                <button name="update_btn" class="btn btn-primary" value="" onclick="openUpdateModal(this)">Update</button>
-                                                <button name="delete_detail_btn" class="btn btn-danger" onclick="deleteDetail(this)">Delete</button>
+                                                <button name="update_btn" class="btn btn-primary" value="" onclick="openUpdateModal(this)"><i class="fa fa-edit"></i></button>
+                                                <button name="delete_detail_btn" class="btn btn-danger" onclick="deleteDetail(this)"><i class="fa fa-trash"></i></i></button>
                                             </td>
                                         </tr>
                                     <?php
@@ -99,6 +100,15 @@
             ?>
         </tbody>
     </table>
+
+    <!-- PAGINATION -->
+    <div class="jqpagination m-b-10 pagination">
+        <a href="#" class="btn first disabled" data-action="first">«</a>
+        <a href="#" class="btn previous disabled" data-action="previous">‹</a>
+        <input type="text" data-max-page="40" class="m-t-5">
+        <a href="?page=2&limit=10" class="btn next" data-action="next">›</a>
+        <a href="#" class="btn last" data-action="last">»</a>
+    </div>
 </div>
 
 
@@ -108,7 +118,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close border-0 bg-danger" data-bs-dismiss="modal" aria-label="Close">x</button>
             </div>
 
             <form action="/api/product" method="POST" enctype="multipart/form-data">
