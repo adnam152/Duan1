@@ -129,7 +129,7 @@ class AdminController extends Controller
             "view" => "admin/account",
             "page" => "admin",
             "title" => "Tài khoản",
-            "action" => "5",
+            "action" => "4",
             "allAccount" => $allAccount,
         ]);
     }
