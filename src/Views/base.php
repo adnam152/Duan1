@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/assets/files/bower_components/chartist/css/chartist.css" type="text/css" media="all">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/widget.css">
+    <link rel="stylesheet" href="/assets/files/assets/pages/jqpagination/jqpagination.css">
     <?php if ($page == "admin") { ?>
         <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
     <?php }
@@ -30,6 +31,15 @@
 
     body {
         font-family: 'tuffy';
+    }
+
+    .btn i {
+        margin-right: 0;
+    }
+
+    .product_select {
+        margin-right: 10px;
+        width: unset;
     }
 </style>
 
