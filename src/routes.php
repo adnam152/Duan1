@@ -16,6 +16,9 @@ $router = new Router();
 
 $router->addRoute('', HomeController::class, 'index');
 $router->addRoute('login', LoginController::class, 'login');
+$router->addRoute('allproduct', HomeController::class, 'allproduct');
+
+
 
 
 $router->addRoute('admin', AdminController::class, 'index');

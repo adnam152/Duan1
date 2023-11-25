@@ -9,18 +9,15 @@ use MVC\Models\MediasModel;
 use MVC\Models\AccountsModel;
 use MVC\Models\ProductdetailModel;
 use MVC\Models\CommentsModel;
->>>>>>>>> Temporary merge branch 2
+
 
 class AdminController extends Controller
 {
 
     public function index()
     {
-<<<<<<<<< Temporary merge branch 1
 
 
-=========
->>>>>>>>> Temporary merge branch 2
         $this->render([
             "view" => "admin/index",
             "page" => "admin",
@@ -92,10 +89,35 @@ class AdminController extends Controller
             "allCategory" => $allCategory,
         ]);
     }
-<<<<<<<<< Temporary merge branch 1
-    function user()
+    
+    function comment()
     {
-=========
+
+
+
+        $commentmodel = new CommentsModel();
+        $Allcomment = $commentmodel->get();
+        
+        if (isset($_POST["delete"])) {
+            $id = $_POST["delete"];
+            $commentmodel->delete($id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        
+
+
+        $this->render([
+            "view" => "admin/comment",
+            "page" => "admin",
+            "title"=> "Bình luận",
+            "action" => "4",
+
+            "comments" => $Allcomment
+
+        ]);
+    }
     function account()
     {
         $accountModel = new AccountsModel();
@@ -128,7 +150,7 @@ class AdminController extends Controller
                 "fullname" => $fullname,
                 "role" => $role,
             ];
-            $accountModel->update($dataUpdate, $id);
+        // $accountModel->update($dataUpdate, $id);
             header("location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -141,40 +163,10 @@ class AdminController extends Controller
             "action" => "5",
             "allAccount" => $allAccount,
         ]);
-    }
-    function comment()
-    {
-<<<<<<<<< Temporary merge branch 1
-
-
-        $commentmodel = new CommentsModel();
-        $Allcomment = $commentmodel->get();
-        
-        if (isset($_POST["delete"])) {
-            $id = $_POST["delete"];
-            $commentmodel->delete($id);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
-
-        
-
-=========
->>>>>>>>> Temporary merge branch 2
-        $this->render([
-            "view" => "admin/comment",
-            "page" => "admin",
-            "title"=> "Bình luận",
-            "action" => "5",
-            "comments" => $Allcomment
-        ]);
-    }
-<<<<<<<<< Temporary merge branch 1
-    
-=========
->>>>>>>>> Temporary merge branch 2
+    }      
     function order()
     {
+
         $this->render([
             "view" => "admin/order",
             "page" => "admin",
