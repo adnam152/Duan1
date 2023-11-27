@@ -19,6 +19,9 @@
     <?php if ($page == "admin") { ?>
         <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
     <?php }
+    if ($page == "user") { ?>
+        <link rel="stylesheet" type="text/css" href="/public/css/user.css">
+    <?php }
     if (isset($css)) echo "<link rel='stylesheet' type='text/css' href='/public/css/$css.css'>";
     ?>
 </head>
@@ -64,10 +67,15 @@
     <?php if ($js) echo "<script src='/public/js/$js.js'></script>";
     } else {
         require "./src/Views/user/component/header.php";
+        require "./src/Views/user/component/navbar.php";
+        require "./src/Views/user/component/banner.php";
         require "./src/Views/$view.php";
+        require "./src/Views/user/component/footer.php"; ?>
+        <script src="/public/js/user.js"></script>
+<?php
     }
     ?>
-
+    <script src="https://kit.fontawesome.com/88c3db6211.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/assets/files/bower_components/jquery/js/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/files/bower_components/jquery-ui/js/jquery-ui.min.js"></script>

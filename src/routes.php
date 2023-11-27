@@ -16,7 +16,7 @@ $router = new Router();
 
 $router->addRoute('', HomeController::class, 'index');
 $router->addRoute('login', LoginController::class, 'login');
-
+$router->addRoute('home', LoginController::class, 'home');
 
 $router->addRoute('admin', AdminController::class, 'index');
 $router->addRoute('admin/category', AdminController::class, 'category');
