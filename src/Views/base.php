@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?=$title??'Document'?></title>
+    <title><?= $title ?? 'Document' ?></title>
     <!--  -->
     <link rel="icon" href="/assets/files/assets/images/favicon.ico" type="image/x-icon"> <!-- icon -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
@@ -16,14 +16,37 @@
     <link rel="stylesheet" href="/assets/files/bower_components/chartist/css/chartist.css" type="text/css" media="all">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/widget.css">
+    <link rel="stylesheet" href="/assets/files/assets/pages/jqpagination/jqpagination.css">
     <?php if ($page == "admin") { ?>
         <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
     <?php }
     if (isset($css)) echo "<link rel='stylesheet' type='text/css' href='/public/css/$css.css'>";
     ?>
 </head>
+<style>
+    @font-face {
+        font-family: 'tuffy';
+        src: url('/public/Tuffy-Regular.ttf');
+    }
+
+    body {
+        font-family: 'tuffy';
+    }
+
+    .btn i {
+        margin-right: 0;
+    }
+
+    .product_select {
+        margin-right: 10px;
+        width: unset;
+    }
+</style>
+
 <body>
-    
+    <div class="loader-bg">
+        <div class="loader-bar"></div>
+    </div>
     <?php
     if ($page == "admin") { ?>
         <div id="pcoded" class="pcoded">
@@ -45,13 +68,11 @@
                 </div>
             </div>
         </div>
-        
+
         <script src="/public/js/admin.js"></script>
 
-        <?php if($js) echo "<script src='/public/js/$js.js'></script>";
-        
-    }
-    else{
+    <?php if ($js) echo "<script src='/public/js/$js.js'></script>";
+    } else {
         require "./src/Views/user/component/header.php";
         require "./src/Views/$view.php";
     }

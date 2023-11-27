@@ -28,13 +28,13 @@ class AdminController extends Controller
     public function category()
     {
         $categoryModel = new CategoriesModel();
-
         // get category
         $allCategory = $categoryModel->get();
 
         $this->render([
             "view" => "admin/category",
             "page" => "admin",
+            "js" => "category",
             "title"=> "Danh mục",
             "action" => "2",
             "allCategory" => $allCategory,
@@ -44,22 +44,53 @@ class AdminController extends Controller
     // Product
     public function product()
     {
+        if(!isset($_SESSION['PRODUCT_LIMIT'])) $_SESSION['PRODUCT_LIMIT'] = 10;
+        if(!isset($_GET['page']) || !isset($_GET['limit']) || !isset($_GET['order'])) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
+        if($_SESSION['PRODUCT_LIMIT'] != $_GET['limit']) $_SESSION['PRODUCT_LIMIT'] = $_GET['limit'];
+
         $productModel = new ProductsModel();
         $categoryModel = new CategoriesModel();
         $productDetailModel = new ProductdetailModel();
         $mediaModel = new MediasModel();
 
+        $filterBase = [
+            "id" => "ID",
+            "name" => "Tên",
+            "category_id" => "Danh mục",
+            "discount" => "Giảm giá",
+            "view" => "Lượt xem",
+            "purchase" => "Lượt mua",
+            "create_at" => "Ngày tạo",
+        ];
         // --------------------------------------------
         // Get data để hiển thị ra view
-        $allProducts = $productModel->get(); // get product
+        $numberOfAllProducts = $productModel->count(); // get number of product
+        $numberOfPage = ceil($numberOfAllProducts / $_GET['limit']); // get number of page
+        if($_GET['page'] > $numberOfPage) header("location: /admin/product?page=$numberOfPage&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
+        if($_GET['page'] < 1) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
+
+        
+        if(isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
+        else $orderBy = "id";
+
+        $allProducts = $productModel->get([
+            "orderBy" => $orderBy,
+            "orderType" => $_GET['order'] ?? "DESC", // DESC or ASC
+            "page" => $_GET['page'],
+            "limit" => $_GET['limit'],
+        ]); // get product
         $allCategory = $categoryModel->get(); // get category
+        
+
         foreach ($allProducts as $index => $product) {
             $product_id = $product['id'];
             $allDetails = $productDetailModel->getByProductId($product_id); // get price by product id
             $allLinks = $mediaModel->getByProductId($product_id); // get image by product id
 
             $allProducts[$index]['category_id'] = $product['category_id'];
-            $allProducts[$index]['category'] = $categoryModel->get($product['category_id'])['name']; // get category by id
+            $allProducts[$index]['category'] = $categoryModel->get([
+                "id" => $product['category_id'],
+            ])['name']; // get category by id
             $allProducts[$index]['count'] = $productDetailModel->countByProductId($product_id)['count'] ?? 0; // get count by product id
             $allProducts[$index]['detail'] = [];
 
@@ -73,7 +104,7 @@ class AdminController extends Controller
                     "color" => $detail['color'],
                     "size" => $detail['size'],
                     "quantity" => $detail['quantity'],
-                    "price" => $detail['price'],
+                    "price" => $detail['price']
                 ];
             }
         }
@@ -87,6 +118,9 @@ class AdminController extends Controller
             "action" => "3",
             "allProducts" => $allProducts,
             "allCategory" => $allCategory,
+            "numberOfAllProducts" => $numberOfAllProducts,
+            "numberOfPage" => $numberOfPage,
+            "filter" => $filterBase
         ]);
     }
     

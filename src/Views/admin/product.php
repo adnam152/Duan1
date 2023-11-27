@@ -1,106 +1,114 @@
-<div class="container">
-    <button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Thêm
+<div class="d-flex justify-content-between">
+    <button type="button" name="add_btn" class="btn btn-success m-b-10" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="fa fa-plus"></i>
     </button>
-    <table class="table text-center" id="main_table">
-        <thead>
-            <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Tên Sản Phẩm</th>
-                <th scope="col">Danh Mục</th>
-                <th scope="col">Giảm Giá</th>
-                <th scope="col">View</th>
-                <th scope="col">Lượt Bán</th>
-                <th scope="col">Tổng số lượng</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $stt = 1;
-            foreach ($allProducts as $key => $product) {
-            ?>
-                <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?= $key ?>" class="table-success">
-                    <td><?= $stt++ ?></td>
-                    <td data-product-name="<?= $product['name'] ?>"><?= $product['name'] ?></td>
-                    <td data-category-id="<?= $product['category_id'] ?>"><?= $product['category'] ?></td>
-                    <td data-discount="<?= $product['discount'] ?>"><?= $product['discount'] ?>%</td>
-                    <td><?= $product['view'] ?></td>
-                    <td><?= $product['purchase'] ?></td>
-                    <td id="total-<?= $product['id'] ?>"><?= $product['count'] ?></td>
-                    <td>
-                        <button name="delete_btn" class="btn btn-danger" onclick="deleteProduct(this)">Delete</button>
-                    </td>
-                </tr>
-                <tr data-accordion-show="<?= $key ?>">
-                    <td colspan="8" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="card accordion-body p-3">
-                            <div class="row">
-                                <div class="col card over-y-auto height-300">
-                                    <h5 class="py-3 border-bottom bg-inverse">Images</h5>
-                                    <div class="d-flex flex-wrap mb-3 card-block">
-                                        <span id="image-container" class="d-flex flex-wrap">
-                                            <?php
-                                            if ($product['image']) {
-                                                foreach ($product['image'] as $id => $image) {
-                                                    echo "<div class='position-relative'>";
-                                                    echo "<img data-image='$image' src='.$image' alt='' class='m-2 img-sm'>";
-                                                    echo "<button name='delete_img_btn' class='x-btn' data-image-id='$id' onclick='deleteImage(this)'>x</button>";
-                                                    echo "</div>";
-                                                }
-                                            }
-                                            ?>
-                                        </span>
-                                        <label for="add_img_<?= $key ?>"><img class="img-sm m-2 pointer" src="/assets/image/add-image-2.png" alt=""></label>
-                                        <input type="file" data-product-id="<?= $product['id'] ?>" id="add_img_<?= $key ?>" hidden accept="image/*" multiple onchange="addImage(this)">
-                                    </div>
-                                </div>
-                                <div class="col card over-y-auto height-300">
-                                    <h5 class="py-3 border-bottom bg-inverse">Description</h5>
-                                    <div class="card-block">
-                                        <div class="text-break" id="description-<?= $product['id'] ?>"><?= $product['description'] ?></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <table class="table" data-product-id="<?= $product['id'] ?>">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Màu</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">Số lượng</th>
-                                        <th scope="col">Giá</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($product['detail'] as $detail) {
-                                    ?>
-                                        <tr data-detail-id="<?= $detail['id'] ?>">
-                                            <td data-color="<?= $detail['color'] ?>"><?= $detail['color'] ?></td>
-                                            <td data-size="<?= $detail['size'] ?>"><?= $detail['size'] ?></td>
-                                            <td data-quantity="<?= $detail['quantity'] ?>"><?= $detail['quantity'] ?></td>
-                                            <td data-price="<?= $detail['price'] ?>"><?= number_format($detail['price']) ?> đ</td>
-                                            <td>
-                                                <button name="update_btn" class="btn btn-primary" value="" onclick="openUpdateModal(this)">Update</button>
-                                                <button name="delete_detail_btn" class="btn btn-danger" onclick="deleteDetail(this)">Delete</button>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-            <?php
-            }
-            ?>
-        </tbody>
-    </table>
+    <div class="d-flex">
+        <?php require "src/Views/admin/components/filter_product.php" ?>
+        <?php require "src/Views/admin/components/pagination.php" ?>
+    </div>
 </div>
 
+
+<!-- TABLE -->
+<table class="table text-center" id="main_table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Tên Sản Phẩm</th>
+            <th scope="col">Danh Mục</th>
+            <th scope="col">Giảm Giá</th>
+            <th scope="col">View</th>
+            <th scope="col">Lượt Bán</th>
+            <th scope="col">Tổng số lượng</th>
+            <th scope="col">Ngày tạo</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $stt = $_GET['limit'] * ($_GET['page'] - 1) + 1;
+        foreach ($allProducts as $key => $product) {
+        ?>
+            <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?= $key ?>" class="table-success">
+                <td><?= $product['id'] ?></td>
+                <td data-product-name="<?= $product['name'] ?>"><?= $product['name'] ?></td>
+                <td data-category-id="<?= $product['category_id'] ?>"><?= $product['category'] ?></td>
+                <td data-discount="<?= $product['discount'] ?>"><?= $product['discount'] ?>%</td>
+                <td><?= $product['view'] ?></td>
+                <td><?= $product['purchase'] ?></td>
+                <td id="total-<?= $product['id'] ?>"><?= $product['count'] ?></td>
+                <td><?=$product['create_at']?></td>
+                <td>
+                    <button name="delete_btn" class="btn btn-danger" onclick="deleteProduct(this)"><i class="fa fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr data-accordion-show="<?= $key ?>">
+                <td colspan="10" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="card accordion-body p-3">
+                        <div class="row">
+                            <div class="col card over-y-auto height-300">
+                                <h5 class="py-3 border-bottom bg-inverse">Images</h5>
+                                <div class="d-flex flex-wrap mb-3 card-block">
+                                    <span id="image-container" class="d-flex flex-wrap">
+                                        <?php
+                                        if ($product['image']) {
+                                            foreach ($product['image'] as $id => $image) {
+                                                echo "<div class='position-relative'>";
+                                                echo "<img data-image='$image' src='.$image' alt='' class='m-2 img-sm'>";
+                                                echo "<button name='delete_img_btn' class='x-btn' data-image-id='$id' onclick='deleteImage(this)'>x</button>";
+                                                echo "</div>";
+                                            }
+                                        }
+                                        ?>
+                                    </span>
+                                    <label for="add_img_<?= $key ?>"><img class="img-sm m-2 pointer" src="/assets/image/add-image-2.png" alt=""></label>
+                                    <input type="file" data-product-id="<?= $product['id'] ?>" id="add_img_<?= $key ?>" hidden accept="image/*" multiple onchange="addImage(this)">
+                                </div>
+                            </div>
+                            <div class="col card over-y-auto height-300">
+                                <h5 class="py-3 border-bottom bg-inverse">Description</h5>
+                                <div class="card-block">
+                                    <div class="text-break" id="description-<?= $product['id'] ?>"><?= $product['description'] ?></div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table" data-product-id="<?= $product['id'] ?>">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Màu</th>
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($product['detail'] as $detail) {
+                                ?>
+                                    <tr data-detail-id="<?= $detail['id'] ?>">
+                                        <td data-color="<?= $detail['color'] ?>"><?= $detail['color'] ?></td>
+                                        <td data-size="<?= $detail['size'] ?>"><?= $detail['size'] ?></td>
+                                        <td data-quantity="<?= $detail['quantity'] ?>"><?= $detail['quantity'] ?></td>
+                                        <td data-price="<?= $detail['price'] ?>"><?= number_format($detail['price']) ?> đ</td>
+                                        <td>
+                                            <button name="update_btn" class="btn btn-primary" value="" onclick="openUpdateModal(this)"><i class="fa fa-edit"></i></button>
+                                            <button name="delete_detail_btn" class="btn btn-danger" onclick="deleteDetail(this)"><i class="fa fa-trash"></i></i></button>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        <?php
+        }
+        ?>
+    </tbody>
+</table>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -108,7 +116,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close border-0 bg-danger" data-bs-dismiss="modal" aria-label="Close">x</button>
             </div>
 
             <form action="/api/product" method="POST" enctype="multipart/form-data">

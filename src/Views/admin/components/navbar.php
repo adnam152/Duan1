@@ -1,8 +1,6 @@
 <nav class="pcoded-navbar">
     <div class="nav-list">
         <div class="pcoded-inner-navbar main-menu">
-            <div class="pcoded-navigation-label">Navigation</div>
-
             <ul class="pcoded-item pcoded-left-item" item-border="true" item-border-style="solid" subitem-border="false">
                 <li class="<?=$action=='1'?'active':''?>">
                     <a href="/admin" class="waves-effect waves-dark">
