@@ -24,7 +24,8 @@ class Model
         // $data = [
         //     id => value,
         //     limit => value,
-        //     order => value,
+        //     orderBy => value,
+        //      orderType => value,
         //     page => value,
         // ]
         $sql = "SELECT * FROM $this->table";
@@ -34,9 +35,11 @@ class Model
             $result->execute([$data['id']]);
             return $result->fetch(\PDO::FETCH_ASSOC);
         }else{
-            if(isset($data['order'])){
-                $sql .= " ORDER BY " . $data['order'];
+            if(isset($data['orderBy']) && isset($data['orderType'])){
+                if($data['orderType'] != "ASC" && $data['orderType'] != "DESC") $data['orderType'] = "DESC";
+                $sql .= " ORDER BY " . $data['orderBy'] . " " . $data['orderType'];
             }
+
             if(isset($data['limit'])){
                 if($data['limit'])
                     $sql .= " LIMIT " . $data['limit'];

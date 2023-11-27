@@ -41,21 +41,43 @@ class AdminController extends Controller
     // Product
     public function product()
     {
-        if(!isset($_GET['page']) || !isset($_GET['limit'])) header("location: /admin/product?page=1&limit=10");
+        if(!isset($_SESSION['PRODUCT_LIMIT'])) $_SESSION['PRODUCT_LIMIT'] = 10;
+        if(!isset($_GET['page']) || !isset($_GET['limit']) || !isset($_GET['order'])) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
+        if($_SESSION['PRODUCT_LIMIT'] != $_GET['limit']) $_SESSION['PRODUCT_LIMIT'] = $_GET['limit'];
 
         $productModel = new ProductsModel();
         $categoryModel = new CategoriesModel();
         $productDetailModel = new ProductdetailModel();
         $mediaModel = new MediasModel();
 
+        $filterBase = [
+            "id" => "ID",
+            "name" => "Tên",
+            "category_id" => "Danh mục",
+            "discount" => "Giảm giá",
+            "view" => "Lượt xem",
+            "purchase" => "Lượt mua",
+            "create_at" => "Ngày tạo",
+        ];
         // --------------------------------------------
         // Get data để hiển thị ra view
+        $numberOfAllProducts = $productModel->count(); // get number of product
+        $numberOfPage = ceil($numberOfAllProducts / $_GET['limit']); // get number of page
+        if($_GET['page'] > $numberOfPage) header("location: /admin/product?page=$numberOfPage&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
+        if($_GET['page'] < 1) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
+
+        
+        if(isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
+        else $orderBy = "id";
+
         $allProducts = $productModel->get([
+            "orderBy" => $orderBy,
+            "orderType" => $_GET['order'] ?? "DESC", // DESC or ASC
             "page" => $_GET['page'],
             "limit" => $_GET['limit'],
         ]); // get product
         $allCategory = $categoryModel->get(); // get category
-        $numberOfAllProducts = $productModel->count(); // get number of product
+        
 
         foreach ($allProducts as $index => $product) {
             $product_id = $product['id'];
@@ -79,7 +101,7 @@ class AdminController extends Controller
                     "color" => $detail['color'],
                     "size" => $detail['size'],
                     "quantity" => $detail['quantity'],
-                    "price" => $detail['price'],
+                    "price" => $detail['price']
                 ];
             }
         }
@@ -94,6 +116,8 @@ class AdminController extends Controller
             "allProducts" => $allProducts,
             "allCategory" => $allCategory,
             "numberOfAllProducts" => $numberOfAllProducts,
+            "numberOfPage" => $numberOfPage,
+            "filter" => $filterBase
         ]);
     }
 
