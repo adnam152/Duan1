@@ -3,7 +3,7 @@
         <i class="fa fa-plus"></i>
     </button>
     <div class="d-flex">
-        <?php require "src/Views/admin/components/filter_product.php" ?>
+        <?php require "src/Views/admin/components/filter.php" ?>
         <?php require "src/Views/admin/components/pagination.php" ?>
     </div>
 </div>
@@ -15,6 +15,7 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Tên Sản Phẩm</th>
+            <th scope="col">Giá (VNĐ)</th>
             <th scope="col">Danh Mục</th>
             <th scope="col">Giảm Giá</th>
             <th scope="col">View</th>
@@ -32,6 +33,7 @@
             <tr data-product-id="<?= $product['id'] ?>" data-accordion="<?= $key ?>" class="table-success">
                 <td><?= $product['id'] ?></td>
                 <td data-product-name="<?= $product['name'] ?>"><?= $product['name'] ?></td>
+                <td><?=number_format($product['min_price']).' - '.number_format($product['max_price'])?></td>
                 <td data-category-id="<?= $product['category_id'] ?>"><?= $product['category'] ?></td>
                 <td data-discount="<?= $product['discount'] ?>"><?= $product['discount'] ?>%</td>
                 <td><?= $product['view'] ?></td>

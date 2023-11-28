@@ -25,7 +25,9 @@ $router->addRoute('admin/account', AdminController::class, 'account');
 $router->addRoute('admin/comment', AdminController::class, 'comment');
 $router->addRoute('admin/order', AdminController::class, 'order');
 
+
 $router->addRoute('api/category', APIController::class, 'category');
 $router->addRoute('api/product', APIController::class, 'product');
+$router->addRoute('api/account', APIController::class, 'account');
 
 $router->dispatch($uri);

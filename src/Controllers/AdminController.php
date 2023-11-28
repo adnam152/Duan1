@@ -8,6 +8,9 @@ use MVC\Models\ProductsModel;
 use MVC\Models\MediasModel;
 use MVC\Models\AccountsModel;
 use MVC\Models\ProductdetailModel;
+use MVC\Models\BillsModel;
+use MVC\Models\BilldetailsModel;
+
 
 class AdminController extends Controller
 {
@@ -42,7 +45,7 @@ class AdminController extends Controller
     public function product()
     {
         if(!isset($_SESSION['PRODUCT_LIMIT'])) $_SESSION['PRODUCT_LIMIT'] = 10;
-        if(!isset($_GET['page']) || !isset($_GET['limit']) || !isset($_GET['order'])) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
+        if(!isset($_GET['page']) || !isset($_GET['limit']) || !isset($_GET['order'])) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=ASC");
         if($_SESSION['PRODUCT_LIMIT'] != $_GET['limit']) $_SESSION['PRODUCT_LIMIT'] = $_GET['limit'];
 
         $productModel = new ProductsModel();
@@ -63,8 +66,8 @@ class AdminController extends Controller
         // Get data để hiển thị ra view
         $numberOfAllProducts = $productModel->count(); // get number of product
         $numberOfPage = ceil($numberOfAllProducts / $_GET['limit']); // get number of page
-        if($_GET['page'] > $numberOfPage) header("location: /admin/product?page=$numberOfPage&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
-        if($_GET['page'] < 1) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
+        if($_GET['page'] > $numberOfPage) header("location: /admin/product?page=$numberOfPage&limit=".$_SESSION['PRODUCT_LIMIT']."&order=ASC");
+        if($_GET['page'] < 1) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=ASC");
 
         
         if(isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
@@ -95,6 +98,9 @@ class AdminController extends Controller
             foreach ($allLinks as $link) {
                 $allProducts[$index]['image'][$link['id']] = $link['link'];
             }
+            
+            $allProducts[$index]['max_price'] = 0;
+            $allProducts[$index]['min_price'] = 0;
             foreach ($allDetails as $detail) {
                 $allProducts[$index]['detail'][] = [
                     "id" => $detail['id'],
@@ -103,6 +109,8 @@ class AdminController extends Controller
                     "quantity" => $detail['quantity'],
                     "price" => $detail['price']
                 ];
+                if($detail['price'] > $allProducts[$index]['max_price']) $allProducts[$index]['max_price'] = $detail['price'];
+                if($allProducts[$index]['min_price']==0 || $detail['price'] < $allProducts[$index]['min_price']) $allProducts[$index]['min_price'] = $detail['price'];
             }
         }
 
@@ -115,7 +123,7 @@ class AdminController extends Controller
             "action" => "3",
             "allProducts" => $allProducts,
             "allCategory" => $allCategory,
-            "numberOfAllProducts" => $numberOfAllProducts,
+            "numberOfItems" => $numberOfAllProducts,
             "numberOfPage" => $numberOfPage,
             "filter" => $filterBase
         ]);
@@ -132,48 +140,59 @@ class AdminController extends Controller
     }
     function account()
     {
+        if(!isset($_SESSION['ACCOUNT_LIMIT'])) $_SESSION['ACCOUNT_LIMIT'] = 10;
+        if(!isset($_GET['page']) || !isset($_GET['limit']) || !isset($_GET['order'])) header("location: /admin/account?page=1&limit=".$_SESSION['ACCOUNT_LIMIT']."&order=ASC");
+        if($_SESSION['ACCOUNT_LIMIT'] != $_GET['limit']) $_SESSION['ACCOUNT_LIMIT'] = $_GET['limit'];
+
+        // init
         $accountModel = new AccountsModel();
-        // delete
-        if (isset($_GET["delete"])) {
-            $id = $_GET["delete"];
-            $accountModel->delete($id);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
+        $categoryModel = new CategoriesModel();
+        $billModel = new BillsModel();
+        $billDetailModel = new BilldetailsModel();
+        $filterBase = [
+            "id" => "ID",
+            "username" => "Tên tài khoản",
+            "fullname" => "Họ tên",
+            "role" => "Vai trò",
+            "create_at" => "Ngày tạo",
+        ];
 
-        // update
-        if (isset($_GET['update'])) {
-            $id = $_GET['update'];
-            $username = $_GET['username'];
-            $password = $_GET['password'];
-            $image = $_FILES['image'];
-            $email = $_GET['email'];
-            $phone_number = $_GET['phone_number'];
-            $address = $_GET['address'];
-            $fullname = $_GET['fullname'];
-            $role = $_GET['role'];
-            $dataUpdate = [
-                "username" => $username,
-                "password" => $password,
-                "image" => $image,
-                "email" => $email,
-                "phone_number" => $phone_number,
-                "address" => $address,
-                "fullname" => $fullname,
-                "role" => $role,
-            ];
-            $accountModel->update($dataUpdate, $id);
-            header("location:" . $_SERVER['HTTP_REFERER']);
-            exit;
-        }
+        $numberOfAllAccounts = $accountModel->count(); // get number of product
+        $numberOfPage = ceil($numberOfAllAccounts / $_GET['limit']); // get number of page
+        if($_GET['page'] > $numberOfPage) header("location: /admin/account?page=$numberOfPage&limit=".$_SESSION['ACCOUNT_LIMIT']."&order=ASC");
+        if($_GET['page'] < 1) header("location: /admin/account?page=1&limit=".$_SESSION['ACCOUNT_LIMIT']."&order=ASC");
+        
+        if(isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
+        else $orderBy = "id";
+        $allAccount = $accountModel->get([
+            "orderBy" => $orderBy,
+            "orderType" => $_GET['order'] ?? "DESC", // DESC or ASC
+            "page" => $_GET['page'],
+            "limit" => $_GET['limit'],
+        ]);
+        $allCategory = $categoryModel->get(); // get category
+        $data = []; //lưu tất cả dữ liệu account
 
-        $allAccount = $accountModel->get();
+        foreach ($allAccount as $index => $account) {
+            $id = $account['id'];
+            $data[$index] = $account;
+            $data[$index]['count_order'] = $billModel->countOrderByUserId($id);
+            foreach($allCategory as $category){
+                $data[$index]['count_order_by_category'][$category['name']] = $billDetailModel->countOrderByUserIdAndCategoryId($id, $category['id']);
+            }
+        }
+        $numberOfAllAccounts = $accountModel->count();
+            $numberOfPage = ceil($numberOfAllAccounts / $_GET['limit']);
         $this->render([
             "view" => "admin/account",
             "page" => "admin",
             "title" => "Tài khoản",
             "action" => "5",
-            "allAccount" => $allAccount,
+            "js" => "account",
+            "allAccount" => $data,
+            "filter" => $filterBase,
+            "numberOfItems" => $numberOfAllAccounts,
+            "numberOfPage" => $numberOfPage,
         ]);
     }
     function order()

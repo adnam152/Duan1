@@ -6,6 +6,7 @@ use MVC\Models\CategoriesModel;
 use MVC\Models\ProductsModel;
 use MVC\Models\ProductdetailModel;
 use MVC\Models\MediasModel;
+use MVC\Models\AccountsModel;
 
 class APIController
 {
@@ -214,6 +215,92 @@ class APIController
         if (isset($_GET['delete_img']) && isset($_GET['img_id'])) {
             $img_id = $_GET['img_id'];
             if ($mediaModel->delete($img_id) > 0) echo json_encode("success");
+            exit;
+        }
+    }
+    public function account(){
+        $accountModel = new AccountsModel();
+        // add
+        if(isset($_POST['add'])){
+            // Kiểm tra tồn tại
+            if($accountModel->isExist([
+                    "username" => $_POST['username'],
+                ])>0){
+                    echo json_encode("error");
+                    exit;
+            }
+            $image = $_FILES['user_image'];
+            if($image['name'] != ""){
+                $link = './assets/image/' . $image['name'];
+                if (move_uploaded_file($image['tmp_name'], $link)) {
+                    $image = $link;
+                }
+            }
+            else $image = "";
+
+            $dataInsert = [
+                "username" => $_POST['username'],
+                "password" => $_POST['password'],
+                "image" => $image,
+                "email" => $_POST['email'],
+                "phone_number" => $_POST['phone_number'],
+                "address" => $_POST['address'],
+                "fullname" => $_POST['fullname'],
+                "role" => $_POST['role'],
+                "create_at" => date("Y-m-d H:i:s", time()),
+            ];
+            if($accountModel->insert($dataInsert)>0)
+                echo json_encode("success");
+            exit;
+        }
+
+        // delete
+        if (isset($_GET["delete"])) {
+            $id = $_GET["delete"];
+            $accountModel->delete($id);
+            echo json_encode("success");
+            exit;
+        }
+
+        // update
+        if (isset($_POST['update'])) {
+            if($accountModel->isExist([
+                    "username" => $_POST['username'],
+                ])>0){
+                    echo json_encode("exist username");
+                    exit;
+            }
+            $dataUpdate = [
+                "username" => $_POST['username'],
+                "password" => $_POST['password'],
+                "email" => $_POST['email'],
+                "phone_number" => $_POST['phone_number'],
+                "address" => $_POST['address'],
+                "fullname" => $_POST['fullname'],
+                "role" => $_POST['role'],
+            ];
+            if($accountModel->update($dataUpdate, $_POST['id']) > 0)
+                echo json_encode($dataUpdate);
+            else echo json_encode("error");
+            exit;
+        }
+
+        // update image
+        if (isset($_POST['update_image'])) {
+            $image = $_FILES['image'];
+            if($image['name'] != ""){
+                $link = './assets/image/' . $image['name'];
+                if (move_uploaded_file($image['tmp_name'], $link)) {
+                    $image = $link;
+                }
+            }
+            else $image = "";
+            $dataUpdate = [
+                "image" => $image,
+            ];
+            if($accountModel->update($dataUpdate, $_POST['id']) > 0)
+                echo json_encode($dataUpdate);
+            else echo json_encode("error");
             exit;
         }
     }
