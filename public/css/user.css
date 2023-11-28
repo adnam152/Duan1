@@ -6,7 +6,12 @@
     font-family:'Poppins', sans-serif;
     cursor: pointer;
 }
-
+body[themebg-pattern=theme1]{
+    background-color: white;
+}
+body{
+    background-image: none;
+}
 #wrapper {
     /* Kích thước màn hình là 1280 x 720 */
     width: 100%;
@@ -42,7 +47,7 @@
 }
 
 #banner {
-    background-image :url("/assets/image/background_banner.png");
+    /* background-image :url("/assets/image/background_banner.png"); */
     width: 100%;
     height: 463px;
     margin-top:30px;
@@ -72,7 +77,7 @@
 }
 #banner .box-right p {
     margin-top: 80px;
-    color:#faf5f5;
+    color:rgb(26, 23, 23);
     font-weight: 500;
 }
 
@@ -108,7 +113,8 @@ button {
     padding-left: 20px;
 }
 #banner .box-center img {
-    animation :animation 3s infinite linear; 
+    /* animation :animation 3s infinite linear;  */
+    filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.349)6, 35, 35);
 }
 
 #banner .box-center img:nth-child(1)
@@ -140,6 +146,22 @@ button {
     left:50%;
     transform:translateX(-50%);
 }
+
+#wp-category{
+    margin:20px auto;
+}
+
+.list-category .item .col img{
+    width: 100%;
+    border-radius: 10px;
+}
+
+.list-category .item .col a{
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+}
+
 
 
 #wp-products {
@@ -244,39 +266,16 @@ button {
 }
 
 
-#saleoff {
+#nam{
+    height: 300px;
     width: 100%;
-    display: flex;
-    height: 322px;
+    position: relative;
 }
-#saleoff .box-left ,#saleoff .box-right {
-    width: 50%;
+#nam .bg{
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, orange, yellow);
 }
-#saleoff .box-left {
-    background:#3e413e;
-    text-align: center;
-    min-height: 322px;
-}
-
-#saleoff .box-left h1 {
-    padding-top:38px;
-}
-#saleoff .box-left span:nth-child(1)
-{
-    color:#fff;
-    font-size:50px;
-}
-
-#saleoff .box-left span:nth-child(2)
-{
-    color:orange;
-    font-size:128px;
-}
-
-#saleoff .box-right {
-    background-image:url("/assets/image/7_bjwdh51.05.rgold.thuyenhoavang.3.jpg");
-}
-
 
 /* ------------------------------------------------------- */
 .content1 {
@@ -305,7 +304,7 @@ button {
 .main-content.bl-background {
     grid-template-rows: 100%;
     height: 100vh;
-    background-color: #e0effb;
+    /* background-color: #e0effb; */
 }
 
 .main-content .grid-center {
