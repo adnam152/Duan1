@@ -11,8 +11,8 @@ function addCategory(button) {
                 <td>${res.id}</td>
                 <td name='category_name'>${res.name}</td>
                 <td>
-                    <button type="button" class="btn btn-primary" onclick="openUpdateModal(this)">Sửa</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmDelete(this)">Xóa</button>
+                    <button type="button" class="btn btn-primary" onclick="openUpdateModal(this)"><i class="fa fa-edit"></button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete(this)"><i class="fa fa-trash"></button>
                 </td>
             </tr>
             `

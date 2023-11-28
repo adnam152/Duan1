@@ -19,6 +19,18 @@ class ProductdetailModel extends Model{
         $result->execute([$product_id]);
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
+    function allMaxPrice(){
+        $sql = "SELECT product_id, MAX(price) as max_price FROM $this->table GROUP BY product_id";
+        $result = $this->connect->prepare($sql);
+        $result->execute();
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    function allMinPrice(){
+        $sql = "SELECT product_id, MIN(price) as min_price FROM $this->table GROUP BY product_id";
+        $result = $this->connect->prepare($sql);
+        $result->execute();
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

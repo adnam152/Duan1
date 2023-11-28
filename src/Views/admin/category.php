@@ -1,34 +1,32 @@
-<div class="container">
-    <button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" name="add_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
     <i class="fa fa-plus"></i>
-    </button>
-    <table class="table text-center">
-        <thead>
-            <tr>
-                <th scope="col-3">ID</th>
-                <th scope="col-5">Danh mục</th>
-                <th scope="col-4">Action</th>
+</button>
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th scope="col-3">ID</th>
+            <th scope="col-5">Danh mục</th>
+            <th scope="col-4">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($allCategory as $category) {
+        ?>
+            <tr class="table-success" data-category-name="<?= $category['name'] ?>" data-category-id="<?= $category['id'] ?>">
+                <td><?= $category['id'] ?></td>
+                <td name="category_name"><?= $category['name'] ?></td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="openUpdateModal(this)"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete(this)"><i class="fa fa-trash"></i></button>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php
-            foreach ($allCategory as $category) {
-            ?>
-                <tr class="table-success" data-category-name="<?= $category['name'] ?>" data-category-id="<?= $category['id'] ?>">
-                    <td><?= $category['id'] ?></td>
-                    <td name="category_name"><?= $category['name'] ?></td>
-                    <td>
-                        <button type="button" class="btn btn-primary" onclick="openUpdateModal(this)"><i class="fa fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger" onclick="confirmDelete(this)"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-            <?php
-            }
-            ?>
+        <?php
+        }
+        ?>
 
-        </tbody>
-    </table>
-</div>
+    </tbody>
+</table>
 
 
 <!-- Modal -->

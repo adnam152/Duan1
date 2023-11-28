@@ -33,3 +33,6 @@ img{
 .height-300{
     height: 300px;
 }
+.img-account{
+    max-width: 100px;
+}

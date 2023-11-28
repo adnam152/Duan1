@@ -29,11 +29,5 @@ class ProductsModel extends Model{
         $result->execute([$id]);
         return $result->rowCount();
     }
-    function count(){
-        $sql = "SELECT COUNT(*) as count FROM $this->table";
-        $result = $this->connect->prepare($sql);
-        $result->execute();
-        return $result->fetch(\PDO::FETCH_ASSOC)["count"];
-    }
 }
 ?>

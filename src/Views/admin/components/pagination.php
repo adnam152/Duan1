@@ -1,6 +1,6 @@
 <!-- PAGINATION -->
 <select name="select" data-limit="<?=$_GET['limit']?>" <?=isset($_GET['filter'])?"data-filter=".$_GET['filter']:''?>  class="form-control form-control-info product_select" onchange="limitSelect(this)" id="limit_select">
-    <option value="<?=$numberOfAllProducts?>">Tất cả</option>
+    <option value="all">Tất cả</option>
     <option value="10">10</option>
     <option value="20">20</option>
     <option value="50">50</option>
@@ -47,11 +47,15 @@
         let page = 1;
         if (limit == "all") {
             page = "1";
-            limit = "<?= $numberOfAllProducts ?>";
+            limit = "<?= $numberOfItems ?>";
         }
         let filter = e.dataset.filter;
         if (filter) window.location.href = `?page=${page}&limit=${limit}&filter=${filter}<?=isset($_GET['order'])?"&order=".$_GET['order']:''?>`;
         else window.location.href = `?page=${page}&limit=${limit}<?=isset($_GET['order'])?"&order=".$_GET['order']:''?>`;
     }
-    document.querySelector('#limit_select option[value="<?= $_GET['limit'] ?>"]').selected = true
+    const limit = <?= $_GET['limit'] ?>;
+    if(limit == 10 || limit == 20 || limit == 50)
+        document.querySelector(`#limit_select option[value="${limit}"]`).selected = true
+    else
+        document.querySelector('#limit_select option[value="all"]').selected = true
 </script>

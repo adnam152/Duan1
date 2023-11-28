@@ -36,7 +36,7 @@ class Model
             return $result->fetch(\PDO::FETCH_ASSOC);
         }else{
             if(isset($data['orderBy']) && isset($data['orderType'])){
-                if($data['orderType'] != "ASC" && $data['orderType'] != "DESC") $data['orderType'] = "DESC";
+                if($data['orderType'] != "ASC" && $data['orderType'] != "DESC") $data['orderType'] = "ASC";
                 $sql .= " ORDER BY " . $data['orderBy'] . " " . $data['orderType'];
             }
 
@@ -139,6 +139,12 @@ class Model
         $result = $this->connect->prepare($sql);
         $result->execute([$product_id]);
         return $result->rowCount();
+    }
+    function count(){ // đếm số lượng bản ghi trong bảng
+        $sql = "SELECT COUNT(*) as count FROM $this->table";
+        $result = $this->connect->prepare($sql);
+        $result->execute();
+        return $result->fetch(\PDO::FETCH_ASSOC)["count"];
     }
     public function __destruct()
     { // đóng kết nối

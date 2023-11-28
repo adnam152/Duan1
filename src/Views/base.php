@@ -44,37 +44,26 @@
         margin-right: 10px;
         width: unset;
     }
+
+    .text-start {
+        text-align: start;
+    }
+
+    .img-account {
+        max-width: 100px;
+        object-fit: contain;
+        margin-right: 10px;
+    }
 </style>
 
 <body>
     <div class="loader-bg">
         <div class="loader-bar"></div>
     </div>
+    <!-- ADMIN PAGE -->
     <?php
-    if ($page == "admin") { ?>
-        <div id="pcoded" class="pcoded">
-            <div class="pcoded-container navbar-wrapper">
-                <?php require "./src/Views/admin/components/header.php" ?>
-                <div class="pcoded-main-container">
-                    <div class="pcoded-wrapper">
-                        <?php require "./src/Views/admin/components/navbar.php" ?>
-
-                        <div class="pcoded-content">
-
-                            <div class="pcoded-inner-content">
-                                <!-- Content -->
-                                <?php require "./src/Views/$view.php" ?>
-                            </div>
-                        </div>
-                        <div id="styleSelector"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script src="/public/js/admin.js"></script>
-
-    <?php if ($js) echo "<script src='/public/js/$js.js'></script>";
+    if ($page == "admin") {
+        require "./src/Views/admin/layout.php";
     } else {
         require "./src/Views/user/component/header.php";
         require "./src/Views/user/component/navbar.php";
@@ -84,6 +73,7 @@
         <script src="/public/js/user.js"></script>
 <?php
     }
+    if (isset($js)) echo "<script src='/public/js/$js.js'></script>";
     ?>
     <script src="https://kit.fontawesome.com/88c3db6211.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
