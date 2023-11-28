@@ -80,11 +80,7 @@
                 <p>Điện thoại: 0352403019 - Email: ngantph31360@fpt.edu.vn</p>
             </div>
             <div class="col-md-6">
-                <h5>NHẬN TIN KHUYẾN MÃI</h5>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Nhập email" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                    <a href="#" class="input-group-text bg-danger" id="basic-addon2">Đăng ký</a>
-                </div>
+                
                 <div>
                     <span class="box50 border border-danger text-primary mr-3">
                         <i class="fa-brands fa-square-facebook"></i>
