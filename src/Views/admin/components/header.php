@@ -1,7 +1,7 @@
 <nav class="navbar header-navbar pcoded-header">
     <div class="navbar-wrapper">
         <div class="navbar-logo">
-            <a href="">
+            <a href="/">
                 LOGO
                 <!-- <img class="img-fluid" src="files/assets/images/logo.png" alt="Theme-Logo" /> -->
             </a>
@@ -14,7 +14,7 @@
         </div>
         <div class="navbar-container container-fluid">
             <ul class="nav-left">
-                <li class="header-search">
+                <!-- <li class="header-search">
                     <div class="main-search morphsearch-search">
                         <div class="input-group">
                             <span class="input-group-prepend search-close">
@@ -26,7 +26,7 @@
                             </span>
                         </div>
                     </div>
-                </li>
+                </li> -->
                 <li>
                     <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
                         <i class="full-screen feather icon-maximize"></i>
@@ -37,13 +37,13 @@
                 <li class="user-profile header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/assets/image/no-avatar.webp" class="rounded-circle" alt="User-Profile-Image">
-                            <span>John Doe</span>
+                            <img src="<?=isset($_SESSION['user']['image']) ? $_SESSION['user']['image'] : NO_AVATAR?>" class="rounded-circle" alt="User-Profile-Image">
+                            <span><?=$_SESSION['user']['username']?></span>
                             <i class="feather icon-chevron-down"></i>
                         </div>
                         <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                             <li>
-                                <a href="#">
+                                <a href="/logout">
                                     <i class="feather icon-log-out"></i> Đăng xuất
                                 </a>
                             </li>

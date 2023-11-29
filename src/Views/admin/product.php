@@ -56,7 +56,7 @@
                                         if ($product['image']) {
                                             foreach ($product['image'] as $id => $image) {
                                                 echo "<div class='position-relative'>";
-                                                echo "<img data-image='$image' src='.$image' alt='' class='m-2 img-sm'>";
+                                                echo "<img data-image='$image' src='$image' alt='' class='m-2 img-sm'>";
                                                 echo "<button name='delete_img_btn' class='x-btn' data-image-id='$id' onclick='deleteImage(this)'>x</button>";
                                                 echo "</div>";
                                             }

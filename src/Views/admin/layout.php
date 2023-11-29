@@ -15,5 +15,3 @@
         </div>
     </div>
 </div>
-
-<script src="/public/js/admin.js"></script>

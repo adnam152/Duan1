@@ -7,11 +7,19 @@ class AccountsModel extends Model{
         parent::__construct();
         $this->table = "accounts";
     }
-    function count(){
-        $sql = "SELECT COUNT(*) as count FROM $this->table";
+    function check($id, $username){
+        $sql = "SELECT * FROM $this->table WHERE id != ? AND username = ?";
         $result = $this->connect->prepare($sql);
-        $result->execute();
-        return $result->fetch(\PDO::FETCH_ASSOC)['count'];
+        $result->execute([$id, $username]);
+        return $result->fetch(\PDO::FETCH_ASSOC);
+    }
+    function getOne($data=[]){
+        // $data = [username, password]
+        if(!isset($data['username']) || !isset($data['password'])) return false;
+        $sql = "SELECT * FROM $this->table WHERE username = ? AND password = ?";
+        $result = $this->connect->prepare($sql);
+        $result->execute([$data['username'], $data['password']]);
+        return $result->fetch(\PDO::FETCH_ASSOC);
     }
 }
 

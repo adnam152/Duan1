@@ -3,16 +3,26 @@
 namespace MVC\Controllers;
 
 use MVC\Controller;
-use MVC\Model;
+use MVC\Models\CategoriesModel;
 
 class HomeController extends Controller{
+    private $allCategory;
+    public function __construct(){
+        $this->allCategory = (new CategoriesModel())->get();
+    }
     public function index(){
-        // header("location: /admin");
+
+        $this->render([
+            "view" => "user/index",
+            "page" => "home",
+            "title" => "Trang chủ",
+            "allCategory" => $this->allCategory,
+        ]);
     }
     function allproduct(){
         
         $this->render([
-            "view" => "home/allproduct",
+            "view" => "user/allproduct",
             "page" => "home",
             "title" => "Tất cả sản phẩm",
         ]);

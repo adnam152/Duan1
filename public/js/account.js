@@ -77,7 +77,7 @@ function updateImage(btn) {
         ajaxRequest('/api/account', "POST", formData)
             .then(res => {
                 const link = res.image;
-                btn.src = '.' + link;
+                btn.src = link;
             })
     }
 }
