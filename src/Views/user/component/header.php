@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-black shadow-sm">
+<nav class="navbar navbar-expand-lg shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Logo</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,6 @@
                                     </span>
                                     <form action="/allproduct">
                                         <input type="text" name="search" class="form-control" placeholder="Enter Keyword">
-                                        <!-- <button type="submit" hidden></button> -->
                                     </form>
                                     <span class="input-group-append search-btn">
                                         <i class="feather icon-search input-group-text" style="color: black;"></i>
@@ -45,6 +44,14 @@
                         </li>
                     </ul>
                     <ul class="nav-right">
+                        <!-- CART -->
+                        <li>
+                            <a href="/cart" class="waves-effect waves-light">
+                                <i class="feather icon-shopping-cart"></i>
+                                <span class="badge badge-pill badge-primary" id="header_number_cart"><?=$numberOfCart?></span>
+                            </a>
+                        </li>
+                        <!-- LOGIN -->
                         <li class="user-profile header-notification">
                             <?php
                             if (!isset($_SESSION['user'])) {
@@ -53,8 +60,8 @@
                             ?>
                                 <div class="dropdown-primary dropdown">
                                     <div class="dropdown-toggle" data-toggle="dropdown">
-                                        <img src=".<?=$_SESSION['user']['image']??'/assets/image/no-avatar.webp'?>" class="rounded-circle" alt="User-Profile-Image">
-                                        <span><?=$_SESSION['user']['username']?></span>
+                                        <img src="<?= $_SESSION['user']['image'] ?? '/assets/image/no-avatar.webp' ?>" class="rounded-circle" alt="User-Profile-Image">
+                                        <span><?= $_SESSION['user']['username'] ?></span>
                                         <i class="feather icon-chevron-down"></i>
                                     </div>
                                     <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
@@ -62,14 +69,14 @@
                                         if ($_SESSION['user']['role'] == 1) {
                                             echo "
                                                 <li>
-                                                    <a href='/admin'>
+                                                    <a href='/admin' class='nav-link'>
                                                         <i class='feather icon-settings'></i> Admin
                                                     </a>
                                                 </li>";
                                         }
                                         ?>
                                         <li>
-                                            <a href="/logout">
+                                            <a href="/logout" class='nav-link'>
                                                 <i class="feather icon-log-out"></i> Logout
                                             </a>
                                         </li>
@@ -78,7 +85,6 @@
                             <?php
                             }
                             ?>
-
                         </li>
                     </ul>
                 </div>

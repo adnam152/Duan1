@@ -1,4 +1,4 @@
-<?php 
+<?php
 require "./src/Views/user/component/header.php";
 ?>
 <main class="mt-3">

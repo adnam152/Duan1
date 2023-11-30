@@ -19,10 +19,7 @@ function updateDetail(button) {
             document.querySelector('button.btn-close').click();
 
             const tr_detail = document.querySelector('tr[data-detail-id="' + detailId + '"]');
-            tr_detail.querySelector('td[data-price]').innerHTML = parseInt(data.price).toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            });
+            tr_detail.querySelector('td[data-price]').innerHTML = formatPrice(data.price);
             tr_detail.querySelector('td[data-price]').setAttribute('data-price', data.price);
             tr_detail.querySelector('td[data-size]').innerHTML = data.size;
             tr_detail.querySelector('td[data-size]').setAttribute('data-size', data.size);

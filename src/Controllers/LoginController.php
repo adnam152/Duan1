@@ -15,6 +15,7 @@ class LoginController extends Controller{
             ]);
             if($account){
                 $_SESSION['user'] = [
+                    "id" => $account['id'], 
                     "username" => $_POST['username'],
                     "password" => $_POST['password'],
                     "fullname" => $account['fullname'],

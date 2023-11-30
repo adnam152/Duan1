@@ -8,6 +8,7 @@ use MVC\Models\ProductdetailModel;
 use MVC\Models\MediasModel;
 use MVC\Models\AccountsModel;
 use MVC\Models\CommentsModel;
+use MVC\Models\CartsModel;
 
 class APIController
 {
@@ -310,5 +311,75 @@ class APIController
             else echo json_encode("error");
             exit;
         }
+    }
+
+    public function user(){
+        if(isset($_SESSION['user'])) echo json_encode(["id"=>$_SESSION['user']['id']]);
+        else echo json_encode("error");
+    }
+    public function countcart(){
+        $cartModel = new CartsModel();
+        $count = $cartModel->countCart();
+        echo json_encode($count);
+    }
+    public function getdetail(){
+        $detailModel = new ProductdetailModel();
+        $data = [];
+        $temp = $detailModel->getByColorAndSize($_POST['product_id'], $_POST['color'], $_POST['size']);
+        if($temp) $data = array_merge($data, $temp);
+        $discount = (new ProductsModel)->get(['id' => $_POST['product_id']])['discount'];
+        $data['discount'] = $discount;
+        echo json_encode($data);
+    }
+    public function addtocart(){
+        $cartModel = new CartsModel();
+        $detailModel = new ProductdetailModel();
+        $detail = $detailModel->getByColorAndSize($_POST['product_id'], $_POST['color'], $_POST['size']);
+        if(isset($detail['quantity']) && $detail['quantity'] >= $_POST['quantity']){
+            $detailId = $detail['id'];
+            if($cartModel->isExist([
+                "account_id" => $_POST['account_id'],
+                "detail_id" => $detailId,
+            ])>0){
+                $cart = $cartModel->getByAccountIdAndDetailId($_POST['account_id'], $detailId);
+                $newQuantity = $cart['quantity'] + $_POST['quantity'];
+                $cartModel->update([
+                    "quantity" => $newQuantity,
+                ], $cart['id']);
+            }
+            else
+                $cartModel->insert([
+                    "account_id" => $_POST['account_id'],
+                    "detail_id" => $detailId,
+                    "quantity" => $_POST['quantity'],
+                ]);
+            echo json_encode("success");
+            exit;
+        }
+        else echo json_encode("error");
+    }
+    public function getcomment(){
+        $commentModel = new CommentsModel();
+        $data = $commentModel->get([
+            "product_id" => $_POST['product_id'],
+            "orderBy" => "create_at",
+            "orderType" => "DESC",
+            "limit" => 3,
+            "page" => $_POST['page'],
+        ]);
+        if(count($data)>0)
+            echo json_encode($data);
+        else echo json_encode("error");
+    }
+    public function addcomment(){
+        $commentModel = new CommentsModel();
+        if($commentModel->insert([
+            "account_id" => $_SESSION['user']['id'],
+            "product_id" => $_POST['product_id'],
+            "content" => $_POST['content'],
+            "create_at" => date("Y-m-d H:i:s", time()),
+        ]) > 0)
+            echo json_encode("success");
+        else echo json_encode("error");
     }
 }
