@@ -140,7 +140,18 @@ class Model
         $result->execute([$product_id]);
         return $result->rowCount();
     }
-    function count(){ // đếm số lượng bản ghi trong bảng
+    function count($data = []){ // đếm số lượng bản ghi trong bảng
+        if(!empty($data)){
+            $allColumn = "";
+            foreach ($data as $key => $value) {
+                $allColumn .= $key . "=? AND ";
+            }
+            $allColumn = trim($allColumn, "AND ");
+            $sql = "SELECT COUNT(*) as count FROM $this->table WHERE $allColumn";
+            $result = $this->connect->prepare($sql);
+            $result->execute(array_values($data));
+            return $result->fetch(\PDO::FETCH_ASSOC)["count"];
+        }
         $sql = "SELECT COUNT(*) as count FROM $this->table";
         $result = $this->connect->prepare($sql);
         $result->execute();

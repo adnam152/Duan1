@@ -19,17 +19,25 @@ class ProductdetailModel extends Model{
         $result->execute([$product_id]);
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
-    function allMaxPrice(){
-        $sql = "SELECT product_id, MAX(price) as max_price FROM $this->table GROUP BY product_id";
+    function getSize($product_id){
+        // lấy ra size không trùng của sản phẩm
+        $sql = "SELECT DISTINCT size FROM $this->table WHERE product_id=?";
         $result = $this->connect->prepare($sql);
-        $result->execute();
+        $result->execute([$product_id]);
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
-    function allMinPrice(){
-        $sql = "SELECT product_id, MIN(price) as min_price FROM $this->table GROUP BY product_id";
+    function getColor($product_id){
+        // lấy ra color không trùng của sản phẩm
+        $sql = "SELECT DISTINCT color FROM $this->table WHERE product_id=?";
         $result = $this->connect->prepare($sql);
-        $result->execute();
+        $result->execute([$product_id]);
         return $result->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    function getByColorAndSize($product_id, $color, $size){
+        $sql = "SELECT * FROM $this->table WHERE product_id=? AND color=? AND size=?";
+        $result = $this->connect->prepare($sql);
+        $result->execute([$product_id, $color, $size]);
+        return $result->fetch(\PDO::FETCH_ASSOC);
     }
 }
 
