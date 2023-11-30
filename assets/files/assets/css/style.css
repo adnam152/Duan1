@@ -3227,7 +3227,7 @@ table thead .border-bottom-info th {
 
 .header-navbar .navbar-wrapper .navbar-container .nav-right>.header-notification:nth-child(1) .show-notification li:first-child:hover,
 .header-navbar .navbar-wrapper .navbar-container .nav-right>.header-notification:nth-child(1) .profile-notification li:first-child:hover {
-    background-color: #fff
+    background-color: #f1f1f1
 }
 
 .header-navbar .navbar-wrapper .navbar-container .header-notification {

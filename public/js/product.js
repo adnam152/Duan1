@@ -169,7 +169,7 @@ function addImage(input) {
             for (const image of res) {
                 const html = `
             <div class='position-relative'>
-                <img data-image='${image.link}' src='.${image.link}' alt='' class='m-2 img-sm'>
+                <img data-image='${image.link}' src='${image.link}' alt='' class='m-2 img-sm'>
                 <button name='delete_img_btn' class='x-btn' data-image-id='${image.id}' onclick='deleteImage(this)'>x</button>
             </div>`;
                 imgContainer.innerHTML += html;

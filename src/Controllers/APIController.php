@@ -7,6 +7,7 @@ use MVC\Models\ProductsModel;
 use MVC\Models\ProductdetailModel;
 use MVC\Models\MediasModel;
 use MVC\Models\AccountsModel;
+use MVC\Models\CommentsModel;
 
 class APIController
 {
@@ -119,8 +120,8 @@ class APIController
                 // Insert media
                 if (count($images['name']) > 0) {
                     foreach ($images['name'] as $index => $image) {
-                        $link = './assets/image/' . $image;
-                        if (move_uploaded_file($images['tmp_name'][$index], $link)) {
+                        $link = '/assets/image/' . $image;
+                        if (move_uploaded_file($images['tmp_name'][$index], '.'.$link)) {
                             $media_data = [
                                 "product_id" => $product_id,
                                 "link" => $link,
@@ -142,8 +143,8 @@ class APIController
             $result = [];
             if (count($images['name']) > 0) {
                 foreach ($images['name'] as $index => $image) {
-                    $link = './assets/image/' . $image;
-                    if (move_uploaded_file($images['tmp_name'][$index], $link)) {
+                    $link = '/assets/image/' . $image;
+                    if (move_uploaded_file($images['tmp_name'][$index], '.'.$link)) {
                         $media_data = [
                             "product_id" => $product_id,
                             "link" => $link,
@@ -233,7 +234,7 @@ class APIController
             if($image['name'] != ""){
                 $link = './assets/image/' . $image['name'];
                 if (move_uploaded_file($image['tmp_name'], $link)) {
-                    $image = $link;
+                    $image = '/assets/image/' . $image['name'];
                 }
             }
             else $image = "";
@@ -264,11 +265,9 @@ class APIController
 
         // update
         if (isset($_POST['update'])) {
-            if($accountModel->isExist([
-                    "username" => $_POST['username'],
-                ])>0){
-                    echo json_encode("exist username");
-                    exit;
+            if($accountModel->check($_POST['id'], $_POST['username'])){
+                echo json_encode("exist username");
+                exit;
             }
             $dataUpdate = [
                 "username" => $_POST['username'],
@@ -289,8 +288,8 @@ class APIController
         if (isset($_POST['update_image'])) {
             $image = $_FILES['image'];
             if($image['name'] != ""){
-                $link = './assets/image/' . $image['name'];
-                if (move_uploaded_file($image['tmp_name'], $link)) {
+                $link = '/assets/image/' . $image['name'];
+                if (move_uploaded_file($image['tmp_name'], '.'.$link)) {
                     $image = $link;
                 }
             }
@@ -300,6 +299,14 @@ class APIController
             ];
             if($accountModel->update($dataUpdate, $_POST['id']) > 0)
                 echo json_encode($dataUpdate);
+            else echo json_encode("error");
+            exit;
+        }
+    }
+    public function comment(){
+        if(isset($_GET['delete']) && isset($_GET['id'])){
+            $commentModel = new CommentsModel();
+            if($commentModel->delete($_GET['id'])>0) echo json_encode("success");
             else echo json_encode("error");
             exit;
         }

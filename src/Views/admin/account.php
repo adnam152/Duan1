@@ -21,7 +21,7 @@
     <tbody>
         <?php
         foreach ($allAccount as $index => $account) {
-            $image = $account['image'] ? $account['image'] : './assets/image/no-avatar.webp';
+            $image = $account['image'] ? $account['image'] : NO_AVATAR;
         ?>
             <tr data-accordion="<?= $index ?>" class="table-success pointer">
                 <td data-id="<?=$account['id']?>"><?= $account['id'] ?></td>
@@ -39,7 +39,7 @@
                         <div class="d-flex align-items-center">
                             <div class="col">
                                 <div class="d-flex align-items-center">
-                                    <img src=".<?= $image ?>" alt="" class="img-account" onclick="updateImage(this)">
+                                    <img src="<?= $image ?>" alt="" class="img-account" onclick="updateImage(this)">
                                     <input type="file" name="image" data-user-id="<?=$account['id']?>" enctype="image/*" hidden>
                                     <div class="text-start">
                                         <div data-fullname="<?=$account['fullname']?>">Họ tên: <?= $account['fullname'] ?></div>
