@@ -100,6 +100,10 @@ class UserAPIController
     }
     public function confirmBill()
     {
+        if(!isset($_POST['card_id']) || empty($_POST['card_id'])) {
+            echo json_encode("error");
+            exit;
+        }
         $totalPrice = 0;
         $details = [];
         foreach($_POST['cart_id'] as $id){

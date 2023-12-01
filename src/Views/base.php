@@ -36,7 +36,7 @@
 
     body {
         font-family: 'tuffy';
-        background-color: white !important;
+        background-color: #f2f7fb !important;
         background-image: none !important;
     }
 
