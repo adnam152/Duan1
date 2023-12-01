@@ -74,13 +74,94 @@
     nav .waves-effect{
         overflow: unset;
     }
-    canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: -1;
+    .disable {
+        color: #cacaca !important;
+    }
+    th,td{
+        vertical-align: middle !important;
+    }
+    .px-100 {
+        padding: 0 70px;
+    }
+
+    .fw-bolder {
+        font-weight: 900;
+    }
+
+    .fst-italic {
+        font-style: italic;
+    }
+
+    .fs-1 {
+        font-size: 2rem;
+    }
+
+    .fs-7 {
+        font-size: 0.7rem;
+    }
+
+    .px-0 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .px-2 {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    .px-3 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    .py-1{
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
+    }
+    .py-2{
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+    .py-3 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .ps-2 {
+        padding-left: 0.5rem !important;
+    }
+
+    .mt-3 {
+        margin-top: 1rem !important;
+    }
+
+    .ms-2 {
+        margin-left: 0.5rem !important;
+    }
+
+    .ms-3 {
+        margin-left: 1rem !important;
+    }
+    .me-2{
+        margin-right: 0.5rem !important;
+    }
+    .mb-0{
+        margin-bottom: 0 !important;
+    }
+    .mb-1 {
+        margin-bottom: 0.25rem !important;
+    }
+    .mb-2 {
+        margin-bottom: 0.5rem !important;
+    }
+    .mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+    .mb-80{
+        margin-bottom: 80px !important;
+    }
+    .mb-100{
+        margin-bottom: 100px !important;
     }
 </style>
 

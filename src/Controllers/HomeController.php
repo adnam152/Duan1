@@ -39,6 +39,8 @@ class HomeController extends Controller{
     }
     function detail(){
         $productModel = new ProductsModel();
+        $product = $productModel->get(['id' => $_GET['id']]);
+        if(!$product) header("Location: /");
         $mediaModel = new MediasModel();
         $productDetailModel = new ProductdetailModel();
         $commentModel = new CommentsModel();
@@ -50,7 +52,6 @@ class HomeController extends Controller{
 
         // Lấy data
         $allComment = $commentModel->getByProductId($_GET['id']);
-        $product = $productModel->get(['id' => $_GET['id']]);
         $quantity_product = $productDetailModel->countByProductId($_GET['id'])['count'];
         $allImage = $mediaModel->getByProductId($_GET['id']);
         $detail = $productDetailModel->getByProductId($_GET['id']);
@@ -79,7 +80,18 @@ class HomeController extends Controller{
         ]);
     }
     function cart(){
-        echo "cart";
+        $cartModel = new CartsModel();
+
+        $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
+
+        $this->render([
+            "view" => "user/cart",
+            "page" => "home",
+            "title" => "Giỏ hàng",
+            "allCategory" => $this->allCategory,
+            "numberOfCart" => $this->numberOfCart,
+            "productInCart" => $productInCart,
+        ]);
     }
 }
 
