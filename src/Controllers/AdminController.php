@@ -35,7 +35,7 @@ class AdminController extends Controller
             "view" => "admin/category",
             "page" => "admin",
             "js" => "category",
-            "title"=> "Danh mục",
+            "title" => "Danh mục",
             "action" => "2",
             "allCategory" => $allCategory,
         ]);
@@ -44,9 +44,9 @@ class AdminController extends Controller
     // Product
     public function product()
     {
-        if(!isset($_SESSION['PRODUCT_LIMIT'])) $_SESSION['PRODUCT_LIMIT'] = 10;
-        if(!isset($_GET['page']) || !isset($_GET['limit']) || !isset($_GET['order'])) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
-        if($_SESSION['PRODUCT_LIMIT'] != $_GET['limit']) $_SESSION['PRODUCT_LIMIT'] = $_GET['limit'];
+        if (!isset($_SESSION['PRODUCT_LIMIT'])) $_SESSION['PRODUCT_LIMIT'] = 10;
+        if (!isset($_GET['page']) || !isset($_GET['limit']) || !isset($_GET['order'])) header("location: /admin/product?page=1&limit=" . $_SESSION['PRODUCT_LIMIT'] . "&order=DESC");
+        if ($_SESSION['PRODUCT_LIMIT'] != $_GET['limit']) $_SESSION['PRODUCT_LIMIT'] = $_GET['limit'];
 
         $productModel = new ProductsModel();
         $categoryModel = new CategoriesModel();
@@ -66,11 +66,9 @@ class AdminController extends Controller
         // Get data để hiển thị ra view
         $numberOfAllProducts = $productModel->count(); // get number of product
         $numberOfPage = ceil($numberOfAllProducts / $_GET['limit']); // get number of page
-        if($_GET['page'] > $numberOfPage) header("location: /admin/product?page=$numberOfPage&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
-        if($_GET['page'] < 1) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=DESC");
-
-        
-        if(isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
+        if ($_GET['page'] > $numberOfPage) header("location: /admin/product?page=$numberOfPage&limit=" . $_SESSION['PRODUCT_LIMIT'] . "&order=DESC");
+        if ($_GET['page'] < 1) header("location: /admin/product?page=1&limit=" . $_SESSION['PRODUCT_LIMIT'] . "&order=DESC");       
+        if (isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
         else $orderBy = "id";
 
         $allProducts = $productModel->get([
@@ -80,7 +78,7 @@ class AdminController extends Controller
             "limit" => $_GET['limit'],
         ]); // get product
         $allCategory = $categoryModel->get(); // get category
-        
+
 
         foreach ($allProducts as $index => $product) {
             $product_id = $product['id'];
@@ -88,9 +86,7 @@ class AdminController extends Controller
             $allLinks = $mediaModel->getByProductId($product_id); // get image by product id
 
             $allProducts[$index]['category_id'] = $product['category_id'];
-            $allProducts[$index]['category'] = $categoryModel->get([
-                "id" => $product['category_id'],
-            ])['name']; // get category by id
+            $allProducts[$index]['category'] = $categoryModel->get(["id" => $product['category_id'],])['name']; // get category by id
             $allProducts[$index]['count'] = $productDetailModel->countByProductId($product_id)['count'] ?? 0; // get count by product id
             $allProducts[$index]['detail'] = [];
 
@@ -123,7 +119,7 @@ class AdminController extends Controller
             "filter" => $filterBase
         ]);
     }
-    
+
     function comment()
     {
 
@@ -131,7 +127,7 @@ class AdminController extends Controller
 
         $commentmodel = new CommentsModel();
         $Allcomment = $commentmodel->get();
-        
+
         if (isset($_POST["delete"])) {
             $id = $_POST["delete"];
             $commentmodel->delete($id);
@@ -139,13 +135,13 @@ class AdminController extends Controller
             exit;
         }
 
-        
+
 
 
         $this->render([
             "view" => "admin/comment",
             "page" => "admin",
-            "title"=> "Bình luận",
+            "title" => "Bình luận",
             "action" => "4",
 
             "comments" => $Allcomment
@@ -184,7 +180,7 @@ class AdminController extends Controller
                 "fullname" => $fullname,
                 "role" => $role,
             ];
-        // $accountModel->update($dataUpdate, $id);
+            // $accountModel->update($dataUpdate, $id);
             header("location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -197,14 +193,14 @@ class AdminController extends Controller
             "action" => "5",
             "allAccount" => $allAccount,
         ]);
-    }      
+    }
     function order()
     {
 
         $this->render([
             "view" => "admin/order",
             "page" => "admin",
-            "title"=> "Đơn hàng",
+            "title" => "Đơn hàng",
             "action" => "6",
         ]);
     }

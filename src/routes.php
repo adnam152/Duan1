@@ -21,6 +21,12 @@ $router->addRoute('allproduct', HomeController::class, 'allproduct');
 
 
 
+
+
+
+
+
+
 $router->addRoute('admin', AdminController::class, 'index');
 $router->addRoute('admin/category', AdminController::class, 'category');
 $router->addRoute('admin/product', AdminController::class, 'product');

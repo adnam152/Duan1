@@ -14,6 +14,6 @@ class CommentsModel extends Model
         parent::__construct();
         $this->table = "Comments";
     }
- 
+   
 }
 ?>

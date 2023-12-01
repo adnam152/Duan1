@@ -1,6 +1,7 @@
 <?php
 
 namespace MVC\Controllers;
+
 use MVC\Controller;
 use MVC\Models\CategoriesModel;
 use MVC\Models\ProductsModel;
@@ -25,60 +26,76 @@ class HomeController extends Controller
     {
         $categoryModel = new CategoriesModel();
 
+        $productModel = new ProductsModel();
+        $allProducts = $productModel->get();
+
         // get category
         $allCategory = $categoryModel->get();
 
         $this->render([
             "view" => "user/category",
             "page" => "user",
+            "allProducts" => $allProducts,
             "allCategory" => $allCategory,
+
         ]);
     }
-    public function allproduct()
+
+    public function allproduct($categoryId = null)
     {
-   
+        
+        
+
         $productModel = new ProductsModel();
         $allProducts = $productModel->get();
         $productDetailModel = new ProductdetailModel();
         $categoryModel = new CategoriesModel();
         $mediaModel = new MediasModel();
-       
+
+        $allProducts = $productModel->get();
         $allCategory = $categoryModel->get(); // get category
-
+        $categoryMap = array_column($allCategory, 'name', 'id');
+        $filteredProducts = [];
+     
         foreach ($allProducts as $index => $product) {
-            $product_id = $product['id'];
-            $allDetails = $productDetailModel->getByProductId($product_id); // get price by product id
-            $allLinks = $mediaModel->getByProductId($product_id); // get image by product id
+            if ($categoryId === null || $product['category_id'] == $categoryId) {
+              
+            
 
-            $allProducts[$index]['category_id'] = $product['category_id'];
-            $allProducts[$index]['category'] = $categoryModel->get($product['category_id'])['name']; // get category by id
-            $allProducts[$index]['count'] = $productDetailModel->countByProductId($product_id)['count'] ?? 0; // get count by product id
-            $allProducts[$index]['detail'] = [];
+                $productDetails = $productDetailModel->getByProductId($product['id']);
+                $mediaLinks = $mediaModel->getByProductId($product['id']);
+    
+                $allProducts[$index]['category'] = $categoryMap[$product['category_id']];
+                $allProducts[$index]['count'] = $productDetailModel->countByProductId($product['id'])['count'] ?? 0;
+                $allProducts[$index]['detail'] = [];
+    
+                foreach ($mediaLinks as $link) {
+                    $allProducts[$index]['image'][$link['id']] = $link['link'];
+                }
+                foreach ($productDetails as $detail) {
+                    $allProducts[$index]['detail'][] = [
+                        "id" => $detail['id'],
+                        "color" => $detail['color'],
+                        "size" => $detail['size'],
+                        "quantity" => $detail['quantity'],
+                        "price" => $detail['price'],
+                    ];
+                }
+                $filteredProducts[] = $allProducts[$index];
+            }
+            // echo "<pre>";
+            // print_r($allProducts);
+            // echo "</pre>";
 
-            $allProducts[$index]['image'] = [];
-            foreach ($allLinks as $link) {
-                $allProducts[$index]['image'][$link['id']] = $link['link'];
             }
-            foreach ($allDetails as $detail) {
-                $allProducts[$index]['detail'][] = [
-                    "id" => $detail['id'],
-                    "color" => $detail['color'],
-                    "size" => $detail['size'],
-                    "quantity" => $detail['quantity'],
-                    "price" => $detail['price'],
-                ];
-            }
+
+            $this->render([
+                "view" => "user/component/product_list",
+                "page" => "user",
+                "allProducts" => $filteredProducts,
+                "allCategory" => $allCategory,
+                "selectedCategoryId" => $categoryId,
+
+            ]);
         }
-        // echo "<pre>";
-        // print_r($allProducts);
-        // echo "</pre>";
-
-
-
-        $this->render([
-            "view" => "user/product_list",
-            "page" => "user",
-            "allProducts" => $allProducts,
-       ]);
-}
-}
+    }
