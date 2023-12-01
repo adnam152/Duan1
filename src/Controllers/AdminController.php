@@ -8,6 +8,7 @@ use MVC\Models\ProductsModel;
 use MVC\Models\MediasModel;
 use MVC\Models\AccountsModel;
 use MVC\Models\ProductdetailModel;
+
 use MVC\Models\BillsModel;
 use MVC\Models\BilldetailsModel;
 use MVC\Models\CommentsModel;
@@ -20,7 +21,6 @@ class AdminController extends Controller
     }
     public function index()
     {
-
         $this->render([
             "view" => "admin/index",
             "page" => "admin",
@@ -229,8 +229,8 @@ class AdminController extends Controller
             "numberOfPage" => $numberOfPage,
         ]);
     }
-    function order()
-    {
+    
+    function order(){
         $this->render([
             "view" => "admin/order",
             "page" => "admin",

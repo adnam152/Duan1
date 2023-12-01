@@ -182,6 +182,8 @@
     if (isset($js)) echo "<script src='/public/js/$js.js'></script>";
     ?>
     <script src="/public/js/ajax.js"></script>
+    <script src="https://kit.fontawesome.com/88c3db6211.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/assets/files/bower_components/jquery/js/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/files/bower_components/jquery-ui/js/jquery-ui.min.js"></script>
