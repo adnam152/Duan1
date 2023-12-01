@@ -37,7 +37,7 @@
                 <li class="user-profile header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="<?=isset($_SESSION['user']['image']) ? $_SESSION['user']['image'] : NO_AVATAR?>" class="rounded-circle" alt="User-Profile-Image">
+                            <img src="<?=isset($_SESSION['user']['image']) ? $_SESSION['user']['image'] : 0?>" class="rounded-circle" alt="User-Profile-Image">
                             <span><?=$_SESSION['user']['username']?></span>
                             <i class="feather icon-chevron-down"></i>
                         </div>

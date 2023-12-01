@@ -21,7 +21,7 @@
     <tbody>
         <?php
         foreach ($allAccount as $index => $account) {
-            $image = $account['image'] ? $account['image'] : NO_AVATAR;
+            $image = $account['image'] ? $account['image'] : 0;
         ?>
             <tr data-accordion="<?= $index ?>" class="table-success pointer">
                 <td data-id="<?=$account['id']?>"><?= $account['id'] ?></td>
