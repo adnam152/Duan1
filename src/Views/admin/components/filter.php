@@ -28,5 +28,5 @@
     }
 
     document.querySelector('#order_select option[value="<?= $_GET['order'] ?? 'DESC' ?>"]').selected = true
-    document.querySelector('#filter_select option[value="<?= $_GET['filter'] ?? 'opt1' ?>"]').selected = true
+    document.querySelector('#filter_select option[value="<?= $_GET['filter'] ?? '' ?>"]').selected = true
 </script>

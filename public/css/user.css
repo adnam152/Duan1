@@ -1,0 +1,178 @@
+#form-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: rgb(54, 51, 119);
+    display: none;
+}
+
+#form-modal.show {
+    display: block;
+}
+
+#form-modal .container {
+    width: unset;
+    min-width: 935px;
+    padding: 40px;
+    background-color: #e3ebf6;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 7px 12px 20px rgba(0, 0, 0, 0.3);
+    animation: formLogin 0.3s ease-in-out;
+}
+
+@keyframes formLogin {
+    from {
+        transform: translate(-50%, -150%);
+    }
+}
+
+#form-modal .container-area {
+    position: relative;
+    transition: 0.3s;
+    left: 0;
+}
+
+#form-modal .container .login-area {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 50px;
+    width: 400px;
+    position: relative;
+    z-index: 1;
+}
+
+#form-modal .container h1 {
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+#form-modal .container p {
+    font-size: 13px;
+    opacity: 0.8;
+    margin: 10px 0;
+}
+
+#form-modal .container input {
+    padding: 7px 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border-color: white;
+    outline-color: rgba(98, 0, 255, 0.433);
+    width: 100%;
+}
+
+#form-modal .container .password-group {
+    position: relative;
+}
+
+#form-modal .container .password-group i {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    display: none;
+}
+
+#form-modal .container .password-group i.active {
+    display: block;
+}
+
+#form-modal .container button {
+    background-color: #445279;
+    color: white;
+    margin: 10px 0;
+    border-radius: 10px;
+    font-size: 15px;
+    width: 100%;
+    padding: 10px 12px;
+    transition: 0.3s;
+}
+#form-modal .container button:hover{
+    transform: translateY(-3px);
+}
+
+#form-modal .container .or {
+    display: grid;
+    grid-template-columns: auto max-content auto;
+    align-items: center;
+    grid-column-gap: 10px;
+    margin: 20px 0;
+    opacity: 0.7;
+}
+
+#form-modal .container .line {
+    height: 1px;
+    background-color: black;
+    margin: 10px 0;
+}
+
+#form-modal button.google-login {
+    background-color: white;
+    color: black;
+    padding: 7px 12px;
+    margin-bottom: 20px;
+}
+
+#form-modal .google-login i {
+    margin-right: 10px;
+}
+
+#form-modal .container button#reg,
+#form-modal .container button#log {
+    width: max-content;
+    background-color: white;
+    color: var(--bl);
+    padding: 5px 10px;
+    font-size: 13px;
+    margin-left: 5px;
+}
+
+#form-modal img {
+    position: relative;
+    z-index: 3;
+    width: 455px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    left: 0;
+}
+
+/* ------------------------ */
+
+
+#form-modal .register-area {
+    padding: 30px 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 0.3s;
+    display: none;
+    z-index: 2;
+}
+
+#form-modal .register-area .terms-check {
+    text-align: center;
+}
+
+#form-modal .register-area .terms {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* ----------Error Message */
+#form-modal .error {
+    color: red;
+    font-size: 12px;
+    padding-left: 12px;
+}

@@ -7,9 +7,10 @@
     <title><?= $title ?? 'Document' ?></title>
     <!--  -->
     <link rel="icon" href="/assets/files/assets/images/favicon.ico" type="image/x-icon"> <!-- icon -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+    <link rel="stylesheet" type="text/css" href="/assets/files/bower_components/bootstrap/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/assets/files/bower_components/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/files/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/icon/feather/css/feather.css">
     <link rel="stylesheet" type="text/css" href="/assets/files/assets/css/font-awesome-n.min.css">
@@ -19,7 +20,11 @@
     <link rel="stylesheet" href="/assets/files/assets/pages/jqpagination/jqpagination.css">
     <?php if ($page == "admin") { ?>
         <link rel="stylesheet" type="text/css" href="/public/css/admin.css">
-    <?php }
+    <?php } else {
+    ?>
+        <link rel="stylesheet" type="text/css" href="/public/css/user.css">
+    <?php
+    }
     if (isset($css)) echo "<link rel='stylesheet' type='text/css' href='/public/css/$css.css'>";
     ?>
 </head>
@@ -31,6 +36,8 @@
 
     body {
         font-family: 'tuffy';
+        background-color: white !important;
+        background-image: none !important;
     }
 
     .btn i {
@@ -41,44 +48,60 @@
         margin-right: 10px;
         width: unset;
     }
+
+    .text-start {
+        text-align: start;
+    }
+
+    .img-account {
+        max-width: 100px;
+        object-fit: contain;
+        margin-right: 10px;
+    }
+    img.avatar{
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .header-navbar .navbar-wrapper .navbar-container .nav-right>.header-notification:nth-child(1) .show-notification li:first-child:hover,
+    .header-navbar .navbar-wrapper .navbar-container .nav-right>.header-notification:nth-child(1) .profile-notification li:first-child:hover {
+        background-color: #f1f1f1;
+    }
+    nav{
+        user-select: none;
+    }
+    nav .waves-effect{
+        overflow: unset;
+    }
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
 </style>
 
 <body>
     <div class="loader-bg">
         <div class="loader-bar"></div>
     </div>
+    <!-- ADMIN PAGE -->
     <?php
-    if ($page == "admin") { ?>
-        <div id="pcoded" class="pcoded">
-            <div class="pcoded-container navbar-wrapper">
-                <?php require "./src/Views/admin/components/header.php" ?>
-                <div class="pcoded-main-container">
-                    <div class="pcoded-wrapper">
-                        <?php require "./src/Views/admin/components/navbar.php" ?>
+    if ($page == "admin") {
+        require "./src/Views/admin/layout.php";
+    } 
 
-                        <div class="pcoded-content">
-
-                            <div class="pcoded-inner-content">
-                                <!-- Content -->
-                                <?php require "./src/Views/$view.php" ?>
-                            </div>
-                        </div>
-                        <div id="styleSelector"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script src="/public/js/admin.js"></script>
-
-    <?php if ($js) echo "<script src='/public/js/$js.js'></script>";
-    } else {
-        require "./src/Views/user/component/header.php";
-        require "./src/Views/$view.php";
+    // USER PAGE
+    else {
+        require "./src/Views/user/layout.php";
     }
+    if (isset($js)) echo "<script src='/public/js/$js.js'></script>";
     ?>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="/public/js/ajax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/assets/files/bower_components/jquery/js/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/files/bower_components/jquery-ui/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/assets/files/bower_components/popper.js/js/popper.min.js"></script>
@@ -98,5 +121,10 @@
     <!-- <script type="text/javascript" src="/assets/files/assets/pages/dashboard/custom-dashboard.min.js"></script> -->
     <script type="text/javascript" src="/assets/files/assets/js/script.min.js"></script>
 </body>
+<script>
+    function formatPrice(price){
+        return price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    }
+</script>
 
 </html>

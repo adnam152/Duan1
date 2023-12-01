@@ -19,10 +19,7 @@ function updateDetail(button) {
             document.querySelector('button.btn-close').click();
 
             const tr_detail = document.querySelector('tr[data-detail-id="' + detailId + '"]');
-            tr_detail.querySelector('td[data-price]').innerHTML = parseInt(data.price).toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            });
+            tr_detail.querySelector('td[data-price]').innerHTML = formatPrice(data.price);
             tr_detail.querySelector('td[data-price]').setAttribute('data-price', data.price);
             tr_detail.querySelector('td[data-size]').innerHTML = data.size;
             tr_detail.querySelector('td[data-size]').setAttribute('data-size', data.size);
@@ -169,7 +166,7 @@ function addImage(input) {
             for (const image of res) {
                 const html = `
             <div class='position-relative'>
-                <img data-image='${image.link}' src='.${image.link}' alt='' class='m-2 img-sm'>
+                <img data-image='${image.link}' src='${image.link}' alt='' class='m-2 img-sm'>
                 <button name='delete_img_btn' class='x-btn' data-image-id='${image.id}' onclick='deleteImage(this)'>x</button>
             </div>`;
                 imgContainer.innerHTML += html;

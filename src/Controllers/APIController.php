@@ -6,6 +6,9 @@ use MVC\Models\CategoriesModel;
 use MVC\Models\ProductsModel;
 use MVC\Models\ProductdetailModel;
 use MVC\Models\MediasModel;
+use MVC\Models\AccountsModel;
+use MVC\Models\CommentsModel;
+use MVC\Models\CartsModel;
 
 class APIController
 {
@@ -118,8 +121,8 @@ class APIController
                 // Insert media
                 if (count($images['name']) > 0) {
                     foreach ($images['name'] as $index => $image) {
-                        $link = './assets/image/' . $image;
-                        if (move_uploaded_file($images['tmp_name'][$index], $link)) {
+                        $link = '/assets/image/' . $image;
+                        if (move_uploaded_file($images['tmp_name'][$index], '.'.$link)) {
                             $media_data = [
                                 "product_id" => $product_id,
                                 "link" => $link,
@@ -141,8 +144,8 @@ class APIController
             $result = [];
             if (count($images['name']) > 0) {
                 foreach ($images['name'] as $index => $image) {
-                    $link = './assets/image/' . $image;
-                    if (move_uploaded_file($images['tmp_name'][$index], $link)) {
+                    $link = '/assets/image/' . $image;
+                    if (move_uploaded_file($images['tmp_name'][$index], '.'.$link)) {
                         $media_data = [
                             "product_id" => $product_id,
                             "link" => $link,
@@ -216,5 +219,167 @@ class APIController
             if ($mediaModel->delete($img_id) > 0) echo json_encode("success");
             exit;
         }
+    }
+    public function account(){
+        $accountModel = new AccountsModel();
+        // add
+        if(isset($_POST['add'])){
+            // Kiểm tra tồn tại
+            if($accountModel->isExist([
+                    "username" => $_POST['username'],
+                ])>0){
+                    echo json_encode("error");
+                    exit;
+            }
+            $image = $_FILES['user_image'];
+            if($image['name'] != ""){
+                $link = './assets/image/' . $image['name'];
+                if (move_uploaded_file($image['tmp_name'], $link)) {
+                    $image = '/assets/image/' . $image['name'];
+                }
+            }
+            else $image = "";
+
+            $dataInsert = [
+                "username" => $_POST['username'],
+                "password" => $_POST['password'],
+                "image" => $image,
+                "email" => $_POST['email'],
+                "phone_number" => $_POST['phone_number'],
+                "address" => $_POST['address'],
+                "fullname" => $_POST['fullname'],
+                "role" => $_POST['role'],
+                "create_at" => date("Y-m-d H:i:s", time()),
+            ];
+            if($accountModel->insert($dataInsert)>0)
+                echo json_encode("success");
+            exit;
+        }
+
+        // delete
+        if (isset($_GET["delete"])) {
+            $id = $_GET["delete"];
+            $accountModel->delete($id);
+            echo json_encode("success");
+            exit;
+        }
+
+        // update
+        if (isset($_POST['update'])) {
+            if($accountModel->check($_POST['id'], $_POST['username'])){
+                echo json_encode("exist username");
+                exit;
+            }
+            $dataUpdate = [
+                "username" => $_POST['username'],
+                "password" => $_POST['password'],
+                "email" => $_POST['email'],
+                "phone_number" => $_POST['phone_number'],
+                "address" => $_POST['address'],
+                "fullname" => $_POST['fullname'],
+                "role" => $_POST['role'],
+            ];
+            if($accountModel->update($dataUpdate, $_POST['id']) > 0)
+                echo json_encode($dataUpdate);
+            else echo json_encode("error");
+            exit;
+        }
+
+        // update image
+        if (isset($_POST['update_image'])) {
+            $image = $_FILES['image'];
+            if($image['name'] != ""){
+                $link = '/assets/image/' . $image['name'];
+                if (move_uploaded_file($image['tmp_name'], '.'.$link)) {
+                    $image = $link;
+                }
+            }
+            else $image = "";
+            $dataUpdate = [
+                "image" => $image,
+            ];
+            if($accountModel->update($dataUpdate, $_POST['id']) > 0)
+                echo json_encode($dataUpdate);
+            else echo json_encode("error");
+            exit;
+        }
+    }
+    public function comment(){
+        if(isset($_GET['delete']) && isset($_GET['id'])){
+            $commentModel = new CommentsModel();
+            if($commentModel->delete($_GET['id'])>0) echo json_encode("success");
+            else echo json_encode("error");
+            exit;
+        }
+    }
+
+    public function user(){
+        if(isset($_SESSION['user'])) echo json_encode(["id"=>$_SESSION['user']['id']]);
+        else echo json_encode("error");
+    }
+    public function countcart(){
+        $cartModel = new CartsModel();
+        $count = $cartModel->countCart();
+        echo json_encode($count);
+    }
+    public function getdetail(){
+        $detailModel = new ProductdetailModel();
+        $data = [];
+        $temp = $detailModel->getByColorAndSize($_POST['product_id'], $_POST['color'], $_POST['size']);
+        if($temp) $data = array_merge($data, $temp);
+        $discount = (new ProductsModel)->get(['id' => $_POST['product_id']])['discount'];
+        $data['discount'] = $discount;
+        echo json_encode($data);
+    }
+    public function addtocart(){
+        $cartModel = new CartsModel();
+        $detailModel = new ProductdetailModel();
+        $detail = $detailModel->getByColorAndSize($_POST['product_id'], $_POST['color'], $_POST['size']);
+        if(isset($detail['quantity']) && $detail['quantity'] >= $_POST['quantity']){
+            $detailId = $detail['id'];
+            if($cartModel->isExist([
+                "account_id" => $_POST['account_id'],
+                "detail_id" => $detailId,
+            ])>0){
+                $cart = $cartModel->getByAccountIdAndDetailId($_POST['account_id'], $detailId);
+                $newQuantity = $cart['quantity'] + $_POST['quantity'];
+                $cartModel->update([
+                    "quantity" => $newQuantity,
+                ], $cart['id']);
+            }
+            else
+                $cartModel->insert([
+                    "account_id" => $_POST['account_id'],
+                    "detail_id" => $detailId,
+                    "quantity" => $_POST['quantity'],
+                ]);
+            echo json_encode("success");
+            exit;
+        }
+        else echo json_encode("error");
+    }
+    public function getcomment(){
+        $commentModel = new CommentsModel();
+        $data = $commentModel->get([
+            "product_id" => $_POST['product_id'],
+            "orderBy" => "create_at",
+            "orderType" => "DESC",
+            "limit" => 3,
+            "page" => $_POST['page'],
+        ]);
+        if(count($data)>0)
+            echo json_encode($data);
+        else echo json_encode("error");
+    }
+    public function addcomment(){
+        $commentModel = new CommentsModel();
+        if($commentModel->insert([
+            "account_id" => $_SESSION['user']['id'],
+            "product_id" => $_POST['product_id'],
+            "content" => $_POST['content'],
+            "create_at" => date("Y-m-d H:i:s", time()),
+        ]) > 0)
+            echo json_encode("success");
+        else echo json_encode("error");
     }
 }
