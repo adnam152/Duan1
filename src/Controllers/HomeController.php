@@ -10,15 +10,18 @@ use MVC\Models\MediasModel;
 use MVC\Models\ProductdetailModel;
 use MVC\Models\CommentsModel;
 
-class HomeController extends Controller{
+class HomeController extends Controller
+{
     private $allCategory;
     private $numberOfCart = 0;
-    public function __construct(){
+    public function __construct()
+    {
         $this->allCategory = (new CategoriesModel())->get();
-        if(isset($_SESSION['user']['id']))
-            $this->numberOfCart = (new CartsModel)-> count(['account_id' => $_SESSION['user']['id']]);
+        if (isset($_SESSION['user']['id']))
+            $this->numberOfCart = (new CartsModel)->count(['account_id' => $_SESSION['user']['id']]);
     }
-    public function index(){
+    public function index()
+    {
         $this->render([
             "view" => "user/index",
             "page" => "home",
@@ -27,27 +30,71 @@ class HomeController extends Controller{
             "numberOfCart" => $this->numberOfCart,
         ]);
     }
-    function allproduct(){
-        
+    public function allproduct()
+    {
+
+
+        $productModel = new ProductsModel();
+        $allProducts = $productModel->get();
+        $productDetailModel = new ProductdetailModel();
+        $categoryModel = new CategoriesModel();
+        $mediaModel = new MediasModel();
+
+
+        $allCategory = $categoryModel->get(); // get category
+        $categoryMap = array_column($allCategory, 'name', 'id');
+        $filteredProducts = []; // get category
+
+
+        foreach ($allProducts as $index => $product) {
+            $productDetails = $productDetailModel->getByProductId($product['id']);
+            $mediaLinks = $mediaModel->getByProductId($product['id']);
+
+            $allProducts[$index]['category'] = $categoryMap[$product['category_id']];
+            $allProducts[$index]['count'] = $productDetailModel->countByProductId($product['id'])['count'] ?? 0;
+            $allProducts[$index]['detail'] = [];
+
+            foreach ($mediaLinks as $link) {
+                $allProducts[$index]['image'][$link['id']] = $link['link'];
+            }
+            foreach ($productDetails as $detail) {
+                $allProducts[$index]['detail'][] = [
+                    "id" => $detail['id'],
+                    "color" => $detail['color'],
+                    "size" => $detail['size'],
+                    "quantity" => $detail['quantity'],
+                    "price" => $detail['price'],
+                ];
+            }
+            $filteredProducts[] = $allProducts[$index];
+        }
+        // echo "<pre>";
+        // print_r($allProducts);
+        // echo "</pre>";
+
+
+
         $this->render([
-            "view" => "user/allproduct",
-            "page" => "home",
-            "title" => "Tất cả sản phẩm",
-            "allCategory" => $this->allCategory,
-            "numberOfCart" => $this->numberOfCart,
+            "view" => "user/component/product_list",
+            "page" => "user",
+            "allProducts" => $allProducts,
+            "allCategory" => $allCategory,
+
         ]);
     }
-    function detail(){
+    function detail()
+    {
         $productModel = new ProductsModel();
         $product = $productModel->get(['id' => $_GET['id']]);
-        if(!$product) header("Location: /");
+        if (!$product) header("Location: /");
         $mediaModel = new MediasModel();
         $productDetailModel = new ProductdetailModel();
         $commentModel = new CommentsModel();
 
         $productModel->update([ //tăng view
             'view' => $productModel->get([
-                'id' => $_GET['id']])['view'] + 1
+                'id' => $_GET['id']
+            ])['view'] + 1
         ], $_GET['id']);
 
         // Lấy data
@@ -56,11 +103,11 @@ class HomeController extends Controller{
         $allImage = $mediaModel->getByProductId($_GET['id']);
         $detail = $productDetailModel->getByProductId($_GET['id']);
         $colors = [];
-        foreach($productDetailModel->getColor($_GET['id']) as $color){
+        foreach ($productDetailModel->getColor($_GET['id']) as $color) {
             $colors[] = $color['color'];
         }
         $sizes = [];
-        foreach($productDetailModel->getSize($_GET['id']) as $size){
+        foreach ($productDetailModel->getSize($_GET['id']) as $size) {
             $sizes[] = $size['size'];
         }
 
@@ -79,7 +126,8 @@ class HomeController extends Controller{
             "allComment" => $allComment,
         ]);
     }
-    function cart(){
+    function cart()
+    {
         $cartModel = new CartsModel();
 
         $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
@@ -94,9 +142,3 @@ class HomeController extends Controller{
         ]);
     }
 }
-
-
-
-
-
-?>
