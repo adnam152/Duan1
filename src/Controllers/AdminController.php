@@ -17,7 +17,7 @@ use MVC\Models\CommentsModel;
 class AdminController extends Controller
 {
     public function __construct(){
-        // if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) header("location: /");
+        if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) header("location: /");
     }
     public function index()
     {
