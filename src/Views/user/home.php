@@ -1,276 +1,203 @@
 <style>
-  .list-category a {}
+  * {
+    /* box-shadow: 0 0 2px black; */
+  }
 
-
-  img.bg {
-    position: absolute;
+  img.img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    box-shadow: 5px 10px 15px #959393;
   }
 
-  .list-category button {
-    width: max-content !important;
-    border-radius: 0;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    font-size: 12px;
-    padding: 5px 12px;
-    background: white;
-    color: black;
-    box-shadow: 5px 8px 10px #00000085;
-
+  .h-750 {
+    height: 738px !important;
   }
 
-  .p-5 {
-    margin: 10px !important;
-    padding: 0 !important;
-    box-shadow: 5px 10px 15px #0000007a;
+  .h-50 {
+    height: 50% !important;
   }
-
-  .endow-fs {
-    font-size: 30px;
+  .category a {
+    height: 100%;
+    position: relative;
+    color: white;
   }
-
-  p {
-    margin-bottom: 0;
-    width: max-content;
-  }
-
-  .row {
-    align-items: center;
-    justify-content: center;
-  }
-
-  p.description {
-    width: 100%;
-  }
-
-  #nam img {
-    top: 30px;
+  .category .label-category {
     position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
+    bottom: 0;
+    left: 0;
+    box-shadow: 5px 10px 15px #959393;
+  }
+
+  .endow.container i {
+    font-size: 40px;
+  }
+
+  #content1 .bg-danger {
+    height: 200px;
+    box-shadow: 5px 10px 15px #959393;
+  }
+
+  #content1 .list-image .card {
+    box-shadow: 5px 10px 15px #959393;
+    transition: all 0.3s;
+  }
+
+  #content1 .list-image .card:hover {
+    transform: scale(1.05);
+  }
+
+  #content1 .list-image .card img {
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
   }
 </style>
-<div id="wp-category">
-  <div class="container">
+
+<!-- BANNER -->
+<?php
+require "src/Views/user/component/banner.php";
+?>
+
+<!-- MAIN -->
+<div class="container mt-5">
+  <div class="category">
     <div class="row">
-      <div class="col list-category">
-        <div class="row item">
-          <div class="col p-0 p-5">
-            <img src="/assets/image/cao_got.jpeg" alt="">
-            <a href="/products"><button>Cao gót</button></a>
-          </div>
-          <div class="col p-0 p-5">
-            <img src="/assets/image/cong_so.jpeg" alt="">
-            <a href="/products"><button>Công sở</button></a>
-          </div>
+      <div class="col">
+        <div class="row h-50">
+          <a href="/allproduct?category=3" class="col py-2">
+            <img src="/assets/image/cong_so.jpeg" alt="" class="img rounded img-1">
+            <button class="label-category btn btn-info">Giày công sở</button>
+          </a>
+          <a href="/allproduct?category=4" class="col py-2">
+            <img src="/assets/image/sneaker.jpg" alt="" class="img rounded img-1">
+            <button class="label-category btn btn-info">Giày Sneaker</button>
+          </a>
         </div>
-        <div class="row item">
-          <div class="col p-0 p-5">
-            <img src="/assets/image/nike_airx.jpeg" alt="">
-            <a href="/products"><button>Sneaker</button></a>
-          </div>
-        </div>
-      </div>
-      <div class="col list-category">
-        <div class="row item">
-          <div class="col p-0 p-5">
-            <img src="/assets/image/Advertisement.jpeg" alt="">
-            <a href="/products"><button>Thể thao</button></a>
-          </div>
+        <div class="row h-50">
+          <a href="/allproduct?category=2" class="col py-2">
+            <img src="/assets/image/thethao.jpg" alt="" class="img rounded img-2">
+            <button class="label-category btn btn-info">Giày thể thao</button>
+          </a>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<div class="endow container">
-  <div class="row py-5">
-    <div class="col">
-      <div class="row">
-        <div class="col-3">
-          <div class="text-danger">
-            <i class="endow-fs fa-solid fa-truck-fast"></i>
-          </div>
-        </div>
-        <div class="">
-          Free Ship!
-          <p class="text-danger">Trên toàn quốc</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="row">
-        <div class="col-3">
-          <div class=" text-danger">
-            <i class="endow-fs fa-solid fa-sack-dollar"></i>
-          </div>
-        </div>
-        <div class="">
-          Hoàn tiền!
-          <p class="text-danger">Lên đến 20%</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="row">
-        <div class="col-3">
-          <div class=" text-danger">
-            <i class="endow-fs fa-solid fa-tag"></i>
-          </div>
-        </div>
-        <div class="">
-          Voucher!
-          <p class="text-danger">Siêu ưu đãi</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="row">
-        <div class="col-3">
-          <div class="text-danger">
-            <i class="endow-fs fa-brands fa-cc-visa"></i>
-          </div>
-        </div>
-        <div class="">
-          Thanh toán!
-          <p class="text-danger">Online dễ dàng</p>
-        </div>
-      </div>
+      <a href="/allproduct?category=4" class="col py-2">
+        <img src="/assets/image/caogot.jpg" alt="" class="img rounded img-3 h-750">
+        <button class="label-category btn btn-info">Giày cao gót</button>
+      </a>
     </div>
   </div>
 </div>
 
-<div id="wp-products">
-  <h2>BEST SELLER</h2>
-  <ul id="list-products">
-    <div class="item">
-      <img src="assets/product_1.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-
-    <div class="item">
-      <img src="assets/product_2.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-
-    <div class="item">
-      <img src="assets/product_3.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-    <div class="item">
-      <img src="assets/product_4.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-
-    <div class="item">
-      <img src="assets/product_5.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-  </ul>
-</div>
-
-<div id="nam">
-  <div class="bg">
+<div class="container mt-4">
+  <div class="endow container">
     <div class="row">
-      <div class="col-md-7">
-        <p>Giảm giá 20%</p>
-        <h1>TỰ TIN PHÁ CÁCH</h1>
-        <p>4 ngày duy nhất</p>
+      <div class="col">
+        <div class="row">
+          <div class="col-3 d-flex align-items-center">
+            <div class="text-danger">
+              <i class="endow-fs fa-solid fa-truck-fast"></i>
+            </div>
+          </div>
+          <div class="">
+            Free Ship!
+            <p class="text-danger mb-0">Trên toàn quốc</p>
+          </div>
+        </div>
       </div>
-      <div class="col-md-3">
-        <p>Săn deal</p>
-        <h3>Mừng Giáng Sinh</h3>
-        <p>Các mẫu giày được yêu thích nhất 2023</p>
-        <a href="/products"><button class="px-3 py-2">Mua ngay</button></a>
+      <div class="col">
+        <div class="row">
+          <div class="col-3 d-flex align-items-center">
+            <div class=" text-danger">
+              <i class="endow-fs fa-solid fa-sack-dollar"></i>
+            </div>
+          </div>
+          <div class="">
+            Hoàn tiền!
+            <p class="text-danger mb-0">Lên đến 20%</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-3 d-flex align-items-center">
+            <div class=" text-danger">
+              <i class="endow-fs fa-solid fa-tag"></i>
+            </div>
+          </div>
+          <div class="">
+            Voucher!
+            <p class="text-danger mb-0">Siêu ưu đãi</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-3 d-flex align-items-center">
+            <div class="text-danger">
+              <i class="endow-fs fa-brands fa-cc-visa"></i>
+            </div>
+          </div>
+          <div class="">
+            Thanh toán!
+            <p class="text-danger mb-0">Online dễ dàng</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <img src="/assets/image/nam_img_hum.png" alt="">
 </div>
-<div id="wp-products">
-  <h2>HÀNG MỚI VỀ</h2>
-  <ul id="list-products">
-    <div class="item">
-      <img src="/assets/image/7_bjwdh51.05.rgold.thuyenhoavang.3.jpg" alt="" />
 
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-    <div class="item">
-      <img src="assets/product_6.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-    <div class="item">
-      <img src="assets/product_6.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-    <div class="item">
-      <img src="assets/product_6.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-    <div class="item">
-      <img src="assets/product_6.png" alt="" />
-
-      <div class="name">Món Ăn 1</div>
-      <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-        sapiente autem culpa
-      </p>
-      <div class="price">500.000 VNĐ</div>
-    </div>
-  </ul>
+<div class="my-5" id="content1">
+  <div class="bg-danger"></div>
+  <!-- TOP SELLER -->
+  <h2 class="text-center fw-bolder my-5">Best Seller Products</h2>
+  <div class="d-flex flex-wrap justify-content-between container list-image">
+    <!-- js -->
+  </div>
 </div>
+
+<!-- FOOTER -->
+<?php require "src/Views/user/component/footer.php" ?>
+
+<script>
+  window.addEventListener('load', () => {
+    renderListImage();
+  })
+
+  function renderListImage() {
+    ajaxRequest('/api/topseller', "GET")
+      .then(res => {
+        if (Array.isArray(res) && res.length > 0) {
+          res.forEach(product => {
+            const html = `
+            <div class="card" style="width: 16rem;">
+              <img src="${product.image[0]}" class="card-img-top p-2"
+                data-src1="${product.image[1]}"
+                data-src0="${product.image[0]}"
+              >
+              <div class="card-body">
+                <h5 class="card-title fw-bolder">${product.name}</h5>
+                <p class="card-text">${product.description.substring(0,120)}...</p>
+              </div>
+              <div class="card-footer pt-0">
+                <a href="/detail?id=${product.id}" class="btn btn-primary">Mua ngay</a>
+              </div>
+            </div>
+            `
+            document.querySelector('#content1 .list-image').innerHTML += html;
+            const allCard = document.querySelectorAll('#content1 .list-image .card');
+            allCard.forEach(card => {
+              card.addEventListener('mouseover', () => {
+                card.querySelector('img').src = card.querySelector('img').dataset.src1;
+              })
+              card.addEventListener('mouseout', () => {
+                card.querySelector('img').src = card.querySelector('img').dataset.src0;
+              })
+            })
+          })
+        }
+      })
+  }
+</script>
