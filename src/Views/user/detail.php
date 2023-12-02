@@ -1,6 +1,7 @@
 <style>
     #detail .main-img img {
         height: 450px;
+        max-width: 100%;
         object-fit: contain;
         object-position: center;
         border-radius: 5px;
@@ -19,6 +20,11 @@
         height: 100px;
         object-fit: contain;
         object-position: center;
+        transition: 0.3s;
+    }
+    #detail .container-img img:hover{
+        transform: scale(1.05);
+        cursor: pointer;
     }
 
     #detail .container-img img.active {

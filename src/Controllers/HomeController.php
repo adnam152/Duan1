@@ -19,8 +19,9 @@ class HomeController extends Controller{
             $this->numberOfCart = (new CartsModel)-> count(['account_id' => $_SESSION['user']['id']]);
     }
     public function index(){
+        
         $this->render([
-            "view" => "user/index",
+            "view" => "user/home",
             "page" => "home",
             "title" => "Trang chủ",
             "allCategory" => $this->allCategory,
