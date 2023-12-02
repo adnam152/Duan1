@@ -5,6 +5,7 @@ use MVC\Controllers\HomeController;
 use MVC\Controllers\AdminController;
 use MVC\Controllers\LoginController;
 use MVC\Controllers\APIController;
+use MVC\Controllers\UserAPIController;
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 $position = strpos($uri, '?');
@@ -36,12 +37,14 @@ $router->addRoute('api/category', APIController::class, 'category');
 $router->addRoute('api/product', APIController::class, 'product');
 $router->addRoute('api/account', APIController::class, 'account');
 $router->addRoute('api/comment', APIController::class, 'comment');
-$router->addRoute('api/user', APIController::class, 'user');
-$router->addRoute('api/addtocart', APIController::class, 'addtocart');
-$router->addRoute('api/countcart', APIController::class, 'countcart');
-$router->addRoute('api/getdetail', APIController::class, 'getdetail');
-$router->addRoute('api/getcomment', APIController::class, 'getcomment');
-$router->addRoute('api/addcomment', APIController::class, 'addcomment');
 
+$router->addRoute('api/user', UserAPIController::class, 'user');
+$router->addRoute('api/addtocart', UserAPIController::class, 'addtocart');
+$router->addRoute('api/countcart', UserAPIController::class, 'countcart');
+$router->addRoute('api/getdetail', UserAPIController::class, 'getdetail');
+$router->addRoute('api/getcomment', UserAPIController::class, 'getcomment');
+$router->addRoute('api/addcomment', UserAPIController::class, 'addcomment');
+$router->addRoute('api/removefromcart', UserAPIController::class, 'removefromcart');
+$router->addRoute('api/confirmBill', UserAPIController::class, 'confirmBill');
 
 $router->dispatch($uri);

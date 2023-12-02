@@ -97,70 +97,6 @@
         -webkit-appearance: none;
         margin: 0;
     }
-
-    .disable {
-        color: #cacaca !important;
-    }
-
-    .px-100 {
-        padding: 0 70px;
-    }
-
-    .fw-bolder {
-        font-weight: 900;
-    }
-
-    .fst-italic {
-        font-style: italic;
-    }
-
-    .fs-1 {
-        font-size: 2rem;
-    }
-
-    .fs-7 {
-        font-size: 0.7rem;
-    }
-
-    .px-0 {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .px-2 {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
-    }
-
-    .px-3 {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }
-
-    .py-3 {
-        padding-top: 1rem !important;
-        padding-bottom: 1rem !important;
-    }
-
-    .ps-2 {
-        padding-left: 0.5rem !important;
-    }
-
-    .mt-3 {
-        margin-top: 1rem !important;
-    }
-
-    .ms-2 {
-        margin-left: 0.5rem !important;
-    }
-
-    .ms-3 {
-        margin-left: 1rem !important;
-    }
-
-    .mb-4 {
-        margin-bottom: 1.5rem !important;
-    }
 </style>
 
 <div class="container px-100" id="detail" data-id="<?= $_GET['id'] ?>">
@@ -448,10 +384,22 @@
                 ajaxRequest('/api/addcomment', "POST", formData)
                     .then(res => {
                         if (res == "error") return alert("Không thể bình luận");
-                        if (res == "success") {
-                            document.querySelector("#text_area").value = "";
-                            renderComment();
-                        }
+                        
+                        document.querySelector("#text_area").value = "";
+                        const containerComment = document.querySelector("#comment_container");
+                        containerComment.innerHTML = `
+                            <div class='card p-3 mb-0'>
+                                <div class="infor d-flex">
+                                    <img src="${res.image}" alt="" class="avatar shadow-sm">
+                                    <div class="ms-2">
+                                        <b>${res.username}</b>
+                                        <div class="fs-7 fst-italic">${res.create_at}</div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="px-3">${content}</div>
+                            </div>
+                        ` + containerComment.innerHTML;
                     })
             })
     }

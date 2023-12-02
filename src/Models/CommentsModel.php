@@ -14,7 +14,7 @@ class CommentsModel extends Model
     {
         $sql = "SELECT cmt.*, accounts.username, accounts.image, products.name as product_name FROM $this->table cmt INNER JOIN accounts ON cmt.account_id = accounts.id INNER JOIN products ON cmt.product_id = products.id";
         if (isset($data['id'])) {
-            $sql .= " WHERE id=?";
+            $sql .= " WHERE cmt.id=?";
             $result = $this->connect->prepare($sql);
             $result->execute([$data['id']]);
             return $result->fetch(\PDO::FETCH_ASSOC);

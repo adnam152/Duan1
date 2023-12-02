@@ -19,6 +19,9 @@ class LoginController extends Controller{
                     "username" => $_POST['username'],
                     "password" => $_POST['password'],
                     "fullname" => $account['fullname'],
+                    "phone_number" => $account['phone_number'],
+                    "email" => $account['email'],
+                    "address" => $account['address'],
                     "image" => $account['image'],
                     "role" => $account['role'],
                 ];
