@@ -20,7 +20,7 @@ class HomeController extends Controller{
     }
     public function index(){
         $this->render([
-            "view" => "user/index",
+            "view" => "user/home",
             "page" => "home",
             "title" => "Trang chủ",
             "allCategory" => $this->allCategory,
