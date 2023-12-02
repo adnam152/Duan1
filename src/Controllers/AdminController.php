@@ -21,6 +21,7 @@ class AdminController extends Controller
     public function index()
     {
 
+
         $this->render([
             "view" => "admin/index",
             "page" => "admin",
@@ -38,7 +39,7 @@ class AdminController extends Controller
             "view" => "admin/category",
             "page" => "admin",
             "js" => "category",
-            "title"=> "Danh mục",
+            "title" => "Danh mục",
             "action" => "2",
             "allCategory" => $allCategory,
         ]);
@@ -67,12 +68,9 @@ class AdminController extends Controller
         // Get data để hiển thị ra view
         $numberOfAllProducts = $productModel->count(); // get number of product
         $numberOfPage = ceil($numberOfAllProducts / $_GET['limit']); // get number of page
-        $numberOfPage = $numberOfPage > 0 ? $numberOfPage : 1;
-        if($_GET['page'] > $numberOfPage) header("location: /admin/product?page=$numberOfPage&limit=".$_SESSION['PRODUCT_LIMIT']."&order=ASC");
-        if($_GET['page'] < 1) header("location: /admin/product?page=1&limit=".$_SESSION['PRODUCT_LIMIT']."&order=ASC");
-
-        
-        if(isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
+        if ($_GET['page'] > $numberOfPage) header("location: /admin/product?page=$numberOfPage&limit=" . $_SESSION['PRODUCT_LIMIT'] . "&order=DESC");
+        if ($_GET['page'] < 1) header("location: /admin/product?page=1&limit=" . $_SESSION['PRODUCT_LIMIT'] . "&order=DESC");       
+        if (isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
         else $orderBy = "id";
 
         $allProducts = $productModel->get([
@@ -82,7 +80,7 @@ class AdminController extends Controller
             "limit" => $_GET['limit'],
         ]); // get product
         $allCategory = $categoryModel->get(); // get category
-        
+
 
         foreach ($allProducts as $index => $product) {
             $product_id = $product['id'];
@@ -90,9 +88,7 @@ class AdminController extends Controller
             $allLinks = $mediaModel->getByProductId($product_id); // get image by product id
 
             $allProducts[$index]['category_id'] = $product['category_id'];
-            $allProducts[$index]['category'] = $categoryModel->get([
-                "id" => $product['category_id'],
-            ])['name']; // get category by id
+            $allProducts[$index]['category'] = $categoryModel->get(["id" => $product['category_id'],])['name']; // get category by id
             $allProducts[$index]['count'] = $productDetailModel->countByProductId($product_id)['count'] ?? 0; // get count by product id
             $allProducts[$index]['detail'] = [];
 
@@ -130,45 +126,33 @@ class AdminController extends Controller
             "filter" => $filterBase
         ]);
     }
-    
+
     function comment()
     {
-        if(!isset($_SESSION['COMMENT_LIMIT'])) $_SESSION['COMMENT_LIMIT'] = 10;
-        if(!isset($_GET['page']) || !isset($_GET['limit']) || !isset($_GET['order'])) header("location: /admin/comment?page=1&limit=".$_SESSION['COMMENT_LIMIT']."&order=ASC");
-        if($_SESSION['COMMENT_LIMIT'] != $_GET['limit']) $_SESSION['COMMENT_LIMIT'] = $_GET['limit'];
 
-        $commentModel = new CommentsModel();
-        $filterBase = [
-            "username" => "Tên tài khoản",
-            "create_at" => "Thời gian",
-        ];
-        // --------------------------------------------
-        // Get data để hiển thị ra view
-        $numberOfAllComments = $commentModel->count(); // get number of product
-        $numberOfPage = ceil($numberOfAllComments / $_GET['limit']); // get number of page
-        $numberOfPage = $numberOfPage > 0 ? $numberOfPage : 1;
-        if($_GET['page'] > $numberOfPage) header("location: /admin/comment?page=$numberOfPage&limit=".$_SESSION['COMMENT_LIMIT']."&order=ASC");
-        if($_GET['page'] < 1) header("location: /admin/comment?page=1&limit=".$_SESSION['COMMENT_LIMIT']."&order=ASC");
 
-        if(isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
-        else $orderBy = "id";
 
-        $allComment = $commentModel->get([
-            "orderBy" => $orderBy,
-            "orderType" => $_GET['order'] ?? "DESC", // DESC or ASC
-            "page" => is_int($_GET['page']) && $_GET['page'] > 0 ? $_GET['page'] : 1,
-            "limit" => $_GET['limit'],
-        ]); // get product
+        $commentmodel = new CommentsModel();
+        $Allcomment = $commentmodel->get();
+
+        if (isset($_POST["delete"])) {
+            $id = $_POST["delete"];
+            $commentmodel->delete($id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+
+
 
         $this->render([
             "view" => "admin/comment",
             "page" => "admin",
-            "title"=> "Bình luận",
+            "title" => "Bình luận",
             "action" => "4",
-            "filter" => $filterBase,
-            "allComment" => $allComment,
-            "numberOfItems" => $numberOfAllComments,
-            "numberOfPage" => $numberOfPage,
+
+            "comments" => $Allcomment
+
         ]);
     }
     function account()
@@ -190,31 +174,41 @@ class AdminController extends Controller
             "create_at" => "Ngày tạo",
         ];
 
-        $numberOfAllAccounts = $accountModel->count(); // get number of product
-        $numberOfPage = ceil($numberOfAllAccounts / $_GET['limit']); // get number of page
-        $numberOfPage = $numberOfPage > 0 ? $numberOfPage : 1;
-        if($_GET['page'] > $numberOfPage) header("location: /admin/account?page=$numberOfPage&limit=".$_SESSION['ACCOUNT_LIMIT']."&order=ASC");
-        if($_GET['page'] < 1) header("location: /admin/account?page=1&limit=".$_SESSION['ACCOUNT_LIMIT']."&order=ASC");
-        
-        if(isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];
-        else $orderBy = "id";
-        $allAccount = $accountModel->get([
-            "orderBy" => $orderBy,
-            "orderType" => $_GET['order'] ?? "DESC", // DESC or ASC
-            "page" => $_GET['page'],
-            "limit" => $_GET['limit'],
-        ]);
-        $allCategory = $categoryModel->get(); // get category
-        $data = []; //lưu tất cả dữ liệu account
-
-        foreach ($allAccount as $index => $account) {
-            $id = $account['id'];
-            $data[$index] = $account;
-            $data[$index]['count_order'] = $billModel->countOrderByUserId($id);
-            foreach($allCategory as $category){
-                $data[$index]['count_order_by_category'][$category['name']] = $billDetailModel->countOrderByUserIdAndCategoryId($id, $category['id']);
-            }
+        // update
+        if (isset($_GET['update'])) {
+            $id = $_GET['update'];
+            $username = $_GET['username'];
+            $password = $_GET['password'];
+            $image = $_FILES['image'];
+            $email = $_GET['email'];
+            $phone_number = $_GET['phone_number'];
+            $address = $_GET['address'];
+            $fullname = $_GET['fullname'];
+            $role = $_GET['role'];
+            $dataUpdate = [
+                "username" => $username,
+                "password" => $password,
+                "image" => $image,
+                "email" => $email,
+                "phone_number" => $phone_number,
+                "address" => $address,
+                "fullname" => $fullname,
+                "role" => $role,
+            ];
+            // $accountModel->update($dataUpdate, $id);
+            header("location:" . $_SERVER['HTTP_REFERER']);
+            exit;
         }
+
+        // foreach ($allAccount as $index => $account) {
+        //     $id = $account['id'];
+        //     $data[$index] = $account;
+        //     $data[$index]['count_order'] = $billModel->countOrderByUserId($id);
+
+        //     foreach($allCategory as $category){
+        //         $data[$index]['count_order_by_category'][$category['name']] = $billDetailModel->countOrderByUserIdAndCategoryId($id, $category['id']);
+        //     }
+        //}
         $numberOfAllAccounts = $accountModel->count();
             $numberOfPage = ceil($numberOfAllAccounts / $_GET['limit']);
         $this->render([
@@ -223,7 +217,7 @@ class AdminController extends Controller
             "title" => "Tài khoản",
             "action" => "5",
             "js" => "account",
-            "allAccount" => $data,
+            // "allAccount" => $data,
             "filter" => $filterBase,
             "numberOfItems" => $numberOfAllAccounts,
             "numberOfPage" => $numberOfPage,
@@ -231,10 +225,11 @@ class AdminController extends Controller
     }
     function order()
     {
+
         $this->render([
             "view" => "admin/order",
             "page" => "admin",
-            "title"=> "Đơn hàng",
+            "title" => "Đơn hàng",
             "action" => "6",
         ]);
     }

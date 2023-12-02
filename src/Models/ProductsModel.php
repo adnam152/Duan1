@@ -10,6 +10,10 @@ class ProductsModel extends Model{
         $this->table = "products";
         parent::__construct();
     }
+
+    
+
+
     function getByCategoryId($category_id){
         $sql = "SELECT * FROM $this->table WHERE category_id=?";
         $result = $this->connect->prepare($sql);
@@ -29,5 +33,6 @@ class ProductsModel extends Model{
         $result->execute([$id]);
         return $result->rowCount();
     }
+
 }
-?>
+?> 

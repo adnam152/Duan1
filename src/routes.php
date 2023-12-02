@@ -21,8 +21,6 @@ $router->addRoute('detail', HomeController::class, 'detail');
 $router->addRoute('cart', HomeController::class, 'cart');
 
 $router->addRoute('login', LoginController::class, 'login');
-$router->addRoute('logout', LoginController::class, 'logout');
-$router->addRoute('register', LoginController::class, 'register');
 
 
 $router->addRoute('admin', AdminController::class, 'index');
