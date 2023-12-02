@@ -19,6 +19,7 @@ class HomeController extends Controller{
             $this->numberOfCart = (new CartsModel)-> count(['account_id' => $_SESSION['user']['id']]);
     }
     public function index(){
+        
         $this->render([
             "view" => "user/home",
             "page" => "home",
@@ -82,7 +83,9 @@ class HomeController extends Controller{
     function cart(){
         $cartModel = new CartsModel();
 
-        $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
+        $productInCart = [];
+        if(isset($_SESSION['user']))
+            $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
 
         $this->render([
             "view" => "user/cart",

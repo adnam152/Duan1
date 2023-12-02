@@ -36,7 +36,7 @@
 
     body {
         font-family: 'tuffy';
-        background-color: white !important;
+        background-color: #f2f7fb !important;
         background-image: none !important;
     }
 
@@ -80,6 +80,9 @@
     th,td{
         vertical-align: middle !important;
     }
+    .w-maxcontent{
+        width: max-content;
+    }
     .px-100 {
         padding: 0 70px;
     }
@@ -114,6 +117,10 @@
         padding-left: 1rem !important;
         padding-right: 1rem !important;
     }
+    .px-5{
+        padding-left: 2.5rem !important;
+        padding-right: 2.5rem !important;
+    }
     .py-1{
         padding-top: 0.25rem !important;
         padding-bottom: 0.25rem !important;
@@ -130,11 +137,16 @@
     .ps-2 {
         padding-left: 0.5rem !important;
     }
-
+    .mx-auto{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
     .mt-3 {
         margin-top: 1rem !important;
     }
-
+    .ms-0{
+        margin-left: 0 !important;
+    }
     .ms-2 {
         margin-left: 0.5rem !important;
     }

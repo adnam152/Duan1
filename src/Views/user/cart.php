@@ -180,7 +180,7 @@
         
         
         <div class="d-flex justify-content-end mt-3">
-            <button class="btn btn-danger shadow-sm" name="cancle" onclick="closeModal(e)">Hủy</button>
+            <button class="btn btn-danger shadow-sm" name="cancle" onclick="closeModal()">Hủy</button>
             <button class="btn btn-success shadow-sm ms-3" onclick="confirmBill()">Đồng ý</button>
         </div>
 
@@ -208,9 +208,7 @@
                 .then(res => {
                     if(res == "success"){
                         alert("Đặt hàng thành công");
-                        setTimeout(() => {
-                            window.location.href = "/cart";
-                        }, 2000);
+                        window.location.href = "/cart";
                     }
                     else alert("Đặt hàng thất bại");
                 })

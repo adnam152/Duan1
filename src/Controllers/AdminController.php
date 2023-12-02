@@ -231,11 +231,36 @@ class AdminController extends Controller
     }
     
     function order(){
+        $billModel = new BillsModel();
+        $billDetailModel = new BilldetailsModel();
+        $accountModel = new AccountsModel();
+
+        $allBills = $billModel->get();
+        $data = [];
+        foreach($allBills as $index => $bill){
+            $data['bill_id'] = $bill['id'];
+            $data['username'] = $accountModel->get([
+                    "id" => $bill['account_id']
+                ])['username'];
+            $data['total_price'] = $bill['total_price'];
+            $data['pay_method'] = $bill['pay_method'];
+            $data['fullname'] = $bill['fullname'];
+            $data['phone_number'] = $bill['phone_number'];
+            $data['address'] = $bill['address'];
+            $data['note'] = $bill['note'];
+            $data['create_at'] = $bill['create_at'];
+            $data['status'] = $bill['ispay'];
+            $data['bill_detail'] = $billDetailModel->get([
+                    "bill_id" => $bill['id']
+                ]);
+        }
+
         $this->render([
             "view" => "admin/order",
             "page" => "admin",
             "title"=> "Đơn hàng",
             "action" => "6",
+            "allBills" => $data,
         ]);
     }
 }

@@ -1,13 +1,10 @@
 <style>
-    * {
-        /* box-shadow: 0 0 2px black; */
-    }
-
     #detail .main-img img {
-        width: 100%;
         height: 450px;
+        max-width: 100%;
         object-fit: contain;
         object-position: center;
+        border-radius: 5px;
     }
 
     #detail .container-img {
@@ -23,6 +20,11 @@
         height: 100px;
         object-fit: contain;
         object-position: center;
+        transition: 0.3s;
+    }
+    #detail .container-img img:hover{
+        transform: scale(1.05);
+        cursor: pointer;
     }
 
     #detail .container-img img.active {
@@ -97,13 +99,15 @@
         -webkit-appearance: none;
         margin: 0;
     }
+    .my-shadow{
+        box-shadow: 8px 15px 20px #0000002b;
+    }
 </style>
 
-<div class="container px-100" id="detail" data-id="<?= $_GET['id'] ?>">
-    <div class="row">
-        <div class="col-5 border px-0">
-            <!-- image -->
-            <div class="main-img p-2">
+<div class="container" id="detail" data-id="<?= $_GET['id'] ?>">
+    <div class="row my-shadow p-2" style="border-radius: 20px">
+        <div class="col-5 px-0">
+            <div class="main-img p-2 mb-3 d-flex justify-content-center">
                 <img src="" alt="">
             </div>
             <div class="position-relative" style="overflow:hidden">
@@ -123,7 +127,7 @@
             </div>
         </div>
 
-        <div class="col border px-4 pt-3">
+        <div class="col  px-4 pt-3">
             <h2 class="m-0 fw-bolder"><?= $product['name'] ?></h2>
             <p class="fw-light px-2 m-0">(<?= $product['view'] ?> lượt xem)</p>
             <del id="root_price">1,000,000</del> <span class="fs-1 fw-bolder" id="new_price">1,000,000đ</span><button class="px-3 bg-danger btn mb-4 ms-2 shadow rounded" id="discount"><?= $product['discount'] ?>%</button>

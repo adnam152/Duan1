@@ -29,5 +29,11 @@ class ProductsModel extends Model{
         $result->execute([$id]);
         return $result->rowCount();
     }
+    function getTopSeller(){
+        $sql = "SELECT * FROM $this->table ORDER BY purchase DESC LIMIT 8";
+        $result = $this->connect->prepare($sql);
+        $result->execute();
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
 ?>

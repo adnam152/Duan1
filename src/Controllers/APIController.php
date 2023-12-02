@@ -14,7 +14,7 @@ class APIController
 {
     public function __construct()
     {
-
+        // check role == 1
     }
     public function category()
     {

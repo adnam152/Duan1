@@ -1,7 +1,7 @@
 <?php
 require "./src/Views/user/component/header.php";
 ?>
-<main class="mt-3">
+<main class="">
     <?php
     require "./src/Views/$view.php";
     ?>

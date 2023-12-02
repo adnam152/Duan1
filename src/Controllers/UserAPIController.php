@@ -8,6 +8,7 @@ use MVC\Models\CommentsModel;
 use MVC\Models\CartsModel;
 use MVC\Models\BillsModel;
 use MVC\Models\BilldetailsModel;
+use MVC\Models\MediasModel;
 
 class UserAPIController
 {
@@ -100,6 +101,10 @@ class UserAPIController
     }
     public function confirmBill()
     {
+        if(!isset($_POST['cart_id']) || empty($_POST['cart_id'])) {
+            echo json_encode("error");
+            exit;
+        }
         $totalPrice = 0;
         $details = [];
         foreach($_POST['cart_id'] as $id){
@@ -133,5 +138,17 @@ class UserAPIController
             (new CartsModel)->delete($detail['id']);
         }
         echo json_encode("success");
+    }
+    function topSeller()
+    {
+        $topSeller = (new ProductsModel())->getTopSeller();
+        $data = [];
+        foreach($topSeller as $index => $product){
+            $data[$index] = $product;
+            $images = (new MediasModel())->getByProductId($product['id'], 2);
+            $data[$index]['image'][] = $images[0]['link'];
+            $data[$index]['image'][] = $images[1]['link'];
+        }
+        echo json_encode($data);
     }
 }
