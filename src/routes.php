@@ -17,6 +17,7 @@ $router = new Router();
 
 $router->addRoute('', HomeController::class, 'index');
 $router->addRoute('allproduct', HomeController::class, 'allproduct');
+$router->addRoute('allproduct/{category_id}', HomeController::class, 'allproduct');
 $router->addRoute('detail', HomeController::class, 'detail');
 $router->addRoute('cart', HomeController::class, 'cart');
 

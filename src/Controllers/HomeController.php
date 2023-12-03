@@ -30,7 +30,7 @@ class HomeController extends Controller
             "numberOfCart" => $this->numberOfCart,
         ]);
     }
-    public function allproduct()
+    public function allproduct($selectedCategoryId = null)
     {
 
 
@@ -42,11 +42,18 @@ class HomeController extends Controller
 
 
         $allCategory = $categoryModel->get(); // get category
-        $categoryMap = array_column($allCategory, 'name', 'id');
-        $filteredProducts = []; // get category
+            $categoryMap = array_column($allCategory, 'name', 'id');
+            $filteredProducts = [];
 
-
+            foreach ($allCategory as $category) {
+                
+                if ($selectedCategoryId !== null && $selectedCategoryId != $category['id']) {
+                    continue; // Skip categories that are not selected
+                }
+            
+            $categoryProducts = $productModel->getByCategoryId($category['id']);
         foreach ($allProducts as $index => $product) {
+            
             $productDetails = $productDetailModel->getByProductId($product['id']);
             $mediaLinks = $mediaModel->getByProductId($product['id']);
 
@@ -67,7 +74,9 @@ class HomeController extends Controller
                 ];
             }
             $filteredProducts[] = $allProducts[$index];
+            
         }
+    }
         // echo "<pre>";
         // print_r($allProducts);
         // echo "</pre>";
@@ -77,7 +86,7 @@ class HomeController extends Controller
         $this->render([
             "view" => "user/component/product_list",
             "page" => "user",
-            "allProducts" => $allProducts,
+            "allProducts" => $filteredProducts,
             "allCategory" => $allCategory,
 
         ]);
