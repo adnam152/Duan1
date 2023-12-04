@@ -9,12 +9,16 @@ use MVC\Models\MediasModel;
 use MVC\Models\AccountsModel;
 use MVC\Models\CommentsModel;
 use MVC\Models\CartsModel;
+use MVC\Models\BillsModel;
+use MVC\Models\BilldetailsModel;
 
 class APIController
 {
     public function __construct()
     {
-        // check role == 1
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) {
+            exit('error');
+        }
     }
     public function category()
     {
@@ -22,7 +26,7 @@ class APIController
         // add category
         if (isset($_POST["add_category"])) {
             $category_name = $_POST["category_name"];
-            if($categoryModel->insert([
+            if ($categoryModel->insert([
                 "name" => $category_name,
             ])) {
                 $id = $categoryModel->getLastId();
@@ -37,7 +41,7 @@ class APIController
         // delete
         if (isset($_GET["delete"])) {
             $id = $_GET["category_id"];
-            if($categoryModel->delete($id)>0) echo json_encode("success");
+            if ($categoryModel->delete($id) > 0) echo json_encode("success");
             else echo json_encode("error");
             exit;
         }
@@ -46,9 +50,9 @@ class APIController
         if (isset($_POST['update'])) {
             $id = $_POST['category_id'];
             $category_name = $_POST['category_name'];
-            if($categoryModel->update([
+            if ($categoryModel->update([
                 "name" => $category_name
-            ], $id)>0) echo json_encode([
+            ], $id) > 0) echo json_encode([
                 "id" => $id,
                 "name" => $category_name
             ]);
@@ -122,7 +126,7 @@ class APIController
                 if (count($images['name']) > 0) {
                     foreach ($images['name'] as $index => $image) {
                         $link = '/assets/image/' . $image;
-                        if (move_uploaded_file($images['tmp_name'][$index], '.'.$link)) {
+                        if (move_uploaded_file($images['tmp_name'][$index], '.' . $link)) {
                             $media_data = [
                                 "product_id" => $product_id,
                                 "link" => $link,
@@ -145,7 +149,7 @@ class APIController
             if (count($images['name']) > 0) {
                 foreach ($images['name'] as $index => $image) {
                     $link = '/assets/image/' . $image;
-                    if (move_uploaded_file($images['tmp_name'][$index], '.'.$link)) {
+                    if (move_uploaded_file($images['tmp_name'][$index], '.' . $link)) {
                         $media_data = [
                             "product_id" => $product_id,
                             "link" => $link,
@@ -209,7 +213,7 @@ class APIController
         // delete detail
         if (isset($_GET['delete_detail']) && isset($_GET['detail_id'])) {
             $detail_id = $_GET['detail_id'];
-            if($productDetailModel->delete($detail_id)>0) echo json_encode("success");
+            if ($productDetailModel->delete($detail_id) > 0) echo json_encode("success");
             exit;
         }
 
@@ -220,25 +224,34 @@ class APIController
             exit;
         }
     }
-    public function account(){
+    public function comment()
+    {
+        if (isset($_GET['delete']) && isset($_GET['id'])) {
+            $commentModel = new CommentsModel();
+            if ($commentModel->delete($_GET['id']) > 0) echo json_encode("success");
+            else echo json_encode("error");
+            exit;
+        }
+    }
+    public function account()
+    {
         $accountModel = new AccountsModel();
         // add
-        if(isset($_POST['add'])){
+        if (isset($_POST['add'])) {
             // Kiểm tra tồn tại
-            if($accountModel->isExist([
-                    "username" => $_POST['username'],
-                ])>0){
-                    echo json_encode("error");
-                    exit;
+            if ($accountModel->isExist([
+                "username" => $_POST['username'],
+            ]) > 0) {
+                echo json_encode("error");
+                exit;
             }
             $image = $_FILES['user_image'];
-            if($image['name'] != ""){
+            if ($image['name'] != "") {
                 $link = './assets/image/' . $image['name'];
                 if (move_uploaded_file($image['tmp_name'], $link)) {
                     $image = '/assets/image/' . $image['name'];
                 }
-            }
-            else $image = "";
+            } else $image = "";
 
             $dataInsert = [
                 "username" => $_POST['username'],
@@ -251,7 +264,7 @@ class APIController
                 "role" => $_POST['role'],
                 "create_at" => date("Y-m-d H:i:s", time()),
             ];
-            if($accountModel->insert($dataInsert)>0)
+            if ($accountModel->insert($dataInsert) > 0)
                 echo json_encode("success");
             exit;
         }
@@ -266,7 +279,7 @@ class APIController
 
         // update
         if (isset($_POST['update'])) {
-            if($accountModel->check($_POST['id'], $_POST['username'])){
+            if ($accountModel->check($_POST['id'], $_POST['username'])) {
                 echo json_encode("exist username");
                 exit;
             }
@@ -279,7 +292,7 @@ class APIController
                 "fullname" => $_POST['fullname'],
                 "role" => $_POST['role'],
             ];
-            if($accountModel->update($dataUpdate, $_POST['id']) > 0)
+            if ($accountModel->update($dataUpdate, $_POST['id']) > 0)
                 echo json_encode($dataUpdate);
             else echo json_encode("error");
             exit;
@@ -288,27 +301,33 @@ class APIController
         // update image
         if (isset($_POST['update_image'])) {
             $image = $_FILES['image'];
-            if($image['name'] != ""){
+            if ($image['name'] != "") {
                 $link = '/assets/image/' . $image['name'];
-                if (move_uploaded_file($image['tmp_name'], '.'.$link)) {
+                if (move_uploaded_file($image['tmp_name'], '.' . $link)) {
                     $image = $link;
                 }
-            }
-            else $image = "";
+            } else $image = "";
             $dataUpdate = [
                 "image" => $image,
             ];
-            if($accountModel->update($dataUpdate, $_POST['id']) > 0)
+            if ($accountModel->update($dataUpdate, $_POST['id']) > 0)
                 echo json_encode($dataUpdate);
             else echo json_encode("error");
             exit;
         }
     }
-    public function comment(){
-        if(isset($_GET['delete']) && isset($_GET['id'])){
-            $commentModel = new CommentsModel();
-            if($commentModel->delete($_GET['id'])>0) echo json_encode("success");
-            else echo json_encode("error");
+    public function order()
+    {
+        // Update status
+        if (isset($_GET['updatestatus'])) {
+            if((new BillsModel())->update(['ispay' => 1], $_GET['updatestatus']) > 0)
+                echo json_encode("success");
+            exit;
+        }
+        // Delete
+        if (isset($_GET['delete'])) {
+            if((new BillsModel())->delete($_GET['delete']))
+                echo json_encode("success");
             exit;
         }
     }

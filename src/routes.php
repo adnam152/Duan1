@@ -37,6 +37,7 @@ $router->addRoute('api/category', APIController::class, 'category');
 $router->addRoute('api/product', APIController::class, 'product');
 $router->addRoute('api/account', APIController::class, 'account');
 $router->addRoute('api/comment', APIController::class, 'comment');
+$router->addRoute('api/order', APIController::class, 'order');
 
 $router->addRoute('api/user', UserAPIController::class, 'user');
 $router->addRoute('api/addtocart', UserAPIController::class, 'addtocart');

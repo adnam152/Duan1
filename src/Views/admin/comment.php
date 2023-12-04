@@ -20,7 +20,7 @@
         <?php
         foreach ($allComment as $index => $comment) {
         ?>
-            <tr>
+            <tr class="table-success">
                 <th scope="row"><?= $index + 1 ?></th>
                 <td><?= $comment['product_name'] ?></td>
                 <td><?= $comment['username'] ?></td>
