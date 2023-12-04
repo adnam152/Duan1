@@ -45,5 +45,6 @@ $router->addRoute('api/getcomment', UserAPIController::class, 'getcomment');
 $router->addRoute('api/addcomment', UserAPIController::class, 'addcomment');
 $router->addRoute('api/removefromcart', UserAPIController::class, 'removefromcart');
 $router->addRoute('api/confirmBill', UserAPIController::class, 'confirmBill');
+$router->addRoute('api/topseller', UserAPIController::class, 'topSeller');
 
 $router->dispatch($uri);

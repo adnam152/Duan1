@@ -33,6 +33,5 @@ class ProductsModel extends Model{
         $result->execute([$id]);
         return $result->rowCount();
     }
-
 }
 ?> 

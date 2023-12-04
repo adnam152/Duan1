@@ -20,10 +20,9 @@ class HomeController extends Controller
         if (isset($_SESSION['user']['id']))
             $this->numberOfCart = (new CartsModel)->count(['account_id' => $_SESSION['user']['id']]);
     }
-    public function index()
-    {
+    public function index(){
         $this->render([
-            "view" => "user/index",
+            "view" => "user/home",
             "page" => "home",
             "title" => "Trang chủ",
             "allCategory" => $this->allCategory,
@@ -48,12 +47,15 @@ class HomeController extends Controller
             foreach ($allCategory as $category) {
                 
                 if ($selectedCategoryId !== null && $selectedCategoryId != $category['id']) {
-                    continue; // Skip categories that are not selected
+                    continue; 
                 }
             
-            $categoryProducts = $productModel->getByCategoryId($category['id']);
+           
+        $categoryProducts = $productModel->getByCategoryId($category['id']);
         foreach ($allProducts as $index => $product) {
-            
+            if ($product['category_id'] != $category['id']) {
+                continue;
+            }
             $productDetails = $productDetailModel->getByProductId($product['id']);
             $mediaLinks = $mediaModel->getByProductId($product['id']);
 
@@ -139,7 +141,9 @@ class HomeController extends Controller
     {
         $cartModel = new CartsModel();
 
-        $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
+        $productInCart = [];
+        if(isset($_SESSION['user']))
+            $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
 
         $this->render([
             "view" => "user/cart",
