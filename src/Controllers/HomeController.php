@@ -90,6 +90,7 @@ class HomeController extends Controller
             "page" => "user",
             "allProducts" => $filteredProducts,
             "allCategory" => $allCategory,
+            "numberOfCart" => $this->numberOfCart,
 
         ]);
     }

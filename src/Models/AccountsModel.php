@@ -7,31 +7,20 @@ class AccountsModel extends Model{
         parent::__construct();
         $this->table = "accounts";
     }
-public function getUserByEmailPassword($email, $password)
-{
-    $sql = "
-        SELECT 
-            * 
-        FROM {$this->table} 
-        WHERE 
-            email = :email 
-            AND 
-            password = :password 
-        LIMIT 1
-    ";
-
-    $stmt = $this->connect->prepare($sql);
-
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $password);
-
-    $stmt->execute();
-
-    $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-
-    return $stmt->fetch();
+    function check($id, $username){
+        $sql = "SELECT * FROM $this->table WHERE id != ? AND username = ?";
+        $result = $this->connect->prepare($sql);
+        $result->execute([$id, $username]);
+        return $result->fetch(\PDO::FETCH_ASSOC);
+    }
+    function getOne($data=[]){
+        // $data = [username, password]
+        if(!isset($data['username']) || !isset($data['password'])) return false;
+        $sql = "SELECT * FROM $this->table WHERE username = ? AND password = ?";
+        $result = $this->connect->prepare($sql);
+        $result->execute([$data['username'], $data['password']]);
+        return $result->fetch(\PDO::FETCH_ASSOC);
+    }
 }
-}
-
 
 ?>
