@@ -18,6 +18,7 @@ img{
 }
 .pointer{
     cursor: pointer !important;
+    user-select: none;
 }
 .x-btn{
     position: absolute;
