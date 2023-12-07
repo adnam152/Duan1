@@ -193,7 +193,7 @@ require "src/Views/user/component/banner.php";
                 <p class="card-text">${product.description.substring(0,120)}...</p>
               </div>
               <div class="card-footer pt-0">
-                <a href="/detail?id=${product.id}" class="btn btn-primary">Mua ngay</a>
+                <a href="/detail?id=${product.id}" class="btn btn-primary">Xem chi tiết</a>
               </div>
             </div>
             `

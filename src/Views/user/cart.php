@@ -2,6 +2,17 @@
     th, td{
         padding: 10px 0 !important;
     }
+    tbody tr td:nth-child(1){
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+    }
+    tbody tr td:nth-child(2){
+        text-align: start !important;
+        min-width: 100px;
+        max-width: 250px;
+        text-wrap: wrap;
+
+    }
     #cart_total {
         position: fixed;
         bottom: 0;
@@ -62,7 +73,6 @@
         bottom: 5px;
         right: 15px;
     }
-
 </style>
 
 <div class="container-fluid">
@@ -101,7 +111,7 @@
                     <td><?= $cart['quantity'] ?></td>
                     <td data-price="<?= $price ?>"><?= number_format($price) ?></td>
                     <td>
-                        <button class="btn btn-danger shadow-sm" data-cart-id="<?= $cart['id'] ?>" onclick="removeProduct(this)"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn btn-danger shadow-sm" data-cart-id="<?= $cart['id'] || null ?>" onclick="removeProduct(this)"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
             <?php
@@ -126,9 +136,16 @@
         <h4 class="fw-bolder mb-4">Thông tin đặt hàng</h4>
 
         <!-- Customer info -->
+            <!-- If Login -->
+        <?php if(isset($_SESSION['user'])):?>
         <div class="card">
-            <div class="card-header p-2">
-                <h6 class="fw-bolder mb-0"><i class="fa fa-location-arrow me-2"></i> Địa chỉ nhận hàng</h6>
+            <div class="card-header p-2 d-flex justify-content-between">
+                <h6 class="fw-bolder mb-0">
+                    <i class="fa fa-location-arrow me-2"></i> Địa chỉ nhận hàng
+                </h6>
+                <h6>
+                    <a href="/profile" class="nav-link py-0">Thay đổi <i class="fa-solid fa-angle-right"></i></a>
+                </h6>
             </div>
             <div class="card-body py-2">
                 <span id="phone_number" data-phone-number="<?=$_SESSION['user']['phone_number']?>"><?=$_SESSION['user']['phone_number']?></span> - 
@@ -136,6 +153,49 @@
                 <div id="address" data-address="<?=$_SESSION['user']['address'] ?>"><?=$_SESSION['user']['address'] ?></div>
             </div>
         </div>
+
+            <!-- If No Login -->
+        <?php elseif(isset($_SESSION['temp_user'])):?>
+        <div class="card">
+            <div class="card-header p-2 d-flex justify-content-between">
+                <h6 class="fw-bolder mb-0">
+                    <i class="fa fa-location-arrow me-2"></i> Địa chỉ nhận hàng
+                </h6>
+                <h6>
+                    <a href="#" id="temp-user-change" class="nav-link py-0">Thay đổi <i class="fa-solid fa-angle-right"></i></a>
+                </h6>
+            </div>
+            <div class="card-body py-2">
+                <span id="phone_number" data-phone-number="<?=$_SESSION['temp_user']['phone_number']?>"><?=$_SESSION['temp_user']['phone_number'] ?></span> - 
+                <span id="fullname" data-full-name="<?=$_SESSION['temp_user']['fullname'] ?>"><?=$_SESSION['temp_user']['fullname'] ?></span>
+                <div id="address" data-address="<?=$_SESSION['temp_user']['address'] ?>"><?=$_SESSION['temp_user']['address'] ?></div>
+            </div>
+
+        <?php else:?>
+        <div class="card">
+            <div class="card-header p-2 d-flex justify-content-between">
+                <h6 class="fw-bolder mb-0">
+                    <i class="fa fa-location-arrow me-2"></i> Địa chỉ nhận hàng
+                </h6>
+            </div>
+            <div class="card-body py-2">
+                <div id="fullname">
+                    <input type="text" class="form-control mb-2" placeholder="Họ và tên">
+                </div>
+                <div id="phone_number">
+                    <input type="text" class="form-control mb-2" placeholder="Số điện thoại">
+                </div>
+                <div id="address">
+                    <input type="text" class="form-control" placeholder="Địa chỉ">
+                </div>
+            </div>
+            <div class="card-footer pt-0">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-success shadow-sm" onclick="login()">Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+        <?php endif;?>
 
         <!-- Bill detail -->
         <div id="bill_detail_container">

@@ -52,7 +52,7 @@ class APIController
             $category_name = $_POST['category_name'];
             if ($categoryModel->update([
                 "name" => $category_name
-            ], $id) > 0) echo json_encode([
+            ], $id)) echo json_encode([
                 "id" => $id,
                 "name" => $category_name
             ]);
@@ -195,7 +195,7 @@ class APIController
 
             $rowProductUpdate = $productModel->update($productUpdate, $product_id);
             $rowDetailUpdate = $productDetailModel->update($detailUpdate, $detail_id);
-            if ($rowProductUpdate + $rowDetailUpdate > 0) {
+            if ($rowProductUpdate || $rowDetailUpdate) {
                 echo json_encode($allData);
             } else echo json_encode("error");
             exit;
@@ -292,7 +292,7 @@ class APIController
                 "fullname" => $_POST['fullname'],
                 "role" => $_POST['role'],
             ];
-            if ($accountModel->update($dataUpdate, $_POST['id']) > 0)
+            if ($accountModel->update($dataUpdate, $_POST['id']))
                 echo json_encode($dataUpdate);
             else echo json_encode("error");
             exit;
@@ -310,7 +310,7 @@ class APIController
             $dataUpdate = [
                 "image" => $image,
             ];
-            if ($accountModel->update($dataUpdate, $_POST['id']) > 0)
+            if ($accountModel->update($dataUpdate, $_POST['id']))
                 echo json_encode($dataUpdate);
             else echo json_encode("error");
             exit;
@@ -320,7 +320,7 @@ class APIController
     {
         // Update status
         if (isset($_GET['updatestatus'])) {
-            if((new BillsModel())->update(['ispay' => 1], $_GET['updatestatus']) > 0)
+            if((new BillsModel())->update(['status' => 1], $_GET['updatestatus']))
                 echo json_encode("success");
             exit;
         }

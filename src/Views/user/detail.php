@@ -22,7 +22,8 @@
         object-position: center;
         transition: 0.3s;
     }
-    #detail .container-img img:hover{
+
+    #detail .container-img img:hover {
         transform: scale(1.05);
         cursor: pointer;
     }
@@ -99,90 +100,136 @@
         -webkit-appearance: none;
         margin: 0;
     }
-    .my-shadow{
+
+    .my-shadow {
         box-shadow: 8px 15px 20px #0000002b;
+    }
+
+    .nav-sticky {
+        position: sticky;
+        top: 0;
+        height: max-content;
+        width: auto;
+        background: white;
+        z-index: 1;
+    }
+
+    .nav-sticky img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        object-position: center;
+        border-radius: 5px
     }
 </style>
 
-<div class="container" id="detail" data-id="<?= $_GET['id'] ?>">
-    <div class="row my-shadow p-2" style="border-radius: 20px">
-        <div class="col-5 px-0">
-            <div class="main-img p-2 mb-3 d-flex justify-content-center">
-                <img src="" alt="">
+<div class="d-flex justify-content-center position-relative mt-4 mb-3">
+    <div class="container mx-0" id="detail" data-id="<?= $_GET['id'] ?>">
+        <div class="row my-shadow p-2 bg-light" style="border-radius: 20px">
+            <div class="col-5 px-0">
+                <div class="main-img p-2 mb-3 d-flex justify-content-center">
+                    <img src="" alt="">
+                </div>
+                <div class="position-relative" style="overflow:hidden">
+                    <div class="prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="container-img border">
+                        <?php
+                        foreach ($allImage as $image) {
+                            echo "<img src='" . $image["link"] . "' alt='' class=''>";
+                        }
+                        ?>
+                    </div>
+                    <div class="next">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
             </div>
-            <div class="position-relative" style="overflow:hidden">
-                <div class="prev">
-                    <i class="fas fa-chevron-left"></i>
+
+            <div class="col  px-4 pt-3">
+                <h2 class="m-0 fw-bolder"><?= $product['name'] ?></h2>
+                <p class="fw-light px-2 m-0">(<?= $product['view'] ?> lượt xem)</p>
+                <del id="root_price">1,000,000</del> <span class="fs-1 fw-bolder" id="new_price">1,000,000đ</span><button class="px-3 bg-danger btn mb-4 ms-2 shadow rounded" id="discount"><?= $product['discount'] ?>%</button>
+
+                <div class="color-group row align-items-center mt-2">
+                    <h5 class="col-2 mb-0">Color: </h5>
+                    <div class="col">
+                        <?php
+                        foreach ($colors as $color) {
+                            echo "<button data-color='$color' data-id='" . $_GET['id'] . "' class='rounded shadow btn btn-outline-dark mx-2 color'>$color</button>";
+                        }
+                        ?>
+                    </div>
                 </div>
-                <div class="container-img border">
-                    <?php
-                    foreach ($allImage as $image) {
-                        echo "<img src='" . $image["link"] . "' alt='' class=''>";
-                    }
-                    ?>
+                <div class="size-group row align-items-center my-3">
+                    <h5 class="col-2 mb-0">Size: </h5>
+                    <div class="col">
+                        <?php
+                        foreach ($sizes as $size) {
+                            echo "<button data-size='$size' data-id='" . $_GET['id'] . "' class='rounded shadow btn btn-outline-dark mx-2 size'>$size</button>";
+                        }
+                        ?>
+                    </div>
                 </div>
-                <div class="next">
-                    <i class="fas fa-chevron-right"></i>
+                <!-- Quantity -->
+                <div class="quantity-group row align-items-center my-3">
+                    <h5 class="col-2 mb-0">Quantity: </h5>
+                    <div class="col pe-0 d-flex align-items-center">
+                        <button class="rounded shadow btn btn-outline-dark mx-2 minus">-</button>
+                        <input type="number" class="rounded shadow btn btn-outline-dark mx-2 quantity" value="1" min="1" max="10">
+                        <button class="rounded shadow btn btn-outline-dark ms-2 plus">+</button>
+                        <span class="mb-0 ms-3" id="count_detail">(<span><?= $quantity_product ?></span> sản phẩm còn lại)</span>
+                    </div>
+                </div>
+                <!-- ADD BTN -->
+                <div class="btn-group">
+                    <button class="rounded shadow btn btn-outline-dark btn-primary" data-id="<?= $product['id'] ?>" onclick='addToCart(this)'>Thêm vào giỏ hàng</button>
+                </div>
+                <!-- DESCRIPTION -->
+                <h2 class="fw-bolder mt-4">Mô tả sản phẩm</h2>
+                <div class="description border px-2">
+                    <p class="fw-light"><?= $product['description'] ?></p>
                 </div>
             </div>
         </div>
 
-        <div class="col  px-4 pt-3">
-            <h2 class="m-0 fw-bolder"><?= $product['name'] ?></h2>
-            <p class="fw-light px-2 m-0">(<?= $product['view'] ?> lượt xem)</p>
-            <del id="root_price">1,000,000</del> <span class="fs-1 fw-bolder" id="new_price">1,000,000đ</span><button class="px-3 bg-danger btn mb-4 ms-2 shadow rounded" id="discount"><?= $product['discount'] ?>%</button>
-
-            <div class="color-group row align-items-center mt-2">
-                <h5 class="col-2 mb-0">Color: </h5>
-                <div class="col">
-                    <?php
-                    foreach ($colors as $color) {
-                        echo "<button data-color='$color' data-id='" . $_GET['id'] . "' class='rounded shadow btn btn-outline-dark mx-2 color'>$color</button>";
-                    }
-                    ?>
-                </div>
-            </div>
-            <div class="size-group row align-items-center my-3">
-                <h5 class="col-2 mb-0">Size: </h5>
-                <div class="col">
-                    <?php
-                    foreach ($sizes as $size) {
-                        echo "<button data-size='$size' data-id='" . $_GET['id'] . "' class='rounded shadow btn btn-outline-dark mx-2 size'>$size</button>";
-                    }
-                    ?>
-                </div>
-            </div>
-            <!-- Quantity -->
-            <div class="quantity-group row align-items-center my-3">
-                <h5 class="col-2 mb-0">Quantity: </h5>
-                <div class="col pe-0 d-flex align-items-center">
-                    <button class="rounded shadow btn btn-outline-dark mx-2 minus">-</button>
-                    <input type="number" class="rounded shadow btn btn-outline-dark mx-2 quantity" value="1" min="1" max="10">
-                    <button class="rounded shadow btn btn-outline-dark ms-2 plus">+</button>
-                    <span class="mb-0 ms-3" id="count_detail">(<span><?= $quantity_product ?></span> sản phẩm còn lại)</span>
-                </div>
-            </div>
-            <!-- ADD BTN -->
-            <div class="btn-group">
-                <button class="rounded shadow btn btn-outline-dark btn-primary" data-id="<?= $product['id'] ?>" <?= isset($_SESSION['user']) ? "onclick='addToCart(this)'" : "onclick='alert(\"Bạn cần đăng nhập để thêm vào giỏ hàng\")'" ?>>Thêm vào giỏ hàng</button>
-            </div>
-            <!-- DESCRIPTION -->
-            <h2 class="fw-bolder mt-4">Mô tả sản phẩm</h2>
-            <div class="description border px-2">
-                <p class="fw-light"><?= $product['description'] ?></p>
+        <div class="row px-3">
+            <h2 class="fw-bolder mt-4">Bình luận</h2>
+            <textarea class="form-control" data-id="<?= $_GET['id'] ?>" aria-label="With textarea" id="text_area" style="height: 100px"></textarea>
+            <div class="mt-2 w-100 d-flex justify-content-end"><button name="send_comment" class="btn btn-primary mt-2" onclick="addComment()">Gửi</button></div>
+            <div id="comment_container" class="col py-3">
+                <!-- JS -->
             </div>
         </div>
     </div>
-
-    <div class="row px-3">
-        <h2 class="fw-bolder mt-4">Bình luận</h2>
-        <textarea class="form-control" data-id="<?= $_GET['id'] ?>" aria-label="With textarea" id="text_area" style="height: 100px"></textarea>
-        <div class="mt-2 w-100 d-flex justify-content-end"><button name="send_comment" class="btn btn-primary mt-2" onclick="addComment()">Gửi</button></div>
-        <div id="comment_container" class="col py-3">
-            <!-- JS -->
+    <!-- NAV RIGHT -->
+    <div class="nav-sticky bg-transparent ms-2 pb-3" style="border-radius: 20px">
+        <div class="card mb-0 bg-light" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title text-danger fw-bolder">Top sản phẩm bán chạy</h5>
+                <p class="card-text">
+                    <?php
+                    foreach ($topProduct as $product) {
+                    ?>
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="<?= $product['link'] ?>" alt="" class="me-2">
+                        <a href="/detail?id=<?= $product['id'] ?>" class="nav-link">
+                            <div class="fw-bolder"><?= $product['name'] ?></div>
+                            <div class="fw-light"><?= $product['purchase'] ?> lượt bán, <?= $product['view'] ?> lượt xem</div>
+                        </a>
+                    </div>
+                    <?php
+                    }
+                ?>
+                </p>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- FOOTER -->
+<?php require "src/Views/user/component/footer.php" ?>
 
 <script>
     var loadIndex = 1;
@@ -193,11 +240,11 @@
     };
     // -------------------------------------------------------------------------------
     // LAZY LOAD comment
-    (()=>{
+    (() => {
         const containerComment = document.querySelector("#comment_container");
         window.addEventListener("scroll", function() {
             const containerBottom = containerComment.getBoundingClientRect().bottom;
-            if(scrollStatus && containerBottom < window.innerHeight + 50){
+            if (scrollStatus && containerBottom < window.innerHeight + 50) {
                 scrollStatus = false;
                 renderComment();
             }
@@ -335,13 +382,9 @@
     function addToCart(btn) {
         ajaxRequest('/api/user', "POST")
             .then(res => {
-                if (res == "error") {
-                    alert("Chưa đăng nhập");
-                    return;
-                }
                 // ----------------
                 const product_id = btn.dataset.id;
-                const account_id = res.id;
+                const account_id = res.id || 0;
                 const color = document.querySelector(".color.active")?.dataset.color;
                 const size = document.querySelector(".size.active")?.dataset.size;
                 if (!color || !size) return alert("Vui lòng chọn màu và size");
@@ -388,7 +431,7 @@
                 ajaxRequest('/api/addcomment', "POST", formData)
                     .then(res => {
                         if (res == "error") return alert("Không thể bình luận");
-                        
+
                         document.querySelector("#text_area").value = "";
                         const containerComment = document.querySelector("#comment_container");
                         containerComment.innerHTML = `
@@ -414,7 +457,7 @@
         formData.append("page", loadIndex++);
         ajaxRequest('/api/getcomment', "POST", formData)
             .then(res => {
-                if(res == "error") return;
+                if (res == "error") return;
                 const htmls = res.map(comment => {
                     return `
                         <div class='card p-3 mb-0'>

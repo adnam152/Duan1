@@ -18,6 +18,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) header("location: /");
     }
     public function index()
@@ -240,7 +241,7 @@ class AdminController extends Controller
             "account_id" => "Tên tài khoản",
             "create_at" => "Ngày tạo",
             "total_price" => "Tổng tiền",
-            "ispay" => "Trạng thái",
+            "status" => "Trạng thái",
         ];
         // GET DATA
         if (isset($_GET['filter']) && in_array($_GET['filter'], array_keys($filterBase))) $orderBy = $_GET['filter'];

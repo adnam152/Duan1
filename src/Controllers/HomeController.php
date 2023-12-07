@@ -9,14 +9,15 @@ use MVC\Models\ProductsModel;
 use MVC\Models\MediasModel;
 use MVC\Models\ProductdetailModel;
 use MVC\Models\CommentsModel;
+use MVC\Models\BillsModel;
+use MVC\Models\BilldetailsModel;
 
 class HomeController extends Controller{
     private $allCategory;
-    private $numberOfCart = 0;
     public function __construct(){
+        parent::__construct();
         $this->allCategory = (new CategoriesModel())->get();
-        if(isset($_SESSION['user']['id']))
-            $this->numberOfCart = (new CartsModel)-> count(['account_id' => $_SESSION['user']['id']]);
+            
     }
     public function index(){
         
@@ -65,6 +66,7 @@ class HomeController extends Controller{
             $sizes[] = $size['size'];
         }
 
+        $topProduct = $productModel->getTopSeller(5);
         $this->render([
             "view" => "user/detail",
             "page" => "home",
@@ -78,6 +80,7 @@ class HomeController extends Controller{
             "colors" => $colors,
             "sizes" => $sizes,
             "allComment" => $allComment,
+            "topProduct" => $topProduct,
         ]);
     }
     function cart(){
@@ -86,7 +89,7 @@ class HomeController extends Controller{
         $productInCart = [];
         if(isset($_SESSION['user']))
             $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
-
+        else $productInCart = $cartModel->getAllInforBySession();
         $this->render([
             "view" => "user/cart",
             "page" => "home",
@@ -96,6 +99,21 @@ class HomeController extends Controller{
             "productInCart" => $productInCart,
         ]);
     }
+    function profile(){
+        if(!isset($_SESSION['user'])) header("Location: /");
+        $allBills = (new BillsModel())->getByAccountId($_SESSION['user']['id']);
+        foreach ($allBills as $index => $bill) {
+            $allBills[$index]['bill_detail'] = (new BilldetailsModel())->getByBillId($bill['id']);
+        }
+        $this->render([
+            "view" => "user/profile",
+            "page" => "home",
+            "title" => "Thông tin cá nhân",
+            "allCategory" => $this->allCategory,
+            "numberOfCart" => $this->numberOfCart,
+            "allBills" => $allBills,
+        ]);
+    }
 }
 
 
@@ -103,3 +121,4 @@ class HomeController extends Controller{
 
 
 ?>
+

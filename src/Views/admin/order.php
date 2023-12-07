@@ -44,14 +44,17 @@
     </thead>
     <tbody>
         <?php foreach ($allBills as $index => $bill) : ?>
-            <tr data-accordion="<?= $index ?>" class="pointer <?= $bill['ispay'] == 0 ? 'table-info' : 'bg-success' ?>">
+            <tr data-accordion="<?= $index ?>" class="pointer <?= $bill['status'] == 0 ? 'table-info' : 'bg-success' ?>">
                 <td><?= $bill['id'] ?></td>
                 <td><?= $bill['username'] ?></td>
                 <td><?= $bill['create_at'] ?></td>
                 <td><?= number_format($bill['total_price']) ?>đ</td>
-                <td><?= $bill['ispay'] == 1 ? 'Đã thanh toán' : 'Chưa thanh toán' ?></td>
+                <td><?= $bill['status'] == 1 ? 
+                        "<span class='badge bg-success'>Đã giao hàng</span>" : 
+                        "<span class='badge bg-warning text-dark'>Đang xử lý</span>" ?>
+                </td>
                 <td>
-                    <button class="btn <?= $bill['ispay'] == 1 ? 'text-white' : 'btn-success' ?>" onclick="updateStatus(this)" data-bill-id="<?= $bill['id'] ?>" <?= $bill['ispay'] == 1 ? 'disabled' : '' ?>><?= $bill['ispay'] == 1 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-credit-card"></i>' ?></button>
+                    <button class="btn <?= $bill['status'] == 1 ? 'text-white' : 'btn-success' ?>" onclick="updateStatus(this)" data-bill-id="<?= $bill['id'] ?>" <?= $bill['status'] == 1 ? 'disabled' : '' ?>><?= $bill['status'] == 1 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-credit-card"></i>' ?></button>
                     <button class="btn btn-danger" onclick="deleteBill(this)" data-bill-id="<?= $bill['id'] ?>"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>

@@ -19,6 +19,7 @@ $router->addRoute('', HomeController::class, 'index');
 $router->addRoute('allproduct', HomeController::class, 'allproduct');
 $router->addRoute('detail', HomeController::class, 'detail');
 $router->addRoute('cart', HomeController::class, 'cart');
+$router->addRoute('profile', HomeController::class, 'profile');
 
 $router->addRoute('login', LoginController::class, 'login');
 $router->addRoute('logout', LoginController::class, 'logout');
@@ -40,6 +41,7 @@ $router->addRoute('api/comment', APIController::class, 'comment');
 $router->addRoute('api/order', APIController::class, 'order');
 
 $router->addRoute('api/user', UserAPIController::class, 'user');
+$router->addRoute('api/profile', UserAPIController::class, 'profile');
 $router->addRoute('api/addtocart', UserAPIController::class, 'addtocart');
 $router->addRoute('api/countcart', UserAPIController::class, 'countcart');
 $router->addRoute('api/getdetail', UserAPIController::class, 'getdetail');

@@ -92,8 +92,7 @@ class Model
         $data[] = $id;
         $sql = "UPDATE $this->table SET $allColumn WHERE id=?";
         $result = $this->connect->prepare($sql);
-        $result->execute(array_values($data)); // 
-        return $result->rowCount();
+        return $result->execute(array_values($data));
     }
     function getLastId(){ // lấy id của dữ liệu vừa thêm vào
         $sql = "SELECT * FROM $this->table ORDER BY id DESC LIMIT 1";

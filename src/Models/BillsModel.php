@@ -51,6 +51,12 @@ class BillsModel extends Model{
         $result->execute();
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
+    function getByAccountId($account_id){
+        $sql = "SELECT b.*, a.username, a.image, a.email FROM $this->table b join accounts a on b.account_id = a.id WHERE account_id=?";
+        $result = $this->connect->prepare($sql);
+        $result->execute([$account_id]);
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

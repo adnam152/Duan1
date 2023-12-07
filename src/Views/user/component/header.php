@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg shadow-sm py-0">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Logo</a>
+        <a class="navbar-brand" href="/">
+            <img src="/assets/image/logo-web.png" style="height: 50px; object-fit:contain" alt="">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -11,7 +13,7 @@
                     foreach ($allCategory as $category) {
                         echo "
                             <li class='nav-item'>
-                                <a class='nav-link' href='/allproduct?category=" . $category['id'] . "'>" . $category['name'] . "</a>
+                                <a class='nav-link' href='/allproduct?category=" . $category['id'] . "'><h6>" . $category['name'] . "</h6></a>
                             </li>";
                     }
                 }
@@ -75,6 +77,11 @@
                                                 </li>";
                                         }
                                         ?>
+                                        <li>
+                                            <a href="/profile" class='nav-link'>
+                                                <i class="fa-solid fa-user"></i> Trang cá nhân
+                                            </a>
+                                        </li>
                                         <li>
                                             <a href="/logout" class='nav-link'>
                                                 <i class="feather icon-log-out"></i> Logout
