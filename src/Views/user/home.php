@@ -8,9 +8,7 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    box-shadow: 5px 10px 15px #959393;
   }
-
   .h-750 {
     height: 738px !important;
   }
@@ -18,16 +16,23 @@
   .h-50 {
     height: 50% !important;
   }
-  .category a {
+  .category .category-item {
     height: 100%;
     position: relative;
     color: white;
+    overflow: hidden;
+  }
+  .category .category-item:hover .label-category{
+    transform: translateX(111%);
   }
   .category .label-category {
+    width: max-content;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    box-shadow: 5px 10px 15px #959393;
+    bottom: 8px;
+    right: 100%;
+    font-size: 17px;
+    font-weight: 700;
+    transition: 0.3s;
   }
 
   .endow.container i {
@@ -53,6 +58,12 @@
     object-fit: cover;
     object-position: center;
   }
+  .rounded-2 {
+    border-radius: 1.5rem;
+  }
+  .rounded-5{
+    border-radius: 0.3rem;
+  }
 </style>
 
 <!-- BANNER -->
@@ -66,25 +77,25 @@ require "src/Views/user/component/banner.php";
     <div class="row">
       <div class="col">
         <div class="row h-50">
-          <a href="/allproduct?category=3" class="col py-2">
-            <img src="/assets/image/cong_so.jpeg" alt="" class="img rounded img-1">
-            <button class="label-category btn btn-info">Giày công sở</button>
+          <a href="/allproduct?category=3" class="col py-2 category-item">
+            <img src="/assets/image/cong_so.jpeg" alt="" class="img rounded-2 img-1">
+            <button class="label-category btn btn-primary rounded-5">Giày công sở</button>
           </a>
-          <a href="/allproduct?category=4" class="col py-2">
-            <img src="/assets/image/sneaker.jpg" alt="" class="img rounded img-1">
-            <button class="label-category btn btn-info">Giày Sneaker</button>
+          <a href="/allproduct?category=4" class="col py-2 category-item">
+            <img src="/assets/image/sneaker.jpg" alt="" class="img rounded-2 img-1">
+            <button class="label-category btn btn-primary rounded-5">Giày Sneaker</button>
           </a>
         </div>
         <div class="row h-50">
-          <a href="/allproduct?category=2" class="col py-2">
-            <img src="/assets/image/thethao.jpg" alt="" class="img rounded img-2">
-            <button class="label-category btn btn-info">Giày thể thao</button>
+          <a href="/allproduct?category=2" class="col py-2 category-item">
+            <img src="/assets/image/thethao.jpg" alt="" class="img rounded-2 img-2">
+            <button class="label-category btn btn-primary rounded-5">Giày thể thao</button>
           </a>
         </div>
       </div>
-      <a href="/allproduct?category=4" class="col py-2">
-        <img src="/assets/image/caogot.jpg" alt="" class="img rounded img-3 h-750">
-        <button class="label-category btn btn-info">Giày cao gót</button>
+      <a href="/allproduct?category=4" class="col py-2 category-item">
+        <img src="/assets/image/caogot.jpg" alt="" class="img rounded-2 img-3 h-750">
+        <button class="label-category btn btn-primary rounded-5">Giày cao gót</button>
       </a>
     </div>
   </div>
@@ -182,7 +193,7 @@ require "src/Views/user/component/banner.php";
                 <p class="card-text">${product.description.substring(0,120)}...</p>
               </div>
               <div class="card-footer pt-0">
-                <a href="/detail?id=${product.id}" class="btn btn-primary">Mua ngay</a>
+                <a href="/detail?id=${product.id}" class="btn btn-primary">Xem chi tiết</a>
               </div>
             </div>
             `

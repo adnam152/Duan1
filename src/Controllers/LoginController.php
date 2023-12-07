@@ -24,7 +24,9 @@ class LoginController extends Controller{
                     "address" => $account['address'],
                     "image" => $account['image'],
                     "role" => $account['role'],
+                    "create_at" => $account['create_at'],
                 ];
+                unset($_SESSION['cart']);
                 echo json_encode("success");
                 exit;
             }
@@ -60,6 +62,7 @@ class LoginController extends Controller{
                     "image" => $account['image'],
                     "role" => $account['role'],
                 ];
+                unset($_SESSION['cart']);
                 echo json_encode("success");
                 exit;
             }

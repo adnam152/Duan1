@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 02, 2023 at 12:55 AM
+-- Generation Time: Dec 04, 2023 at 01:42 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -56,20 +56,6 @@ INSERT INTO `accounts` (`id`, `username`, `password`, `image`, `email`, `phone_n
 -- --------------------------------------------------------
 
 --
--- Table structure for table `api_keys`
---
-
-CREATE TABLE `api_keys` (
-  `id` int NOT NULL,
-  `user_id` int DEFAULT NULL,
-  `api_key` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `billdetails`
 --
 
@@ -88,20 +74,15 @@ CREATE TABLE `billdetails` (
 --
 
 INSERT INTO `billdetails` (`id`, `product_id`, `quantity`, `bill_id`, `price`, `category_id`, `detail_id`) VALUES
-(1, 16, 2, 1, 255000, 1, 13),
-(2, 17, 6, 1, 355500, 1, 14),
-(3, 37, 4, 1, 2780700, 3, 16),
-(4, 37, 2, 1, 2780700, 3, 17),
-(5, 16, 1, 3, 255000, 1, 19),
-(6, 16, 2, 3, 272000, 1, 20),
 (7, 16, 3, 4, 255000, 1, 22),
 (8, 16, 3, 4, 297500, 1, 23),
 (9, 16, 1, 6, 255000, 1, 24),
 (10, 16, 1, 6, 272000, 1, 25),
 (11, 22, 1, 7, 1202650, 1, 28),
-(12, 16, 1, 8, 255000, 1, 29),
-(13, 16, 1, 8, 272000, 1, 30),
-(14, 18, 1, 9, 900000, 1, 31);
+(15, 17, 1, 10, 359100, 1, 32),
+(16, 17, 1, 10, 355500, 1, 33),
+(17, 17, 1, 10, 355500, 1, 34),
+(18, 17, 1, 10, 359100, 1, 35);
 
 -- --------------------------------------------------------
 
@@ -127,14 +108,10 @@ CREATE TABLE `bills` (
 --
 
 INSERT INTO `bills` (`id`, `account_id`, `total_price`, `pay_method`, `create_at`, `fullname`, `address`, `phone_number`, `note`, `ispay`) VALUES
-(1, 1, 19327200, '', '2023-12-01 00:48:10', 'Nguyễn Tuấn Nam', 'TB', '0357420766', NULL, 0),
-(3, 1, 799000, 'Thanh toán khi nhận hàng', '2023-12-01 00:52:30', 'Nguyễn Tuấn Nam', 'TB', '0357420766', NULL, 0),
 (4, 1, 1657500, 'Thanh toán khi nhận hàng', '2023-12-01 01:05:31', 'Nguyễn Tuấn Nam', 'TB', '0357420766', NULL, 0),
-(5, 1, 0, 'Thanh toán khi nhận hàng', '2023-12-01 03:09:48', 'Nguyễn Tuấn Nam', 'TB', '0357420766', NULL, 0),
-(6, 1, 527000, 'Thanh toán khi nhận hàng', '2023-12-01 05:42:35', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0),
-(7, 1, 1202650, 'Thanh toán khi nhận hàng', '2023-12-01 17:11:06', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0),
-(8, 1, 527000, 'Thanh toán khi nhận hàng', '2023-12-01 17:31:59', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0),
-(9, 1, 900000, 'Thanh toán khi nhận hàng', '2023-12-01 17:43:21', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0);
+(6, 1, 527000, 'Thanh toán khi nhận hàng', '2023-12-01 05:42:35', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 1),
+(7, 2, 1202650, 'Thanh toán khi nhận hàng', '2023-12-01 17:11:06', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0),
+(10, 1, 1429200, 'Thanh toán khi nhận hàng', '2023-12-04 02:35:16', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -342,12 +319,12 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `discount`, `description`, `view`, `purchase`, `create_at`, `update_at`) VALUES
 (16, 1, 'Giày Tuvis unisex denim cột dây SID36110', 15, 'Giày Tuvis unisex denim cột dây: Chất liệu: Cotton + Cao su. Thiết kế kiểu giày cột dây mang đến phong cách khỏe khoắn, năng động', 45, 0, '2023-11-20 10:39:16', NULL),
-(17, 1, 'Giày Cột Dây Nữ kim tuyến QuickFree', 10, 'Là mẫu giày bạn có thể mang bất cứ ở đâu, bất cứ khi nào, phù hợp với mọi loại trang phục', 5, 0, '2023-11-20 10:53:26', NULL),
+(17, 1, 'Giày Cột Dây Nữ kim tuyến QuickFree', 10, 'Là mẫu giày bạn có thể mang bất cứ ở đâu, bất cứ khi nào, phù hợp với mọi loại trang phục', 6, 0, '2023-11-20 10:53:26', NULL),
 (18, 1, 'Giày Sneaker MUST Korea nữ I01 SID45677', 0, 'Giày Sneaker MUST Korea nữ I01: Chất liệu làm bằng da PU mềm mại tự nhiên, bền chắc, tạo sự thoải mái trong mỗi bước chân. Thiết kế ôm vừa chân với thương hiệu MUST đẳng cấp, thời trang, mang đến cho bạn gái vẻ ngoài trẻ trung, năng động', 4, 0, '2023-11-20 11:01:10', NULL),
 (19, 4, 'Giày nữ gót nhọn Cindydrella B29 SID33517', 12, 'Giày nữ gót nhọn Cindydrella B29: Chất liêu Da PU bền đẹp, sáng bóng, tỉ mỉ, chắc chắn cho bạn thêm an tâm khi sử dụng. Thiêt kế giày gót nhọn sang trọng, mang tới cho bạn sự thanh lịch, duyên dáng.', 2, 0, '2023-11-20 11:06:50', NULL),
 (20, 4, 'Giày cao gót nữ phối dây chéo X SID39138', 13, 'Giày cao gót nữ phối dây chéo: Chất liệu nhung mềm mại, đẹp, mang đến vẻ sang trọng cho đôi giày. Thiết kế hiện đại, giày mũi nhọn thời trang, mang đến nét trẻ trung, thanh lịch', 2, 0, '2023-11-20 11:12:35', NULL),
 (21, 1, 'Air Force 1 Shadow Pale Ivory', 10, 'Nike Air Force 1 Shadow đang cho thấy sức ảnh hưởng mãnh liệt của mình khi thu hút rất nhiều đầu giày hay thậm chí một số người nổi tiếng diện nó trên chân. Đúng với cái tên Shadow, mỗi chi tiết trên thân giày đều có hình bóng của chính nó bên dưới, đi theo phong cách “nhân đôi niềm vui” với 2 Swoosh, 2 mid-sole, 2 hàng lỗ xỏ dây và 2 mud-guard được đặt chồng lên nhau. Bộ đế Air được nâng cao hơn so với của Air Force 1 nguyên bản, giúp “hack” chiều cao dễ hơn mà không quá lố. Mỗi một phiên bản phối màu mới được ra mắt của dòng giày này đều gây sốt khi pha trộn các mảng màu khác sắc độ với nhau vô cùng tinh tế.\r\n\r\nChất liệu upper: da tổng hợp\r\nĐế giày cao su\r\nChiều cao đế: 4.1 cm\r\nLớp lót bằng lưới và đệm foam gấp đôi sự êm ái\r\nCó lỗ thông hơi trên mũi giày\r\nTem giày thêu trên phần lưỡi gà\r\nChất liệu tag dây giày: nhựa\r\nMàu sắc: trắng ngà/vàng/tím pastel/xanh lá\r\nThương hiệu: ', 1, 0, '2023-11-22 15:15:37', NULL),
-(22, 1, 'Balenciaga Triple S Trainer White', 33, 'Balenciaga là thương hiệu thời trang lâu đời nổi tiếng, cao cấp nhất nhì thế giới được thành lập từ năm 1919. Tiếp nối sự thành công, thương hiệu tiếp tục tung ra Triple S – dòng giày đa sắc màu, phá bỏ mọi giới hạn, đủ đẹp, đủ chất để khiến giới mộ điệu lại một lần nữa phải điên đảo Đây là mẫu giày cũng được nhiều người nghệ sĩ thế giới lựa chọn. Tại Việt Nam, giày Triple S được rất nhiều nghệ sĩ nổi tiếng yêu thích. Thiết kế đột phá. Một đôi giày ra đời đã phá vỡ những tiêu chuẩn về thời trang hiện nay. Phần đế cao, uốn lượn hơn hẳn để bạn ăn gian thêm vài centimet Pha trộn những gam màu vintage và nhiều chất liệu vải khác nhau. Trên thân, gót hay đế giày cũng đều được thêu và khắc tên thương hiệu, tạo sự đẳng cấp.', 2, 0, '2023-11-22 15:23:32', NULL),
+(22, 1, 'Balenciaga Triple S Trainer White', 33, 'Balenciaga là thương hiệu thời trang lâu đời nổi tiếng, cao cấp nhất nhì thế giới được thành lập từ năm 1919. Tiếp nối sự thành công, thương hiệu tiếp tục tung ra Triple S – dòng giày đa sắc màu, phá bỏ mọi giới hạn, đủ đẹp, đủ chất để khiến giới mộ điệu lại một lần nữa phải điên đảo Đây là mẫu giày cũng được nhiều người nghệ sĩ thế giới lựa chọn. Tại Việt Nam, giày Triple S được rất nhiều nghệ sĩ nổi tiếng yêu thích. Thiết kế đột phá. Một đôi giày ra đời đã phá vỡ những tiêu chuẩn về thời trang hiện nay. Phần đế cao, uốn lượn hơn hẳn để bạn ăn gian thêm vài centimet Pha trộn những gam màu vintage và nhiều chất liệu vải khác nhau. Trên thân, gót hay đế giày cũng đều được thêu và khắc tên thương hiệu, tạo sự đẳng cấp.', 3, 0, '2023-11-22 15:23:32', NULL),
 (23, 1, 'MLB - Giày sneaker cổ thấp Big Ball Chunky', 15, 'Chất liệu: Composition leather, Compounded rubber Kiểu dáng giày sneaker đế cao thời trang Thiết kế lấy cảm hứng từ hiệp hội bóng chày MLB Cộng hưởng cùng chi tiết chữ sắc nét Lớp lót êm ái, nâng dáng bước chân Gam màu hiện đại dễ dàng phối với nhiều trang phục và phụ kiện Xuất xứ thương hiệu: Hàn quốc. Sản xuất tại: Việt Nam', 1, 0, '2023-11-22 16:11:59', NULL),
 (24, 1, 'SUEDE Sneakers - FS', 20, '- Màu sắc: Đen\r\n\r\n- Chất liệu da lộn. \r\n\r\n- Đế cao su dẻo dai, độ bền cao, được sản xuất theo công nghệ mới.\r\n\r\n- Thiết kế năng động. \r\n\r\n- Đế giày được ép nhiệt kết hợp những đường khâu chắc chắn.', 0, 0, '2023-11-22 16:34:21', NULL),
 (25, 1, 'Giày MLB Liner High NY White Black', 45, 'Giày MLB Liner High NY ‘White Black’ (QUAI DÁN) với thiết kế đẹp, tinh tế & màu sắc vô cùng dễ phối đồ. Vậy nên đôi giày này trở nên phổ biến, mang tính biểu tượng và được rất nhiều giới trẻ yêu thích. Và nếu bạn cũng là một người đam mê dòng sneaker dễ mang, dễ phố đồ thì không nên bỏ qua mẫu giày siêu phẩm này đâu nhé! Dưới đây là một số hình ảnh của đôi Giày MLB Liner High NY ‘White Black’ (QUAI DÁN) tại TyHi Sneaker (hàng chuẩn Siêu cấp bản xịn nhất thị trường).', 0, 0, '2023-11-22 16:39:51', NULL),
@@ -544,13 +521,6 @@ ALTER TABLE `accounts`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `api_keys`
---
-ALTER TABLE `api_keys`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- Indexes for table `billdetails`
 --
 ALTER TABLE `billdetails`
@@ -621,28 +591,22 @@ ALTER TABLE `accounts`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `api_keys`
---
-ALTER TABLE `api_keys`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `billdetails`
 --
 ALTER TABLE `billdetails`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -677,12 +641,6 @@ ALTER TABLE `product_detail`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `api_keys`
---
-ALTER TABLE `api_keys`
-  ADD CONSTRAINT `api_keys_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`id`);
 
 --
 -- Constraints for table `billdetails`

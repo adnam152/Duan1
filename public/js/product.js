@@ -179,7 +179,6 @@ function addImage(input) {
 function setTotalQuantity(productId) {
     var count = 0;
     const tr = document.querySelector('tr[data-product-id="' + productId + '"]');
-    console.log(tr);
     tr.parentElement.querySelector('table[data-product-id="' + productId + '"]').querySelectorAll('td[data-quantity]').forEach(td => {
         count += parseInt(td.dataset.quantity);
     })

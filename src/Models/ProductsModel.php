@@ -29,8 +29,8 @@ class ProductsModel extends Model{
         $result->execute([$id]);
         return $result->rowCount();
     }
-    function getTopSeller(){
-        $sql = "SELECT * FROM $this->table ORDER BY purchase DESC LIMIT 8";
+    function getTopSeller($limit = 8){
+        $sql = "SELECT * FROM $this->table p join (select product_id, min(link) as link from medias group by product_id) m on p.id = m.product_id ORDER BY p.purchase DESC, p.view DESC LIMIT $limit";
         $result = $this->connect->prepare($sql);
         $result->execute();
         return $result->fetchAll(\PDO::FETCH_ASSOC);

@@ -9,6 +9,7 @@ use MVC\Models\CartsModel;
 use MVC\Models\BillsModel;
 use MVC\Models\BilldetailsModel;
 use MVC\Models\MediasModel;
+use MVC\Models\AccountsModel;
 
 class UserAPIController
 {
@@ -16,6 +17,49 @@ class UserAPIController
     {
         if (isset($_SESSION['user'])) echo json_encode(["id" => $_SESSION['user']['id']]);
         else echo json_encode("error");
+    }
+    public function tempuser(){
+        if(!isset($_SESSION['user'])):
+            if(isset($_POST['add'])):
+                $_SESSION['temp_user'] = [
+                    "id" => 0,
+                    "fullname" => $_POST['fullname'],
+                    "address" => $_POST['address'],
+                    "phone_number" => $_POST['phone_number'],
+                ];
+                echo json_encode("success");
+            endif;
+        endif;
+    }
+    public function profile()
+    {
+        if (isset($_SESSION['user'])) {
+            if (!empty($_FILES['avatar']['name'])) {
+                $target_dir = "/assets/image/";
+                $target_file = $target_dir . basename($_FILES["avatar"]["name"]);
+                $check = getimagesize($_FILES["avatar"]["tmp_name"]);
+                if ($check !== false) {
+                    if (move_uploaded_file($_FILES["avatar"]["tmp_name"], '.'.$target_file)) {
+                        $avatar = $target_file;
+                    }
+                }
+            } else $avatar = $_SESSION['user']['image'];
+            if ((new AccountsModel)->update([
+                "fullname" => $_POST['fullname'],
+                "address" => $_POST['address'],
+                "phone_number" => $_POST['phone_number'],
+                "email" => $_POST['email'],
+                "image" => $avatar,
+            ], $_SESSION['user']['id'])) {
+                // set session
+                $_SESSION['user']['fullname'] = $_POST['fullname'];
+                $_SESSION['user']['address'] = $_POST['address'];
+                $_SESSION['user']['phone_number'] = $_POST['phone_number'];
+                $_SESSION['user']['email'] = $_POST['email'];
+                $_SESSION['user']['image'] = $avatar;
+                echo json_encode("success");
+            }
+        } else echo json_encode("error");
     }
     public function countcart()
     {
@@ -38,8 +82,19 @@ class UserAPIController
         $cartModel = new CartsModel();
         $detailModel = new ProductdetailModel();
         $detail = $detailModel->getByColorAndSize($_POST['product_id'], $_POST['color'], $_POST['size']);
+        $detailId = $detail['id'];
+
+        // Nếu chưa đăng nhập thì lưu vào session
+        if(!isset($_SESSION['user'])) {
+            $_SESSION['cart'][] = [
+                "detail_id" => $detailId,
+                "quantity" => $_POST['quantity'],
+            ];
+            echo json_encode("success");
+            exit;
+        }
+        // Nếu đã đăng nhập thì lưu vào database
         if (isset($detail['quantity']) && $detail['quantity'] >= $_POST['quantity']) {
-            $detailId = $detail['id'];
             if ($cartModel->isExist([
                 "account_id" => $_POST['account_id'],
                 "detail_id" => $detailId,
@@ -57,7 +112,8 @@ class UserAPIController
                 ]);
             echo json_encode("success");
             exit;
-        } else echo json_encode("error");
+        }
+        else echo json_encode("error");
     }
     public function getcomment()
     {
@@ -101,15 +157,15 @@ class UserAPIController
     }
     public function confirmBill()
     {
-        if(!isset($_POST['cart_id']) || empty($_POST['cart_id'])) {
+        if (!isset($_POST['cart_id']) || empty($_POST['cart_id'])) {
             echo json_encode("error");
             exit;
         }
         $totalPrice = 0;
         $details = [];
-        foreach($_POST['cart_id'] as $id){
+        foreach ($_POST['cart_id'] as $id) {
             $temp = (new CartsModel)->getDetail($id);
-            $totalPrice += $temp['price'] * $temp['quantity'] * (1 - $temp['discount']/100);
+            $totalPrice += $temp['price'] * $temp['quantity'] * (1 - $temp['discount'] / 100);
             $details[] = $temp;
         }
 
@@ -123,16 +179,16 @@ class UserAPIController
             "address" => $_POST['address'],
             "phone_number" => $_POST['phone_number'],
         ]);
-        
+
         // create bill detail and delete cart
         $bill_id = (new BillsModel)->getLastId();
-        foreach($details as $detail){
+        foreach ($details as $detail) {
             (new BilldetailsModel)->insert([
                 "product_id" => $detail['product_id'],
                 "bill_id" => $bill_id,
                 "detail_id" => $detail['id'],
                 "quantity" => $detail['quantity'],
-                "price" => $detail['price'] * (1 - $detail['discount']/100),
+                "price" => $detail['price'] * (1 - $detail['discount'] / 100),
                 "category_id" => $detail['category_id'],
             ]);
             (new CartsModel)->delete($detail['id']);
@@ -143,7 +199,7 @@ class UserAPIController
     {
         $topSeller = (new ProductsModel())->getTopSeller();
         $data = [];
-        foreach($topSeller as $index => $product){
+        foreach ($topSeller as $index => $product) {
             $data[$index] = $product;
             $images = (new MediasModel())->getByProductId($product['id'], 2);
             $data[$index]['image'][] = $images[0]['link'];
