@@ -167,6 +167,6 @@
                 <p>If you already have an Account, Login <button type="button" id="log">Login</button></p>
             </form>
         </div>
-        <img src="" alt="">
+        <img src="" alt="" id="modal-img">
     </div>
 </div>

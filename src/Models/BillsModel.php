@@ -26,7 +26,7 @@ class BillsModel extends Model{
     }
     function get($data=[])
     {
-        $sql = "SELECT b.*, a.username, a.image, a.email FROM $this->table b join accounts a on b.account_id = a.id";
+        $sql = "SELECT b.*, a.username, a.image, a.email FROM $this->table b left join accounts a on b.account_id = a.id";
         if (isset($data['id'])) {
             $sql .= " WHERE id=?";
             $result = $this->connect->prepare($sql);

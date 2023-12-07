@@ -1,4 +1,25 @@
-<div id="footer">
+<style>
+    #footer {
+        padding: 50px;
+        padding-bottom: 0;
+    }
+
+    #footer a {
+        color: white;
+    }
+
+    .icon-container i {
+        font-size: 30px;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+    .icon-container i:hover {
+        scale: 1.2;
+    }
+</style>
+
+<div id="footer" class="bg-dark text-white">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
@@ -72,38 +93,38 @@
         </div>
         <hr />
         <div class="row">
-            <div class="col-md-6">
-                <h5>THIÊN ĐƯỜNG MUA SẮM (TÊN DN)</h5>
-                <p>Copyright@2023 Công ty cổ phần thương mại (ten dn)</p>
-                <p>Chứng nhận DKKD số: 0388282938 do sở KH & ĐT TP.Hà Nội cấp</p>
-                <p>Địa chỉ: Trịnh Văn Bô - Nam Từ Liêm - Hà Nội</p>
-                <p>Điện thoại: 0352403019 - Email: ngantph31360@fpt.edu.vn</p>
-            </div>
-            <div class="col-md-6">
-                
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <div>
-                    <span class="box50 border border-danger text-primary mr-3">
+                    <h5>THIÊN ĐƯỜNG MUA SẮM <span class="fw-bolder">1st SNEAKER</span></h5>
+                    <p class="mb-0">Chứng nhận DKKD số: 0388282938 do sở KH & ĐT TP.Hà Nội cấp</p>
+                    <p class="mb-0">Địa chỉ: Trịnh Văn Bô - Nam Từ Liêm - Hà Nội</p>
+                    <p class="mb-0">Điện thoại: 0352403019 - Email: ngantph31360@fpt.edu.vn</p>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <div class="icon-container">
+                    <span class="box50 border border-dark text-primary mr-3">
                         <i class="fa-brands fa-square-facebook"></i>
                     </span>
-                    <span class="box50 border border-danger text mr-3">
+                    <span class="box50 border border-dark text mr-3">
                         <i class="fa-brands fa-square-instagram" style="color: #c87f19"></i>
                     </span>
-                    <span class="box50 border border-danger text-white mr-3">
+                    <span class="box50 border border-dark text-white mr-3">
                         <i class="fa-brands fa-google"></i>
                     </span>
-                    <span class="box50 border border-danger text">
+                    <span class="box50 border border-dark text">
                         <i class="fa-brands fa-youtube" style="color: #c20606"></i>
                     </span>
                 </div>
             </div>
         </div>
         <hr />
-        <div class="row">
-            <div class="col-md-6">
-                <p>Bản quyền thuộc về () Cung cấp bởi ()</p>
+        <div class="d-flex justify-content-between">
+            <div class="">
+                <p>Bản quyền thuộc về <span class="fw-bolder">1st Sneaker</span> Cung cấp bởi Nam</p>
             </div>
-            <div class="col-md-6 text-end">
-                Trang chủ Giới thiệu Sản Phẩm Liên hệ
+            <div class="">
+                Copyright&copy; <?php echo date("Y"); ?> <span class="fw-bolder">1st Sneaker</span>. All rights reserved.
             </div>
         </div>
     </div>

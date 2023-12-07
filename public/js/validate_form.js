@@ -48,6 +48,7 @@ const formContainer = document.querySelector('#form-modal');
 
 function openLoginModal() {
     formContainer.classList.add('show');
+    document.querySelector('#modal-img').src = "https://res.cloudinary.com/dzkdgm4c7/image/upload/v1690888778/Workshop1/n2r71bndgsrttfgzmo6z.webp";
 };
 
 // Validate Login And Login
@@ -181,7 +182,6 @@ function openLoginModal() {
     const area = form.querySelector('.container-area');
     const registerArea = form.querySelector('.register-area');
     const loginArea = form.querySelector('.login-area');
-    img.src = "https://res.cloudinary.com/dzkdgm4c7/image/upload/v1690888778/Workshop1/n2r71bndgsrttfgzmo6z.webp";
 
     regBtn.onclick = function () {
         img.style.left = -area.offsetWidth + 'px';

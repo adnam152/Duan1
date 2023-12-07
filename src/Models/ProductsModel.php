@@ -35,5 +35,10 @@ class ProductsModel extends Model{
         $result->execute();
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
+    function increasePurchase($id, $quantity){
+        $sql = "UPDATE $this->table SET purchase = purchase + ? WHERE id=?";
+        $result = $this->connect->prepare($sql);
+        return  $result->execute([$quantity, $id]);
+    }
 }
 ?>

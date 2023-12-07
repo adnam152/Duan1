@@ -41,6 +41,7 @@ $router->addRoute('api/comment', APIController::class, 'comment');
 $router->addRoute('api/order', APIController::class, 'order');
 
 $router->addRoute('api/user', UserAPIController::class, 'user');
+$router->addRoute('api/tempuser', UserAPIController::class, 'tempuser');
 $router->addRoute('api/profile', UserAPIController::class, 'profile');
 $router->addRoute('api/addtocart', UserAPIController::class, 'addtocart');
 $router->addRoute('api/countcart', UserAPIController::class, 'countcart');
@@ -50,5 +51,7 @@ $router->addRoute('api/addcomment', UserAPIController::class, 'addcomment');
 $router->addRoute('api/removefromcart', UserAPIController::class, 'removefromcart');
 $router->addRoute('api/confirmBill', UserAPIController::class, 'confirmBill');
 $router->addRoute('api/topseller', UserAPIController::class, 'topSeller');
+$router->addRoute('api/increasequantity', UserAPIController::class, 'increasequantity');
+$router->addRoute('api/decreasequantity', UserAPIController::class, 'decreasequantity');
 
 $router->dispatch($uri);

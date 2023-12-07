@@ -167,7 +167,7 @@
                             <td>
                                 <?php
                                 if ($bill['status'] == 0) {
-                                    echo "<span class='badge bg-warning text-dark'>Đang xử lý</span>";
+                                    echo "<span class='badge bg-warning text-dark'>Đang chờ</span>";
                                 } else if ($bill['status'] == 1) {
                                     echo "<span class='badge bg-success'>Đã giao hàng</span>";
                                 } else {

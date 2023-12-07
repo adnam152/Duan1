@@ -39,6 +39,11 @@ class ProductdetailModel extends Model{
         $result->execute([$product_id, $color, $size]);
         return $result->fetch(\PDO::FETCH_ASSOC);
     }
+    function decreaseQuantity($id, $quantity){
+        $sql = "UPDATE $this->table SET quantity = quantity - ? WHERE id=?";
+        $result = $this->connect->prepare($sql);
+        return  $result->execute([$quantity, $id]);
+    }
 }
 
 ?>
