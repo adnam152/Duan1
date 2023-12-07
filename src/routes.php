@@ -17,13 +17,12 @@ $router = new Router();
 
 $router->addRoute('', HomeController::class, 'index');
 $router->addRoute('allproduct', HomeController::class, 'allproduct');
+$router->addRoute('allproduct/{category_id}', HomeController::class, 'allproduct');
 $router->addRoute('detail', HomeController::class, 'detail');
 $router->addRoute('cart', HomeController::class, 'cart');
 $router->addRoute('profile', HomeController::class, 'profile');
 
 $router->addRoute('login', LoginController::class, 'login');
-$router->addRoute('logout', LoginController::class, 'logout');
-$router->addRoute('register', LoginController::class, 'register');
 
 
 $router->addRoute('admin', AdminController::class, 'index');

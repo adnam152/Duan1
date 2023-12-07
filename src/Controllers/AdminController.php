@@ -23,6 +23,7 @@ class AdminController extends Controller
     }
     public function index()
     {
+
         $this->render([
             "view" => "admin/index",
             "page" => "admin",
@@ -92,9 +93,7 @@ class AdminController extends Controller
             $allLinks = $mediaModel->getByProductId($product_id); // get image by product id
 
             $allProducts[$index]['category_id'] = $product['category_id'];
-            $allProducts[$index]['category'] = $categoryModel->get([
-                "id" => $product['category_id'],
-            ])['name']; // get category by id
+            $allProducts[$index]['category'] = $categoryModel->get(["id" => $product['category_id'],])['name']; // get category by id
             $allProducts[$index]['count'] = $productDetailModel->countByProductId($product_id)['count'] ?? 0; // get count by product id
             $allProducts[$index]['detail'] = [];
 
