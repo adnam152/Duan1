@@ -24,7 +24,7 @@ class CartsModel extends Model{
         return $result->fetch(\PDO::FETCH_ASSOC);
     }
     function getAllInforByAccountId($account_id){
-        $sql = "SELECT c.id, c.quantity, pd.id detail_id, pd.size, pd.color, pd.price, p.id product_id, p.name, p.discount, m.link FROM $this->table c join product_detail pd on c.detail_id = pd.id join products p on pd.product_id = p.id join (SELECT product_id, min(link) as link From medias GROUP BY product_id) m on p.id = m.product_id WHERE c.account_id=?";
+        $sql = "SELECT c.id, c.quantity, pd.id detail_id, pd.size, pd.color, pd.price, p.category_id, p.id product_id, p.name, p.discount, m.link FROM $this->table c join product_detail pd on c.detail_id = pd.id join products p on pd.product_id = p.id join (SELECT product_id, min(link) as link From medias GROUP BY product_id) m on p.id = m.product_id WHERE c.account_id=?";
         $result = $this->connect->prepare($sql);
         $result->execute([$account_id]);
         return $result->fetchAll(\PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ class CartsModel extends Model{
         foreach($_SESSION['cart'] as $index => $cart){
             $detail_id = $cart['detail_id'];
             $quantity = $cart['quantity'];
-            $sql = "SELECT pd.id detail_id, pd.size, pd.color, pd.price, p.id product_id, p.name, p.discount, m.link FROM product_detail pd join products p on pd.product_id = p.id join (SELECT product_id, min(link) as link From medias GROUP BY product_id) m on p.id = m.product_id WHERE pd.id=?";
+            $sql = "SELECT pd.id detail_id, pd.size, pd.color, pd.price, p.category_id, p.id product_id, p.name, p.discount, m.link FROM product_detail pd join products p on pd.product_id = p.id join (SELECT product_id, min(link) as link From medias GROUP BY product_id) m on p.id = m.product_id WHERE pd.id=?";
             $result = $this->connect->prepare($sql);
             $result->execute([$detail_id]);
             $data[] = array_merge($result->fetch(\PDO::FETCH_ASSOC), ['quantity' => $quantity], ['id' => $index]);

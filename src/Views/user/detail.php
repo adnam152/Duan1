@@ -157,7 +157,7 @@
                     <div class="col">
                         <?php
                         foreach ($colors as $color) {
-                            echo "<button data-color='$color' data-id='" . $_GET['id'] . "' class='rounded shadow btn btn-outline-dark mx-2 color'>$color</button>";
+                            echo "<button data-color='$color' data-id='" . $_GET['id'] . "' class='rounded shadow btn btn-outline-dark mx-2 mb-2 color'>$color</button>";
                         }
                         ?>
                     </div>
@@ -167,7 +167,7 @@
                     <div class="col">
                         <?php
                         foreach ($sizes as $size) {
-                            echo "<button data-size='$size' data-id='" . $_GET['id'] . "' class='rounded shadow btn btn-outline-dark mx-2 size'>$size</button>";
+                            echo "<button data-size='$size' data-id='" . $_GET['id'] . "' class='rounded shadow btn btn-outline-dark mx-2 mb-2 size'>$size</button>";
                         }
                         ?>
                     </div>

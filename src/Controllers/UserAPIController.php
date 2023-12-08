@@ -229,17 +229,13 @@ class UserAPIController
     }
     public function confirmBill()
     {
-        // echo "<pre>";
-        // print_r($_POST);
-        // echo "</pre>";
-        // exit;
         if (!isset($_POST['cart_id']) || empty($_POST['cart_id'])) {
             echo json_encode("error");
             exit;
         }
         $totalPrice = 0;
         $details = [];
-        if (!isset($_SESSION['user'])) :
+        if (!isset($_SESSION['user'])):
             foreach ($_SESSION['cart'] as $id => $cart) :
                 $temp = (new CartsModel)->getDetailBySession($id);
                 $totalPrice += $temp['price'] * $temp['quantity'] * (1 - $temp['discount'] / 100);
@@ -260,9 +256,9 @@ class UserAPIController
             "total_price" => $totalPrice,
             "pay_method" => $_POST['payment_method'],
             "create_at" => date("Y-m-d H:i:s", time()),
-            "fullname" => $_POST['fullname'],
-            "address" => $_POST['address'],
-            "phone_number" => $_POST['phone_number'],
+            "fullname" => $_SESSION['user']['fullname'] ?? $_SESSION['temp_user']['fullname'] ?? $_POST['fullname'],
+            "address" => $_SESSION['user']['address'] ?? $_SESSION['temp_user']['address'] ?? $_POST['address'],
+            "phone_number" => $_SESSION['user']['phone_number'] ?? $_SESSION['temp_user']['phone_number'] ?? $_POST['phone_number'],
             "update_at" => date("Y-m-d H:i:s", time()),
         ]);
 

@@ -6,6 +6,8 @@ use MVC\Controllers\AdminController;
 use MVC\Controllers\LoginController;
 use MVC\Controllers\APIController;
 use MVC\Controllers\UserAPIController;
+use MVC\Controllers\PaymentController;
+
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 $position = strpos($uri, '?');
@@ -56,5 +58,7 @@ $router->addRoute('api/decreasequantity', UserAPIController::class, 'decreasequa
 $router->addRoute('api/allproduct', UserAPIController::class, 'allproduct');
 $router->addRoute('api/filterproduct', UserAPIController::class, 'filterproduct');
 $router->addRoute('api/changepassword', UserAPIController::class, 'changepassword');
+
+$router->addRoute('payment', PaymentController::class, 'index');
 
 $router->dispatch($uri);

@@ -116,8 +116,8 @@
                     </td>
                     <td><?= $cart['size'] ?></td>
                     <td><?= $cart['color'] ?></td>
-                    <td data-old-price="<?=$cart['price']?>"><?= number_format($cart['price']) ?></td>
-                    <td data-discount="<?=$cart['discount']?>"><?= $cart['discount'] ?>%</td>
+                    <td data-old-price="<?= $cart['price'] ?>"><?= number_format($cart['price']) ?></td>
+                    <td data-discount="<?= $cart['discount'] ?>"><?= $cart['discount'] ?>%</td>
                     <td data-cart-id="<?= $cart['id'] ?>">
                         <div class="d-flex align-items-center justify-content-center">
                             <button class="btn btn-danger shadow-sm" onclick="decreaseQuantity(this)">-</button>
@@ -127,7 +127,7 @@
                     </td>
                     <td data-price="<?= $price ?>"><?= number_format($price) ?></td>
                     <td>
-                        <button class="btn btn-danger shadow-sm" data-cart-id="<?= $cart['id']?>" onclick="removeProduct(this)"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn btn-danger shadow-sm" data-cart-id="<?= $cart['id'] ?>" onclick="removeProduct(this)"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
             <?php
@@ -247,6 +247,7 @@
             <p class="mb-0">Phương thức thanh toán:</p>
             <select name="payment_method" id="payment_method" class="form-select form-select-sm form-control w-50">
                 <option value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</option>
+                <option value="Thanh toán online VNPay">Thanh toán online VNPay</option>
             </select>
         </div>
 
@@ -257,12 +258,24 @@
     </div>
 </div>
 
+<?php 
+if($isPay):
+    ?>
+    <script>
+        setTimeout(() => {
+            alert("Thanh toán thành công");
+        }, 1500);
+        document.querySelector('#header_number_cart').innerHTML = 0;
+    </script>
+    <?php
+endif;
+?>
 <script>
     // Change Quantity
     function increaseQuantity(btn) {
         const quantity = btn.closest('td').querySelector('.quantity');
         const cart_id = btn.closest('td').dataset.cartId;
-        ajaxRequest('/api/increasequantity?id='+cart_id, "GET")
+        ajaxRequest('/api/increasequantity?id=' + cart_id, "GET")
             .then(res => {
                 if (res == "success") {
                     quantity.innerHTML = parseInt(quantity.innerHTML) + 1;
@@ -273,12 +286,13 @@
                 }
             })
     }
+
     function decreaseQuantity(btn) {
         const quantity = btn.closest('td').querySelector('.quantity');
-        if(parseInt(quantity.innerHTML) <= 1) return;
-        
+        if (parseInt(quantity.innerHTML) <= 1) return;
+
         const cart_id = btn.closest('td').dataset.cartId;
-        ajaxRequest('/api/decreasequantity?id='+cart_id, "GET")
+        ajaxRequest('/api/decreasequantity?id=' + cart_id, "GET")
             .then(res => {
                 if (res == "success") {
                     quantity.innerHTML = parseInt(quantity.innerHTML) - 1;
@@ -354,17 +368,36 @@
 
     function confirmBill() {
         const payment_method = document.getElementById('payment_method');
-        const fullname = document.getElementById('fullname').dataset.fullName;
-        const phone_number = document.getElementById('phone_number').dataset.phoneNumber;
-        const address = document.getElementById('address').dataset.address;
         const bill_detail = document.querySelectorAll('a[data-cart-id]');
         const total_money = document.getElementById('total_money');
 
+        // nếu thanh toán online thì chuyển sang trang thanh toán
+        if (payment_method.value == "Thanh toán online VNPay") {
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/payment';
+            let dataPost = {
+                'redirect': '',
+                'order_id': Math.random().toString(36).substring(7),
+                'order_title': 'Thanh toán đơn hàng',
+                'order_type': 'bill',
+                'price': total_money.dataset.totalPrice,
+            }
+            for(let key in dataPost) {
+                let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = dataPost[key];
+                form.appendChild(input);
+            }
+            document.body.appendChild(form);
+            form.submit();
+            return;
+        }
+
+        // nếu thanh toán khi nhận hàng thì gửi thông tin đặt hàng lên server
         const formData = new FormData();
         formData.append('payment_method', payment_method.value);
-        formData.append('fullname', fullname);
-        formData.append('address', address);
-        formData.append('phone_number', phone_number);
 
         bill_detail.forEach(item => {
             formData.append('cart_id[]', item.dataset.cartId);
@@ -408,7 +441,7 @@
         const price = document.querySelectorAll('td[data-price]');
         let total = 0;
         price.forEach(item => {
-            const oldPirce =parseInt(item.closest('tr').querySelector('td[data-old-price]').dataset.oldPrice);
+            const oldPirce = parseInt(item.closest('tr').querySelector('td[data-old-price]').dataset.oldPrice);
             const discount = parseInt(item.closest('tr').querySelector('td[data-discount]').dataset.discount);
             const quantity = parseInt(item.closest('tr').querySelector('td[data-cart-id] .quantity').innerHTML);
             const newPrice = (oldPirce - (oldPirce * discount) / 100) * quantity;
