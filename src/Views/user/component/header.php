@@ -1,3 +1,9 @@
+<style>
+    .nav-link.active h6{
+        color: #f44336 !important;
+        font-weight: 900;
+    }
+</style>
 <nav class="navbar navbar-expand-lg shadow-sm py-0">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
@@ -10,12 +16,15 @@
             <ul class="navbar-nav">
                 <?php
                 if (isset($allCategory)) {
-                    foreach ($allCategory as $category) {
-                        echo "
+                    foreach ($allCategory as $category): ?>
                             <li class='nav-item'>
-                                <a class='nav-link' href='/allproduct?category=" . $category['id'] . "'><h6>" . $category['name'] . "</h6></a>
-                            </li>";
-                    }
+                                <a class='nav-link 
+                                <?php
+                                    if (isset($_GET['category']) && $_GET['category'] == $category['id']) echo "active";
+                                ?>
+                                ' href='/allproduct?category=<?=$category['id']?>'><h6><?=$category['name']?></h6></a>
+                            </li>
+                    <?php endforeach;
                 }
                 ?>
             </ul>
@@ -31,7 +40,7 @@
                                         <i class="feather icon-x input-group-text"></i>
                                     </span>
                                     <form action="/allproduct">
-                                        <input type="text" name="search" class="form-control" placeholder="Enter Keyword">
+                                        <input type="text" name="search" class="form-control" placeholder="Tên sản phẩm">
                                     </form>
                                     <span class="input-group-append search-btn">
                                         <i class="feather icon-search input-group-text" style="color: black;"></i>
@@ -167,6 +176,6 @@
                 <p>If you already have an Account, Login <button type="button" id="log">Login</button></p>
             </form>
         </div>
-        <img src="" alt="">
+        <img src="" alt="" id="modal-img">
     </div>
 </div>

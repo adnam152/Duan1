@@ -320,7 +320,10 @@ class APIController
     {
         // Update status
         if (isset($_GET['updatestatus'])) {
-            if((new BillsModel())->update(['status' => 1], $_GET['updatestatus']))
+            if((new BillsModel())->update([
+                'status' => 1,
+                'update_at' => date("Y-m-d H:i:s", time()),
+            ], $_GET['updatestatus']))
                 echo json_encode("success");
             exit;
         }

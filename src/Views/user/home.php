@@ -39,11 +39,12 @@
     font-size: 40px;
   }
 
-  #content1 .bg-danger {
-    height: 200px;
+  #content1 .line {
     box-shadow: 5px 10px 15px #959393;
   }
-
+  #content1 .line img{
+    width: 100%;
+  }
   #content1 .list-image .card {
     box-shadow: 5px 10px 15px #959393;
     transition: all 0.3s;
@@ -161,7 +162,9 @@ require "src/Views/user/component/banner.php";
 </div>
 
 <div class="my-5" id="content1">
-  <div class="bg-danger"></div>
+  <div class="bg-danger line">
+    <img src="/assets/image/banner_center.jpg" alt="">
+  </div>
   <!-- TOP SELLER -->
   <h2 class="text-center fw-bolder my-5">Best Seller Products</h2>
   <div class="d-flex flex-wrap justify-content-between container list-image">
@@ -183,7 +186,10 @@ require "src/Views/user/component/banner.php";
         if (Array.isArray(res) && res.length > 0) {
           res.forEach(product => {
             const html = `
-            <div class="card" style="width: 16rem;">
+            <div class="card position-relative" style="width: 16rem;">
+              <div class="position-absolute top-0 start-0">
+                  <span class="badge bg-danger">-${product.discount}%</span>
+              </div>
               <img src="${product.image[0]}" class="card-img-top p-2"
                 data-src1="${product.image[1]}"
                 data-src0="${product.image[0]}"

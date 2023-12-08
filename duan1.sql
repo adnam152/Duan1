@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 04, 2023 at 01:42 PM
+-- Generation Time: Dec 08, 2023 at 12:22 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+07:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -45,8 +45,8 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `username`, `password`, `image`, `email`, `phone_number`, `address`, `create_at`, `fullname`, `role`) VALUES
-(1, 'administrator', 'admin123', '/assets/image/nam_img_hum.png', 'teddy.nam152@gmail.com', '0357420766', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '2023-11-24 17:00:00', 'Nguyễn Tuấn Nam', 1),
-(2, 'adadnam', 'admin123', '/assets/image/tai-nghe-bluetooth-true-wireless-havit-tw945-thumb-600x600.jpg', 'mail@mail.com', '0123123123', 'Hà Nội', '2023-11-27 01:40:00', 'Tuấn Nam', 0),
+(1, 'administrator', 'admin123', '/assets/image/tai-nghe-bluetooth-true-wireless-havit-tw945-thumb-600x600.jpg', 'teddy.nam152@gmail.com', '0357420766', 'Ha Noi', '2023-11-24 17:00:00', 'Tuấn Nam 11', 1),
+(2, 'adadnam', 'admin123', '/assets/image/tai-nghe-bluetooth-true-wireless-havit-tw945-thumb-600x600.jpg', 'mail@mail.com', '0123123123', 'Hà Nội', '2023-11-27 01:40:00', 'Tuấn Nam', 1),
 (4, 'adminnn', 'admin123', '', 'mail@mail.com', '0123123', 'PP', '2023-11-27 17:45:51', 'Nam', 1),
 (5, 'admin11', '123123777711', '/assets/image/oppo-reno10-blue-thumbnew-600x600.jpg', 'mail@mail.com', '0123123', 'OO', '2023-11-27 17:46:39', 'Nam', 1),
 (9, 'administrator123', 'admin123', NULL, 'teddy.nam152@gmail.com', NULL, NULL, NULL, NULL, 0),
@@ -82,7 +82,29 @@ INSERT INTO `billdetails` (`id`, `product_id`, `quantity`, `bill_id`, `price`, `
 (15, 17, 1, 10, 359100, 1, 32),
 (16, 17, 1, 10, 355500, 1, 33),
 (17, 17, 1, 10, 355500, 1, 34),
-(18, 17, 1, 10, 359100, 1, 35);
+(18, 17, 1, 10, 359100, 1, 35),
+(19, 17, 1, 11, 359100, 1, 36),
+(20, 17, 1, 11, 355500, 1, 37),
+(21, 24, 2, 11, 920000, 1, 38),
+(22, 24, 3, 11, 920000, 1, 39),
+(23, 24, 2, 11, 920000, 1, 40),
+(25, 17, 1, 16, 359100, 1, 5),
+(26, 17, 1, 17, 359100, 1, 5),
+(27, 17, 1, 18, 359100, 1, 5),
+(28, 17, 1, 19, 359100, 1, 5),
+(29, 17, 1, 19, 359100, 1, 14),
+(30, 17, 1, 20, 359100, 1, 5),
+(31, 17, 1, 20, 359100, 1, 14),
+(32, 24, 3, 21, 920000, 1, 49),
+(33, 24, 7, 21, 920000, 1, 53),
+(39, 23, 1, 24, 2116500, 1, 41),
+(40, 23, 6, 24, 2116500, 1, 45),
+(41, 16, 11, 25, 272000, 1, 11),
+(42, 37, 2, 26, 2780700, 3, 131),
+(43, 25, 1, 27, 935000, 1, 59),
+(44, 25, 2, 28, 935000, 1, 55),
+(47, 19, 2, 36, 305360, 4, 21),
+(48, 19, 1, 36, 308000, 4, 25);
 
 -- --------------------------------------------------------
 
@@ -100,18 +122,32 @@ CREATE TABLE `bills` (
   `address` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
   `phone_number` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
   `note` text COLLATE utf8mb4_general_ci,
-  `ispay` tinyint(1) DEFAULT '0'
+  `status` tinyint(1) DEFAULT '0',
+  `update_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bills`
 --
 
-INSERT INTO `bills` (`id`, `account_id`, `total_price`, `pay_method`, `create_at`, `fullname`, `address`, `phone_number`, `note`, `ispay`) VALUES
-(4, 1, 1657500, 'Thanh toán khi nhận hàng', '2023-12-01 01:05:31', 'Nguyễn Tuấn Nam', 'TB', '0357420766', NULL, 0),
-(6, 1, 527000, 'Thanh toán khi nhận hàng', '2023-12-01 05:42:35', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 1),
-(7, 2, 1202650, 'Thanh toán khi nhận hàng', '2023-12-01 17:11:06', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0),
-(10, 1, 1429200, 'Thanh toán khi nhận hàng', '2023-12-04 02:35:16', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0);
+INSERT INTO `bills` (`id`, `account_id`, `total_price`, `pay_method`, `create_at`, `fullname`, `address`, `phone_number`, `note`, `status`, `update_at`) VALUES
+(4, 1, 1657500, 'Thanh toán khi nhận hàng', '2023-12-01 01:05:31', 'Nguyễn Tuấn Nam', 'TB', '0357420766', NULL, 0, NULL),
+(6, 1, 527000, 'Thanh toán khi nhận hàng', '2023-12-01 05:42:35', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 1, NULL),
+(7, 2, 1202650, 'Thanh toán khi nhận hàng', '2023-12-01 17:11:06', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0, NULL),
+(10, 1, 1429200, 'Thanh toán khi nhận hàng', '2023-12-04 02:35:16', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 1, NULL),
+(11, 1, 7154600, 'Thanh toán khi nhận hàng', '2023-12-06 09:54:27', 'Nguyễn Tuấn Nam', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0, NULL),
+(16, 0, 718200, 'Thanh toán khi nhận hàng', '2023-12-07 02:23:20', 'Nguyễn Nam 123', 'TB', '012344444', NULL, 0, NULL),
+(17, 0, 718200, 'Thanh toán khi nhận hàng', '2023-12-07 02:24:33', 'Nguyễn Nam 123', 'TB', '012344444', NULL, 0, NULL),
+(18, 0, 718200, 'Thanh toán khi nhận hàng', '2023-12-07 02:24:46', 'Nguyễn Nam 123', 'TB', '012344444', NULL, 1, '2023-12-07 07:45:16'),
+(19, 0, 718200, 'Thanh toán khi nhận hàng', '2023-12-07 02:25:06', 'Nguyễn Nam 123', 'TB', '012344444', NULL, 1, '2023-12-07 07:47:54'),
+(20, 0, 718200, 'Thanh toán khi nhận hàng', '2023-12-07 02:25:45', 'Nguyễn Nam 123', 'TB', '012344444', NULL, 1, NULL),
+(21, 0, 9200000, 'Thanh toán khi nhận hàng', '2023-12-07 09:03:51', 'Nguyễn Nam 123', 'TB', '012344444', NULL, 0, '2023-12-07 09:03:51'),
+(24, 1, 14815500, 'Thanh toán khi nhận hàng', '2023-12-07 09:24:15', 'Tuấn Nam12', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0, '2023-12-07 09:24:15'),
+(25, 1, 2992000, 'Thanh toán khi nhận hàng', '2023-12-07 09:25:56', 'Tuấn Nam12', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0, '2023-12-07 09:25:56'),
+(26, 1, 5561400, 'Thanh toán khi nhận hàng', '2023-12-07 09:42:34', 'Tuấn Nam12', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0, '2023-12-07 09:42:34'),
+(27, 1, 935000, 'Thanh toán khi nhận hàng', '2023-12-07 21:54:19', 'Tuấn Nam12', 'SN37, Phú Mỹ, Mỹ Đình 2, Nam Từ Liêm, Hà Nội', '0357420766', NULL, 0, '2023-12-07 21:54:19'),
+(28, 0, 1870000, 'Thanh toán khi nhận hàng', '2023-12-08 12:03:09', 'Nam', 'TB', '0357420766', NULL, 0, '2023-12-08 12:03:09'),
+(36, 0, 918720, 'Thanh toán khi nhận hàng', '2023-12-08 12:17:13', 'Nam', 'TB', '0357420766', NULL, 0, '2023-12-08 12:17:13');
 
 -- --------------------------------------------------------
 
@@ -168,7 +204,9 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`id`, `product_id`, `account_id`, `create_at`, `content`, `update_at`) VALUES
 (54, 16, 1, '2023-11-30 18:29:09', 'haha', NULL),
-(55, 16, 1, '2023-12-01 03:33:16', 'No CMT', NULL);
+(55, 16, 1, '2023-12-01 03:33:16', 'No CMT', NULL),
+(56, 16, 1, '2023-12-05 01:35:11', 'aaa', NULL),
+(57, 16, 1, '2023-12-07 09:35:36', 'Comment', NULL);
 
 -- --------------------------------------------------------
 
@@ -318,31 +356,31 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `discount`, `description`, `view`, `purchase`, `create_at`, `update_at`) VALUES
-(16, 1, 'Giày Tuvis unisex denim cột dây SID36110', 15, 'Giày Tuvis unisex denim cột dây: Chất liệu: Cotton + Cao su. Thiết kế kiểu giày cột dây mang đến phong cách khỏe khoắn, năng động', 45, 0, '2023-11-20 10:39:16', NULL),
-(17, 1, 'Giày Cột Dây Nữ kim tuyến QuickFree', 10, 'Là mẫu giày bạn có thể mang bất cứ ở đâu, bất cứ khi nào, phù hợp với mọi loại trang phục', 6, 0, '2023-11-20 10:53:26', NULL),
-(18, 1, 'Giày Sneaker MUST Korea nữ I01 SID45677', 0, 'Giày Sneaker MUST Korea nữ I01: Chất liệu làm bằng da PU mềm mại tự nhiên, bền chắc, tạo sự thoải mái trong mỗi bước chân. Thiết kế ôm vừa chân với thương hiệu MUST đẳng cấp, thời trang, mang đến cho bạn gái vẻ ngoài trẻ trung, năng động', 4, 0, '2023-11-20 11:01:10', NULL),
-(19, 4, 'Giày nữ gót nhọn Cindydrella B29 SID33517', 12, 'Giày nữ gót nhọn Cindydrella B29: Chất liêu Da PU bền đẹp, sáng bóng, tỉ mỉ, chắc chắn cho bạn thêm an tâm khi sử dụng. Thiêt kế giày gót nhọn sang trọng, mang tới cho bạn sự thanh lịch, duyên dáng.', 2, 0, '2023-11-20 11:06:50', NULL),
+(16, 1, 'Giày Tuvis unisex denim cột dây SID36110', 15, 'Giày Tuvis unisex denim cột dây: Chất liệu: Cotton + Cao su. Thiết kế kiểu giày cột dây mang đến phong cách khỏe khoắn, năng động', 85, 13, '2023-11-20 10:39:16', NULL),
+(17, 1, 'Giày Cột Dây Nữ kim tuyến QuickFree', 10, 'Là mẫu giày bạn có thể mang bất cứ ở đâu, bất cứ khi nào, phù hợp với mọi loại trang phục', 51, 4, '2023-11-20 10:53:26', NULL),
+(18, 1, 'Giày Sneaker MUST Korea nữ I01 SID45677', 0, 'Giày Sneaker MUST Korea nữ I01: Chất liệu làm bằng da PU mềm mại tự nhiên, bền chắc, tạo sự thoải mái trong mỗi bước chân. Thiết kế ôm vừa chân với thương hiệu MUST đẳng cấp, thời trang, mang đến cho bạn gái vẻ ngoài trẻ trung, năng động', 6, 11, '2023-11-20 11:01:10', NULL),
+(19, 4, 'Giày nữ gót nhọn Cindydrella B29 SID33517', 12, 'Giày nữ gót nhọn Cindydrella B29: Chất liêu Da PU bền đẹp, sáng bóng, tỉ mỉ, chắc chắn cho bạn thêm an tâm khi sử dụng. Thiêt kế giày gót nhọn sang trọng, mang tới cho bạn sự thanh lịch, duyên dáng.', 5, 3, '2023-11-20 11:06:50', NULL),
 (20, 4, 'Giày cao gót nữ phối dây chéo X SID39138', 13, 'Giày cao gót nữ phối dây chéo: Chất liệu nhung mềm mại, đẹp, mang đến vẻ sang trọng cho đôi giày. Thiết kế hiện đại, giày mũi nhọn thời trang, mang đến nét trẻ trung, thanh lịch', 2, 0, '2023-11-20 11:12:35', NULL),
-(21, 1, 'Air Force 1 Shadow Pale Ivory', 10, 'Nike Air Force 1 Shadow đang cho thấy sức ảnh hưởng mãnh liệt của mình khi thu hút rất nhiều đầu giày hay thậm chí một số người nổi tiếng diện nó trên chân. Đúng với cái tên Shadow, mỗi chi tiết trên thân giày đều có hình bóng của chính nó bên dưới, đi theo phong cách “nhân đôi niềm vui” với 2 Swoosh, 2 mid-sole, 2 hàng lỗ xỏ dây và 2 mud-guard được đặt chồng lên nhau. Bộ đế Air được nâng cao hơn so với của Air Force 1 nguyên bản, giúp “hack” chiều cao dễ hơn mà không quá lố. Mỗi một phiên bản phối màu mới được ra mắt của dòng giày này đều gây sốt khi pha trộn các mảng màu khác sắc độ với nhau vô cùng tinh tế.\r\n\r\nChất liệu upper: da tổng hợp\r\nĐế giày cao su\r\nChiều cao đế: 4.1 cm\r\nLớp lót bằng lưới và đệm foam gấp đôi sự êm ái\r\nCó lỗ thông hơi trên mũi giày\r\nTem giày thêu trên phần lưỡi gà\r\nChất liệu tag dây giày: nhựa\r\nMàu sắc: trắng ngà/vàng/tím pastel/xanh lá\r\nThương hiệu: ', 1, 0, '2023-11-22 15:15:37', NULL),
-(22, 1, 'Balenciaga Triple S Trainer White', 33, 'Balenciaga là thương hiệu thời trang lâu đời nổi tiếng, cao cấp nhất nhì thế giới được thành lập từ năm 1919. Tiếp nối sự thành công, thương hiệu tiếp tục tung ra Triple S – dòng giày đa sắc màu, phá bỏ mọi giới hạn, đủ đẹp, đủ chất để khiến giới mộ điệu lại một lần nữa phải điên đảo Đây là mẫu giày cũng được nhiều người nghệ sĩ thế giới lựa chọn. Tại Việt Nam, giày Triple S được rất nhiều nghệ sĩ nổi tiếng yêu thích. Thiết kế đột phá. Một đôi giày ra đời đã phá vỡ những tiêu chuẩn về thời trang hiện nay. Phần đế cao, uốn lượn hơn hẳn để bạn ăn gian thêm vài centimet Pha trộn những gam màu vintage và nhiều chất liệu vải khác nhau. Trên thân, gót hay đế giày cũng đều được thêu và khắc tên thương hiệu, tạo sự đẳng cấp.', 3, 0, '2023-11-22 15:23:32', NULL),
-(23, 1, 'MLB - Giày sneaker cổ thấp Big Ball Chunky', 15, 'Chất liệu: Composition leather, Compounded rubber Kiểu dáng giày sneaker đế cao thời trang Thiết kế lấy cảm hứng từ hiệp hội bóng chày MLB Cộng hưởng cùng chi tiết chữ sắc nét Lớp lót êm ái, nâng dáng bước chân Gam màu hiện đại dễ dàng phối với nhiều trang phục và phụ kiện Xuất xứ thương hiệu: Hàn quốc. Sản xuất tại: Việt Nam', 1, 0, '2023-11-22 16:11:59', NULL),
-(24, 1, 'SUEDE Sneakers - FS', 20, '- Màu sắc: Đen\r\n\r\n- Chất liệu da lộn. \r\n\r\n- Đế cao su dẻo dai, độ bền cao, được sản xuất theo công nghệ mới.\r\n\r\n- Thiết kế năng động. \r\n\r\n- Đế giày được ép nhiệt kết hợp những đường khâu chắc chắn.', 0, 0, '2023-11-22 16:34:21', NULL),
-(25, 1, 'Giày MLB Liner High NY White Black', 45, 'Giày MLB Liner High NY ‘White Black’ (QUAI DÁN) với thiết kế đẹp, tinh tế & màu sắc vô cùng dễ phối đồ. Vậy nên đôi giày này trở nên phổ biến, mang tính biểu tượng và được rất nhiều giới trẻ yêu thích. Và nếu bạn cũng là một người đam mê dòng sneaker dễ mang, dễ phố đồ thì không nên bỏ qua mẫu giày siêu phẩm này đâu nhé! Dưới đây là một số hình ảnh của đôi Giày MLB Liner High NY ‘White Black’ (QUAI DÁN) tại TyHi Sneaker (hàng chuẩn Siêu cấp bản xịn nhất thị trường).', 0, 0, '2023-11-22 16:39:51', NULL),
+(21, 1, 'Air Force 1 Shadow Pale Ivory', 10, 'Nike Air Force 1 Shadow đang cho thấy sức ảnh hưởng mãnh liệt của mình khi thu hút rất nhiều đầu giày hay thậm chí một số người nổi tiếng diện nó trên chân. Đúng với cái tên Shadow, mỗi chi tiết trên thân giày đều có hình bóng của chính nó bên dưới, đi theo phong cách “nhân đôi niềm vui” với 2 Swoosh, 2 mid-sole, 2 hàng lỗ xỏ dây và 2 mud-guard được đặt chồng lên nhau. Bộ đế Air được nâng cao hơn so với của Air Force 1 nguyên bản, giúp “hack” chiều cao dễ hơn mà không quá lố. Mỗi một phiên bản phối màu mới được ra mắt của dòng giày này đều gây sốt khi pha trộn các mảng màu khác sắc độ với nhau vô cùng tinh tế.\r\n\r\nChất liệu upper: da tổng hợp\r\nĐế giày cao su\r\nChiều cao đế: 4.1 cm\r\nLớp lót bằng lưới và đệm foam gấp đôi sự êm ái\r\nCó lỗ thông hơi trên mũi giày\r\nTem giày thêu trên phần lưỡi gà\r\nChất liệu tag dây giày: nhựa\r\nMàu sắc: trắng ngà/vàng/tím pastel/xanh lá\r\nThương hiệu: ', 2, 0, '2023-11-22 15:15:37', NULL),
+(22, 1, 'Balenciaga Triple S Trainer White', 33, 'Balenciaga là thương hiệu thời trang lâu đời nổi tiếng, cao cấp nhất nhì thế giới được thành lập từ năm 1919. Tiếp nối sự thành công, thương hiệu tiếp tục tung ra Triple S – dòng giày đa sắc màu, phá bỏ mọi giới hạn, đủ đẹp, đủ chất để khiến giới mộ điệu lại một lần nữa phải điên đảo Đây là mẫu giày cũng được nhiều người nghệ sĩ thế giới lựa chọn. Tại Việt Nam, giày Triple S được rất nhiều nghệ sĩ nổi tiếng yêu thích. Thiết kế đột phá. Một đôi giày ra đời đã phá vỡ những tiêu chuẩn về thời trang hiện nay. Phần đế cao, uốn lượn hơn hẳn để bạn ăn gian thêm vài centimet Pha trộn những gam màu vintage và nhiều chất liệu vải khác nhau. Trên thân, gót hay đế giày cũng đều được thêu và khắc tên thương hiệu, tạo sự đẳng cấp.', 6, 0, '2023-11-22 15:23:32', NULL),
+(23, 1, 'MLB - Giày sneaker cổ thấp Big Ball Chunky', 15, 'Chất liệu: Composition leather, Compounded rubber Kiểu dáng giày sneaker đế cao thời trang Thiết kế lấy cảm hứng từ hiệp hội bóng chày MLB Cộng hưởng cùng chi tiết chữ sắc nét Lớp lót êm ái, nâng dáng bước chân Gam màu hiện đại dễ dàng phối với nhiều trang phục và phụ kiện Xuất xứ thương hiệu: Hàn quốc. Sản xuất tại: Việt Nam', 12, 8, '2023-11-22 16:11:59', NULL),
+(24, 1, 'SUEDE Sneakers - FS', 20, '- Màu sắc: Đen\r\n\r\n- Chất liệu da lộn. \r\n\r\n- Đế cao su dẻo dai, độ bền cao, được sản xuất theo công nghệ mới.\r\n\r\n- Thiết kế năng động. \r\n\r\n- Đế giày được ép nhiệt kết hợp những đường khâu chắc chắn.', 7, 12, '2023-11-22 16:34:21', NULL),
+(25, 1, 'Giày MLB Liner High NY White Black', 45, 'Giày MLB Liner High NY ‘White Black’ (QUAI DÁN) với thiết kế đẹp, tinh tế & màu sắc vô cùng dễ phối đồ. Vậy nên đôi giày này trở nên phổ biến, mang tính biểu tượng và được rất nhiều giới trẻ yêu thích. Và nếu bạn cũng là một người đam mê dòng sneaker dễ mang, dễ phố đồ thì không nên bỏ qua mẫu giày siêu phẩm này đâu nhé! Dưới đây là một số hình ảnh của đôi Giày MLB Liner High NY ‘White Black’ (QUAI DÁN) tại TyHi Sneaker (hàng chuẩn Siêu cấp bản xịn nhất thị trường).', 12, 119, '2023-11-22 16:39:51', NULL),
 (26, 1, 'Giày Nike Air Jordan 1 Retro High Dior Like Auth', 50, 'Giày Nike Air Jordan 1 Retro High Dior Like Auth 99% với thiết kế đẹp, tinh tế & màu sắc vô cùng dễ phối đồ. Vậy nên đôi giày này trở nên phổ biến, mang tính biểu tượng và được rất nhiều giới trẻ yêu thích. Thế giới thời trang là một bảo tàng vô tận của sự sáng tạo và phong cách, và “Giày Nike Air Jordan 1 Retro High Dior” đã đưa thế giới này lên một tầm cao hoàn toàn mới. Sự kết hợp độc đáo giữa hai biểu tượng của ngành thời trang, Nike và Dior, đã tạo ra một sản phẩm tuyệt đẹp và đầy ấn tượng. Chúng ta sẽ cùng khám phá chi tiết hơn về đôi giày này và tìm hiểu tại sao nó trở thành một biểu tượng của sự sáng tạo và phong cách trong thế giới thời trang.', 0, 0, '2023-11-22 17:11:13', NULL),
 (27, 1, 'GIÀY SNEAKERS NỮ DILA', 15, 'Đôi sneakers DILA với thiết kế phom to đế dày, tạo cảm giác dễ chịu, êm ái cho đôi chân của bạn. Hoạ tiết đan xen nhiều màu sắc mang đến tổng thể trẻ trung. Đệm lót Pillow Walk êm ái độc quyền tại ALDO cho bạn thoải mái di chuyển cả ngày dài.\r\n\r\nĐặc trưng\r\nChi tiết: Giày chạy bộ\r\nChi tiết: Mũi tròn\r\nChi tiết: Đế Bệt\r\nChất Liệu\r\nChất liệu: Da Tổng Hợp\r\nChất liệu chính: Chất liệu tổng hợp\r\nChất liệu đế: Nhựa EVA kết hợp cùng Sinh khối Tảo biển\r\nKích Thước\r\nChiều cao đế: 2.00 In (5.08 Cm)', 0, 0, '2023-11-22 17:28:36', NULL),
 (28, 4, 'BST SPLENDID NIGHT - GIÀY SANDAL ANKLE STRAP', 50, 'Thương hiệu\r\nVASCARA\r\nMã sản phẩm\r\n1010SDN0740\r\nLoại sản phẩm\r\nGiày Cao Gót\r\nKiểu gót\r\nGót nhọn\r\nĐộ cao gót\r\n8 cm\r\nLoại mũi\r\nHở mũi nhọn\r\nChất liệu\r\nMicrofiber\r\nKiểu giày\r\nSandals\r\nPhù hợp sử dụng\r\nĐi làm, đi học, đi chơi', 1, 0, '2023-11-22 21:54:03', NULL),
 (29, 4, 'Giày Cao Gót Hở Hậu Dây Chéo', 12, 'Giày cao gót hở hậu dây chéo thanh lịch nữ tính Gót cao 9cm kèm miếng đệm chống trơn trượt cho bạn dễ dàng di chuyển Chất liệu da cao cấp tổng hợp. Giày phù hợp đi mọi dịp, như đi làm, dạo phố Mã sản phẩm: CG09160 Kiểu dáng: Giày cao gót Chất liệu: Si mờ trơn Độ cao: 9cm Màu sắc: Kem-Đen-Hồng Kích cỡ: 35-36-37-38-39 Xuất xứ: Việt Nam Giá đã bao gồm VAT', 0, 0, '2023-11-22 22:52:57', NULL),
-(30, 4, 'Giày Luxury Bejo H88 Trắng Thuyền 3 Màu, Xoàn', 10, 'Các mẫu giày Bejo luôn tự tin là một trong những nhãn hàng hàng đầu Việt Nam, mang đến giá trị sản phẩm về mẫu mã đa dạng, hợp thời trang mang đến sự tự tin, ấn tượng, cũng như phong cách thời thượng giúp cho bạn có thể tự tin và toả sáng. Ngoài việc chú trọng đến chất lượng về sự êm ái mềm mại, giá cả phải chăng, thì Bejo luôn còn chú ý đến từng dịch vụ chăm sóc cũng như nhu cầu của từng khách hàng.\r\n- Chất liệu:da PU tổng hợp cao cấp\r\n\r\n- Đường may chắc chắn\r\n\r\n- Lót da êm ái, bảo vệ đôi bàn chân của bạn\r\n\r\n- Mũi giày tròn, êm đi không đau chân\r\n\r\n- Đế giày chống trơn trượt có các rãnh sâu tăng độ bám cho giày.', 0, 0, '2023-11-22 23:22:59', NULL),
+(30, 4, 'Giày Luxury Bejo H88 Trắng Thuyền 3 Màu, Xoàn', 10, 'Các mẫu giày Bejo luôn tự tin là một trong những nhãn hàng hàng đầu Việt Nam, mang đến giá trị sản phẩm về mẫu mã đa dạng, hợp thời trang mang đến sự tự tin, ấn tượng, cũng như phong cách thời thượng giúp cho bạn có thể tự tin và toả sáng. Ngoài việc chú trọng đến chất lượng về sự êm ái mềm mại, giá cả phải chăng, thì Bejo luôn còn chú ý đến từng dịch vụ chăm sóc cũng như nhu cầu của từng khách hàng.\r\n- Chất liệu:da PU tổng hợp cao cấp\r\n\r\n- Đường may chắc chắn\r\n\r\n- Lót da êm ái, bảo vệ đôi bàn chân của bạn\r\n\r\n- Mũi giày tròn, êm đi không đau chân\r\n\r\n- Đế giày chống trơn trượt có các rãnh sâu tăng độ bám cho giày.', 1, 0, '2023-11-22 23:22:59', NULL),
 (31, 4, 'GIÀY CAO GÓT THỜI TRANG RO559', 0, 'RA MẮT MẪU GIÀY MỚI\r\n►MÃ SẢN PHẨM: RO559\r\n►GIÁ : 49Ok\r\n►KIỂU DÁNG: GIÀY CAO GÓT\r\n►CHẤT LIỆU: PU LOẠI 1\r\n►SIZE : 35,36,37,38,39,40\r\n►CHIỀU CAO GÓT ĐÚP :+9CM (+3CM)\r\n►MÀU : ĐỒNG – BẠC', 0, 0, '2023-11-22 23:45:50', NULL),
 (32, 4, 'Giày Luxury Bejo H51 Thuyền Hoa Vàng', 16, 'Các mẫu giày Bejo luôn tự tin là một trong những nhãn hàng hàng đầu Việt Nam, mang đến giá trị sản phẩm về mẫu mã đa dạng, hợp thời trang mang đến sự tự tin, ấn tượng, cũng như phong cách thời thượng giúp cho bạn có thể tự tin và toả sáng. Ngoài việc chú trọng đến chất lượng về sự êm ái mềm mại, giá cả phải chăng, thì Bejo luôn còn chú ý đến từng dịch vụ chăm sóc cũng như nhu cầu của từng khách hàng.\r\n\r\nĐặc điểm sản phẩm:\r\n\r\n- Chất liệu:da PU tổng hợp cao cấp\r\n\r\n- Đường may chắc chắn\r\n\r\n- Lót da êm ái, bảo vệ đôi bàn chân của bạn\r\n\r\n- Mũi giày tròn, êm đi không đau chân\r\n\r\n- Đế giày chống trơn trượt có các rãnh sâu tăng độ bám cho giày', 0, 0, '2023-11-22 23:55:15', NULL),
 (33, 4, 'Giày Luxury Bejo H92 3 Hoa, Cành Vàng Ngọc', 28, 'Các mẫu giày Bejo luôn tự tin là một trong những nhãn hàng hàng đầu Việt Nam, mang đến giá trị sản phẩm về mẫu mã đa dạng, hợp thời trang mang đến sự tự tin, ấn tượng, cũng như phong cách thời thượng giúp cho bạn có thể tự tin và toả sáng. Ngoài việc chú trọng đến chất lượng về sự êm ái mềm mại, giá cả phải chăng, thì Bejo luôn còn chú ý đến từng dịch vụ chăm sóc cũng như nhu cầu của từng khách hàng. Đặc điểm sản phẩm: - Chất liệu:da PU tổng hợp cao cấp - Đường may chắc chắn - Lót da êm ái, bảo vệ đôi bàn chân của bạn - Mũi giày tròn, êm đi không đau chân - Đế giày chống trơn trượt có các rãnh sâu tăng độ bám cho giày.', 0, 0, '2023-11-23 00:19:23', NULL),
 (34, 4, 'Giày Luxury Bejo S46 Thuyền Hoa Hồng', 20, 'Các mẫu giày Bejo luôn tự tin là một trong những nhãn hàng hàng đầu Việt Nam, mang đến giá trị sản phẩm về mẫu mã đa dạng, hợp thời trang mang đến sự tự tin, ấn tượng, cũng như phong cách thời thượng giúp cho bạn có thể tự tin và toả sáng. Ngoài việc chú trọng đến chất lượng về sự êm ái mềm mại, giá cả phải chăng, thì Bejo luôn còn chú ý đến từng dịch vụ chăm sóc cũng như nhu cầu của từng khách hàng.\r\n\r\nĐặc điểm sản phẩm:\r\n\r\n- Chất liệu:da PU tổng hợp cao cấp\r\n\r\n- Đường may chắc chắn\r\n\r\n- Lót da êm ái, bảo vệ đôi bàn chân của bạn\r\n\r\n- Mũi giày tròn, êm đi không đau chân\r\n\r\n- Đế giày chống trơn trượt có các rãnh sâu tăng độ bám cho giày.', 0, 0, '2023-11-23 00:28:09', NULL),
 (35, 4, 'Giày Cưới Luxury Bejo H94.05 Hoa Lụa, Mai nhí', 13, 'Giày cưới Bejo, với thiết kế tinh xảo,độc đáo, đặc biệt chú ý đến phần mũi và gót, chất liệu da nhân tạo mềm, lót mút làm phần mũi giày êm, có miếng lót gót rất mềm, không đau mỏi gót khi sử dụng, mang đến sự thoải mái cho bạn cả ngày.\r\n\r\nCác mẫu giày Bejo luôn tự tin là một trong những nhãn hàng hàng đầu Việt Nam, mang đến giá trị sản phẩm về mẫu mã đa dạng, hợp thời trang mang đến sự tự tin, ấn tượng, cũng như phong cách thời thượng giúp cho bạn có thể tự tin và toả sáng. Ngoài việc chú trọng đến chất lượng về sự êm ái mềm mại, giá cả phải chăng, thì Bejo luôn còn chú ý đến từng dịch vụ chăm sóc cũng như nhu cầu của từng khách hàng.', 0, 0, '2023-11-23 00:35:44', NULL),
 (36, 3, 'Giày Da Pierre Cardin - PCMFWL732', 5, 'Sản phẩm: Giày Da Pierre Cardin - PCMFWLF 732\r\n\r\n \r\n\r\nThiết kế: Giày tây có buộc dây sang trọng. Không hoạ tiết cầu kỳ cùng chất liệu đen đơn sắc giúp bạn dễ dàng mix-match với nhiều trang phục khác nhau. Blank Derby sẽ đẹp hơn, lịch lãm và sang trọng hơn khi được đồng bộ với veston, suit, tuxedo, quần âu, áo sơ mi.\r\n\r\n \r\n\r\nChất liệu: Blank Derby làm bằng chất lượng da cao cấp nhập khẩu Italia. Chất da thật êm ái, mềm mịn và bền chắc với độ đàn hồi cao. Giày da bò cao cấp chính hãng Pierre Cardin Blank Derby sản xuất bằng kỹ thuật ép Cement.\r\n\r\nĐế giày được làm từ cao su tránh trơn trượt, thiết kế ôm chân tự tin khi cất bước.\r\n\r\nGiày da Pierre Cardin phù hợp với nơi công sở hay gặp mặt đối tác, khẳng định vị thế quý ông', 0, 0, '2023-11-23 00:42:34', NULL),
-(37, 3, 'Giày tây nam Pierre Cardin - PCMFWLG 757', 7, 'Giày Tây Nam Pierre Cardin - PCMFWLG 757: Chất Lượng và Phong Cách Đẳng Cấp\r\n\r\nKhám phá sự hoàn hảo với mẫu giày tây nam Pierre Cardin - PCMFWLG 757. Với chất liệu da thật nhập khẩu 100% và thiết kế giày không dây tinh tế, sản phẩm này thể hiện sự sang trọng và lịch lãm trong mọi trang phục của bạn. Được tạo ra với tâm huyết, giày nam Pierre Cardin PCMFWLG 757 mang đến sự tinh tế và đẳng cấp.', 5, 0, '2023-11-23 00:48:12', NULL),
+(37, 3, 'Giày tây nam Pierre Cardin - PCMFWLG 757', 7, 'Giày Tây Nam Pierre Cardin - PCMFWLG 757: Chất Lượng và Phong Cách Đẳng Cấp\r\n\r\nKhám phá sự hoàn hảo với mẫu giày tây nam Pierre Cardin - PCMFWLG 757. Với chất liệu da thật nhập khẩu 100% và thiết kế giày không dây tinh tế, sản phẩm này thể hiện sự sang trọng và lịch lãm trong mọi trang phục của bạn. Được tạo ra với tâm huyết, giày nam Pierre Cardin PCMFWLG 757 mang đến sự tinh tế và đẳng cấp.', 7, 2, '2023-11-23 00:48:12', NULL),
 (38, 3, 'Giày Cao Gót Búp Bê Trang Trí Xích Đôi', 9, 'Mã sản phẩm: CG05124\r\nKiểu dáng: Giày cao gót\r\nChất liệu: Si mờ trơn\r\nĐộ cao: 5cm\r\nMàu sắc: Đen-Hồng-Xanh tím\r\nKích cỡ: 35-36-37-38-39\r\nXuất xứ: Việt Nam\r\nGiá đã bao gồm VAT', 0, 0, '2023-11-23 00:57:17', NULL),
 (39, 2, 'Giày Thể Thao Sneaker chính hãng Goya GY232', 30, 'Là một trong những mẫu giày chính hãng do công ty Goya sản xuất và phân phối. Có kiểu dáng rất hiện đại trẻ trung, phù hợp đi chơi, dã ngoại, hoạt động thể dục cho những tín đồ đam mê phong cách thể thao năng động \r\n\r\n- Đế: Cao su cao cấp nguyên khối: Siêu nhẹ, đàn hồi cực tốt, êm chân, chắc chắn\r\n\r\n- Chất liệu: Vải dệt lưới thông hơi thoáng khí đi rất thoải mái\r\n\r\n- Form dáng thời trang, ôm khít chân\r\n\r\n- Chiều cao: 3cm \r\n\r\n- Màu sắc: nhiều màu\r\n\r\n- Kiểu dáng: Sneaker, giày thể thao năng động\r\n\r\n- Chất lượng: Goya bảo cam kết bảo hành 365 ngày', 3, 0, '2023-11-23 01:05:04', NULL),
-(40, 2, 'GIÀY THỂ THAO ZUCIANI THE COMFORT N.11', 8, 'Giày Thể Thao Zuciani không chỉ hợp thời trang mà còn đảm bảo sự thoải mái và sự tự tin trong mỗi bước đi. Với thiết kế nữ tính và sự kết hợp giữa chất liệu vải dệt êm ái và đế TPU nhẹ nhàng, đôi giày thể thao này sẽ là một phụ kiện tuyệt vời để thể hiện phong cách và sự năng động của bạn.\r\n\r\n- Mã sản phẩm: GYJ11\r\n\r\n- Màu: Hồng, Trắng\r\n\r\n- Size: 35 - 40\r\n\r\n- Chất liệu: Vải dệt (Knit) siêu nhẹ\r\n\r\n- Đế: Cao su\r\n\r\n- Cao: 3cm', 0, 0, '2023-11-23 01:10:31', NULL);
+(40, 2, 'GIÀY THỂ THAO ZUCIANI THE COMFORT N.11', 8, 'Giày Thể Thao Zuciani không chỉ hợp thời trang mà còn đảm bảo sự thoải mái và sự tự tin trong mỗi bước đi. Với thiết kế nữ tính và sự kết hợp giữa chất liệu vải dệt êm ái và đế TPU nhẹ nhàng, đôi giày thể thao này sẽ là một phụ kiện tuyệt vời để thể hiện phong cách và sự năng động của bạn.\r\n\r\n- Mã sản phẩm: GYJ11\r\n\r\n- Màu: Hồng, Trắng\r\n\r\n- Size: 35 - 40\r\n\r\n- Chất liệu: Vải dệt (Knit) siêu nhẹ\r\n\r\n- Đế: Cao su\r\n\r\n- Cao: 3cm', 1, 0, '2023-11-23 01:10:31', NULL);
 
 -- --------------------------------------------------------
 
@@ -364,7 +402,7 @@ CREATE TABLE `product_detail` (
 --
 
 INSERT INTO `product_detail` (`id`, `product_id`, `size`, `color`, `quantity`, `price`) VALUES
-(4, 16, 39, 'Xanh', 443, 300000),
+(4, 16, 39, 'Xanh', 443, 301000),
 (5, 17, 35, 'Hồng', 542, 399000),
 (6, 18, 36, 'Trắng', 3113, 900000),
 (7, 19, 35, 'Đen', 412, 347000),
@@ -380,11 +418,11 @@ INSERT INTO `product_detail` (`id`, `product_id`, `size`, `color`, `quantity`, `
 (18, 18, 35, 'Đen', 277, 900000),
 (19, 18, 36, 'Đen', 488, 900000),
 (20, 18, 37, 'Đen', 73, 900000),
-(21, 19, 36, 'Đen', 568, 347000),
+(21, 19, 36, 'Đen', 566, 347000),
 (22, 19, 37, 'Đen', 674, 347000),
 (23, 19, 38, 'Đen', 50, 347000),
 (24, 19, 35, 'Đỏ', 56, 350000),
-(25, 19, 37, 'Đỏ', 55, 350000),
+(25, 19, 37, 'Đỏ', 54, 350000),
 (26, 19, 36, 'Đỏ', 46, 350000),
 (27, 20, 36, 'Đen', 423, 550000),
 (28, 20, 37, 'Đen', 86, 550000),
@@ -400,21 +438,21 @@ INSERT INTO `product_detail` (`id`, `product_id`, `size`, `color`, `quantity`, `
 (38, 22, 40, 'Một màu', 55, 1795000),
 (39, 22, 41, 'Một màu', 65, 1795000),
 (40, 22, 42, 'Một màu', 43, 1795000),
-(41, 23, 39, 'Đen', 67, 2490000),
-(42, 23, 40, 'Đen', 667, 2490000),
-(43, 23, 41, 'Đen', 87, 2490000),
-(44, 23, 42, 'Đen', 78, 2490000),
-(45, 23, 35, 'Xanh', 235, 2490000),
-(46, 23, 36, 'Xanh', 67, 2490000),
-(47, 23, 37, 'Xanh', 69, 2490000),
-(48, 23, 38, 'Xanh', 42, 2490000),
-(49, 24, 30, 'Đen', 15, 1150000),
-(50, 24, 39, 'Đen', 52, 1150000),
+(41, 23, 39, 'Đen', 66, 2490000),
+(42, 23, 40, 'Đen', 666, 2490000),
+(43, 23, 41, 'Đen', 86, 2490000),
+(44, 23, 42, 'Đen', 68, 2490000),
+(45, 23, 35, 'Xanh', 234, 2490000),
+(46, 23, 36, 'Xanh', 66, 2490000),
+(47, 23, 37, 'Xanh', 63, 2490000),
+(48, 23, 38, 'Xanh', 31, 2490000),
+(49, 24, 30, 'Đen', 10, 1150000),
+(50, 24, 39, 'Đen', 51, 1150000),
 (51, 24, 40, 'Đen', 41, 1150000),
-(53, 24, 42, 'Đen', 78, 1150000),
+(53, 24, 42, 'Đen', 71, 1150000),
 (54, 24, 41, 'Đen', 56, 1150000),
-(55, 25, 36, 'Một màu', 56, 1700000),
-(56, 25, 37, 'Một màu', 60, 1700000),
+(55, 25, 36, 'Một màu', -1, 1700000),
+(56, 25, 37, 'Một màu', -1, 1700000),
 (57, 25, 38, 'Một màu', 35, 1700000),
 (58, 25, 39, 'Một màu', 234, 1700000),
 (59, 25, 40, 'Một màu', 79, 1700000),
@@ -594,37 +632,37 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `billdetails`
 --
 ALTER TABLE `billdetails`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `medias`
 --
 ALTER TABLE `medias`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -650,12 +688,6 @@ ALTER TABLE `billdetails`
   ADD CONSTRAINT `billdetails_ibfk_2` FOREIGN KEY (`detail_id`) REFERENCES `product_detail` (`id`),
   ADD CONSTRAINT `fk_billdetails_bill_id` FOREIGN KEY (`bill_id`) REFERENCES `bills` (`id`),
   ADD CONSTRAINT `fk_my_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
-
---
--- Constraints for table `bills`
---
-ALTER TABLE `bills`
-  ADD CONSTRAINT `bills_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`);
 
 --
 -- Constraints for table `carts`

@@ -12,15 +12,16 @@ use MVC\Models\CommentsModel;
 use MVC\Models\BillsModel;
 use MVC\Models\BilldetailsModel;
 
-class HomeController extends Controller{
+class HomeController extends Controller
+{
     private $allCategory;
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->allCategory = (new CategoriesModel())->get();
-            
     }
-    public function index(){
-        
+    public function index()
+    {
         $this->render([
             "view" => "user/home",
             "page" => "home",
@@ -29,7 +30,21 @@ class HomeController extends Controller{
             "numberOfCart" => $this->numberOfCart,
         ]);
     }
-    function allproduct(){
+    public function allproduct()
+    {
+        $filterPrice = [
+            "0-200000" => "Dưới 200.000đ",
+            "200000-500000" => "200.000đ - 500.000đ",
+            "500000-1000000" => "500.000đ - 1.000.000đ",
+            "1000000-2000000" => "1.000.000đ - 2.000.000đ",
+            "2000000-" => "Trên 2.000.000đ",
+        ];
+        $filterOrderType = [
+            "create_at-asc" => "Mới nhất",
+            "create_at-desc" => "Cũ nhất",
+            "price-asc" => "Giá tăng dần",
+            "price-desc" => "Giá giảm dần",
+        ];
         
         $this->render([
             "view" => "user/allproduct",
@@ -37,19 +52,23 @@ class HomeController extends Controller{
             "title" => "Tất cả sản phẩm",
             "allCategory" => $this->allCategory,
             "numberOfCart" => $this->numberOfCart,
+            "filterPrice" => $filterPrice,
+            "filterOrderType" => $filterOrderType,
         ]);
     }
-    function detail(){
+    function detail()
+    {
         $productModel = new ProductsModel();
         $product = $productModel->get(['id' => $_GET['id']]);
-        if(!$product) header("Location: /");
+        if (!$product) header("Location: /");
         $mediaModel = new MediasModel();
         $productDetailModel = new ProductdetailModel();
         $commentModel = new CommentsModel();
 
         $productModel->update([ //tăng view
             'view' => $productModel->get([
-                'id' => $_GET['id']])['view'] + 1
+                'id' => $_GET['id']
+            ])['view'] + 1
         ], $_GET['id']);
 
         // Lấy data
@@ -58,11 +77,11 @@ class HomeController extends Controller{
         $allImage = $mediaModel->getByProductId($_GET['id']);
         $detail = $productDetailModel->getByProductId($_GET['id']);
         $colors = [];
-        foreach($productDetailModel->getColor($_GET['id']) as $color){
+        foreach ($productDetailModel->getColor($_GET['id']) as $color) {
             $colors[] = $color['color'];
         }
         $sizes = [];
-        foreach($productDetailModel->getSize($_GET['id']) as $size){
+        foreach ($productDetailModel->getSize($_GET['id']) as $size) {
             $sizes[] = $size['size'];
         }
 
@@ -83,11 +102,12 @@ class HomeController extends Controller{
             "topProduct" => $topProduct,
         ]);
     }
-    function cart(){
+    function cart()
+    {
         $cartModel = new CartsModel();
 
         $productInCart = [];
-        if(isset($_SESSION['user']))
+        if (isset($_SESSION['user']))
             $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
         else $productInCart = $cartModel->getAllInforBySession();
         $this->render([
@@ -99,8 +119,9 @@ class HomeController extends Controller{
             "productInCart" => $productInCart,
         ]);
     }
-    function profile(){
-        if(!isset($_SESSION['user'])) header("Location: /");
+    function profile()
+    {
+        if (!isset($_SESSION['user'])) header("Location: /");
         $allBills = (new BillsModel())->getByAccountId($_SESSION['user']['id']);
         foreach ($allBills as $index => $bill) {
             $allBills[$index]['bill_detail'] = (new BilldetailsModel())->getByBillId($bill['id']);
@@ -115,10 +136,3 @@ class HomeController extends Controller{
         ]);
     }
 }
-
-
-
-
-
-?>
-
