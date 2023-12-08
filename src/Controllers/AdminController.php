@@ -23,12 +23,31 @@ class AdminController extends Controller
     }
     public function index()
     {
+        $newProducts = (new ProductsModel)->getTopNew();
+        $viewProducts = (new ProductsModel)->getTopView();
+        $purchaseProducts = (new ProductsModel)->getTopPurchase();
+        $orders = (new BillsModel)->getTopOrder();
+        $comments = (new CommentsModel)->getTopComment();
 
+        $countByCategory = (new ProductsModel)->countProductByCategory();
+        $labels = [];
+        $datas = [];
+        foreach ($countByCategory as $count) {
+            array_push($labels, $count['c_name']);
+            array_push($datas, $count['count']);
+        }
         $this->render([
             "view" => "admin/index",
             "page" => "admin",
             "title" => "Dashboard",
-            "action" => "1"
+            "action" => "1",
+            "newProducts" => $newProducts,
+            "viewProducts" => $viewProducts,
+            "purchaseProducts" => $purchaseProducts,
+            "orders" => $orders,
+            "comments" => $comments,
+            "labels" => $labels,
+            "datas" => $datas,
         ]);
     }
     public function category()

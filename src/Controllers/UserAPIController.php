@@ -41,26 +41,41 @@ class UserAPIController
                 $check = getimagesize($_FILES["avatar"]["tmp_name"]);
                 if ($check !== false) {
                     if (move_uploaded_file($_FILES["avatar"]["tmp_name"], '.' . $target_file)) {
-                        $avatar = $target_file;
+                        $_SESSION['user']['image'] = $target_file;
+                        echo json_encode($target_file);
                     }
                 }
-            } else $avatar = $_SESSION['user']['image'];
-            if ((new AccountsModel)->update([
+            } elseif ((new AccountsModel)->update([
                 "fullname" => $_POST['fullname'],
                 "address" => $_POST['address'],
                 "phone_number" => $_POST['phone_number'],
                 "email" => $_POST['email'],
-                "image" => $avatar,
             ], $_SESSION['user']['id'])) {
                 // set session
                 $_SESSION['user']['fullname'] = $_POST['fullname'];
                 $_SESSION['user']['address'] = $_POST['address'];
                 $_SESSION['user']['phone_number'] = $_POST['phone_number'];
                 $_SESSION['user']['email'] = $_POST['email'];
-                $_SESSION['user']['image'] = $avatar;
                 echo json_encode("success");
             }
         } else echo json_encode("error");
+    }
+    public function changepassword()
+    {
+        if (isset($_POST['password']) && isset($_POST['new-password'])) :
+            $account = (new AccountsModel)->getOne([
+                'username' => $_SESSION['user']['username'],
+                'password' => $_POST['password'],
+            ]);
+            if ($account) {
+                if ((new AccountsModel)->update([
+                    "password" => $_POST['new-password'],
+                ], $_SESSION['user']['id'])) {
+                    $_SESSION['user']['password'] = $_POST['new-password'];
+                    echo json_encode("success");
+                }
+            } else echo json_encode("error");
+        endif;
     }
     public function countcart()
     {
@@ -85,12 +100,22 @@ class UserAPIController
         $detail = $detailModel->getByColorAndSize($_POST['product_id'], $_POST['color'], $_POST['size']);
         $detailId = $detail['id'];
 
+        // Số lượng tồn kho
+        $numberOfProductInStock = $detailModel->get(["id" => $detailId])['quantity'];
+        if ($numberOfProductInStock < $_POST['quantity']) {
+            echo json_encode("error");
+            exit;
+        }
         // Nếu chưa đăng nhập thì lưu vào session
         if (!isset($_SESSION['user'])) {
-            $_SESSION['cart'][] = [
-                "detail_id" => $detailId,
-                "quantity" => $_POST['quantity'],
-            ];
+            if (isset($_SESSION['cart'][$detailId])) {
+                $_SESSION['cart'][$detailId]['quantity'] += $_POST['quantity'];
+            } else {
+                $_SESSION['cart'][$detailId] = [
+                    "detail_id" => $detailId,
+                    "quantity" => $_POST['quantity'],
+                ];
+            }
             echo json_encode("success");
             exit;
         }
@@ -273,5 +298,47 @@ class UserAPIController
             $data[$index]['image'][] = $images[1]['link'];
         }
         echo json_encode($data);
+    }
+    function allproduct()
+    {
+        if (isset($_GET['category'])) :
+            $allProduct = (new ProductsModel())->getByCategoryId($_GET['category']);
+        else :
+            $allProduct = (new ProductsModel())->get();
+        endif;
+        foreach ($allProduct as $index => $product) {
+            $allProduct[$index]['min_price'] = (new ProductdetailModel)->minPrice($product['id']);
+            $allProduct[$index]['max_price'] = (new ProductdetailModel)->maxPrice($product['id']);
+            $media = (new MediasModel())->getByProductId($product['id'], 1)[0];
+            $allProduct[$index]['media'] = $media['link'];
+        }
+        echo json_encode($allProduct);
+    }
+    function filterproduct()
+    {
+        $category_id = $_POST['category_id'] ?? [];
+        $minPrice = $_POST['min_price'];
+        $maxPrice = $_POST['max_price'];
+        $orderBy = $_POST['order_by'];
+        $orderType = $_POST['order_type'];
+
+        $allProduct = (new ProductsModel())->filter([
+            "category_id" => $category_id,
+            "orderBy" => $orderBy,
+            "orderType" => $orderType,
+            "minPrice" => $minPrice,
+            "maxPrice" => $maxPrice,
+        ]);
+
+        echo json_encode($allProduct);
+    }
+    function searchproduct()
+    {
+        if (isset($_GET['search'])) :
+            $allProduct = (new ProductsModel())->search($_GET['search']);
+            echo json_encode($allProduct);
+            exit;
+        endif;
+        echo json_encode("error");
     }
 }

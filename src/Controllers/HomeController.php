@@ -15,12 +15,13 @@ use MVC\Models\BilldetailsModel;
 class HomeController extends Controller
 {
     private $allCategory;
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->allCategory = (new CategoriesModel())->get();
-            
     }
-    public function index(){
+    public function index()
+    {
         $this->render([
             "view" => "user/home",
             "page" => "home",
@@ -29,69 +30,30 @@ class HomeController extends Controller
             "numberOfCart" => $this->numberOfCart,
         ]);
     }
-    public function allproduct($selectedCategoryId = null)
+    public function allproduct()
     {
-
-
-        $productModel = new ProductsModel();
-        $allProducts = $productModel->get();
-        $productDetailModel = new ProductdetailModel();
-        $categoryModel = new CategoriesModel();
-        $mediaModel = new MediasModel();
-
-
-        $allCategory = $categoryModel->get(); // get category
-            $categoryMap = array_column($allCategory, 'name', 'id');
-            $filteredProducts = [];
-
-            foreach ($allCategory as $category) {
-                
-                if ($selectedCategoryId !== null && $selectedCategoryId != $category['id']) {
-                    continue; 
-                }
-            
-           
-        $categoryProducts = $productModel->getByCategoryId($category['id']);
-        foreach ($allProducts as $index => $product) {
-            if ($product['category_id'] != $category['id']) {
-                continue;
-            }
-            $productDetails = $productDetailModel->getByProductId($product['id']);
-            $mediaLinks = $mediaModel->getByProductId($product['id']);
-
-            $allProducts[$index]['category'] = $categoryMap[$product['category_id']];
-            $allProducts[$index]['count'] = $productDetailModel->countByProductId($product['id'])['count'] ?? 0;
-            $allProducts[$index]['detail'] = [];
-
-            foreach ($mediaLinks as $link) {
-                $allProducts[$index]['image'][$link['id']] = $link['link'];
-            }
-            foreach ($productDetails as $detail) {
-                $allProducts[$index]['detail'][] = [
-                    "id" => $detail['id'],
-                    "color" => $detail['color'],
-                    "size" => $detail['size'],
-                    "quantity" => $detail['quantity'],
-                    "price" => $detail['price'],
-                ];
-            }
-            $filteredProducts[] = $allProducts[$index];
-            
-        }
-    }
-        // echo "<pre>";
-        // print_r($allProducts);
-        // echo "</pre>";
-
-
-
+        $filterPrice = [
+            "0-200000" => "Dưới 200.000đ",
+            "200000-500000" => "200.000đ - 500.000đ",
+            "500000-1000000" => "500.000đ - 1.000.000đ",
+            "1000000-2000000" => "1.000.000đ - 2.000.000đ",
+            "2000000-" => "Trên 2.000.000đ",
+        ];
+        $filterOrderType = [
+            "create_at-asc" => "Mới nhất",
+            "create_at-desc" => "Cũ nhất",
+            "price-asc" => "Giá tăng dần",
+            "price-desc" => "Giá giảm dần",
+        ];
+        
         $this->render([
-            "view" => "user/component/product_list",
-            "page" => "user",
-            "allProducts" => $filteredProducts,
-            "allCategory" => $allCategory,
+            "view" => "user/allproduct",
+            "page" => "home",
+            "title" => "Tất cả sản phẩm",
+            "allCategory" => $this->allCategory,
             "numberOfCart" => $this->numberOfCart,
-
+            "filterPrice" => $filterPrice,
+            "filterOrderType" => $filterOrderType,
         ]);
     }
     function detail()
@@ -145,7 +107,7 @@ class HomeController extends Controller
         $cartModel = new CartsModel();
 
         $productInCart = [];
-        if(isset($_SESSION['user']))
+        if (isset($_SESSION['user']))
             $productInCart = $cartModel->getAllInforByAccountId($_SESSION['user']['id']);
         else $productInCart = $cartModel->getAllInforBySession();
         $this->render([
@@ -157,10 +119,20 @@ class HomeController extends Controller
             "productInCart" => $productInCart,
         ]);
     }
+    function profile()
+    {
+        if (!isset($_SESSION['user'])) header("Location: /");
+        $allBills = (new BillsModel())->getByAccountId($_SESSION['user']['id']);
+        foreach ($allBills as $index => $bill) {
+            $allBills[$index]['bill_detail'] = (new BilldetailsModel())->getByBillId($bill['id']);
+        }
+        $this->render([
+            "view" => "user/profile",
+            "page" => "home",
+            "title" => "Thông tin cá nhân",
+            "allCategory" => $this->allCategory,
+            "numberOfCart" => $this->numberOfCart,
+            "allBills" => $allBills,
+        ]);
+    }
 }
-
-
-
-
-
-?>

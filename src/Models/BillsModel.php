@@ -57,6 +57,12 @@ class BillsModel extends Model{
         $result->execute([$account_id]);
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
+    function getTopOrder($limit = 3){
+        $sql = "SELECT b.*, a.username, a.image, a.email FROM $this->table b join accounts a on b.account_id = a.id ORDER BY b.create_at DESC LIMIT $limit";
+        $result = $this->connect->prepare($sql);
+        $result->execute();
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

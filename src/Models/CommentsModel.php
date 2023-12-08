@@ -51,6 +51,12 @@ class CommentsModel extends Model
         $result->execute([$product_id]);
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
+    function getTopComment($limit = 3){
+        $sql = "SELECT cmt.*, accounts.username, accounts.fullname, accounts.image FROM $this->table cmt INNER JOIN accounts ON cmt.account_id = accounts.id ORDER BY cmt.create_at DESC LIMIT $limit";
+        $result = $this->connect->prepare($sql);
+        $result->execute();
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
 
 

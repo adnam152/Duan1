@@ -23,6 +23,7 @@ $router->addRoute('cart', HomeController::class, 'cart');
 $router->addRoute('profile', HomeController::class, 'profile');
 
 $router->addRoute('login', LoginController::class, 'login');
+$router->addRoute('logout', LoginController::class, 'logout');
 
 
 $router->addRoute('admin', AdminController::class, 'index');
@@ -52,5 +53,8 @@ $router->addRoute('api/confirmBill', UserAPIController::class, 'confirmBill');
 $router->addRoute('api/topseller', UserAPIController::class, 'topSeller');
 $router->addRoute('api/increasequantity', UserAPIController::class, 'increasequantity');
 $router->addRoute('api/decreasequantity', UserAPIController::class, 'decreasequantity');
+$router->addRoute('api/allproduct', UserAPIController::class, 'allproduct');
+$router->addRoute('api/filterproduct', UserAPIController::class, 'filterproduct');
+$router->addRoute('api/changepassword', UserAPIController::class, 'changepassword');
 
 $router->dispatch($uri);

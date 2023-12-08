@@ -39,6 +39,18 @@ class ProductdetailModel extends Model{
         $result->execute([$product_id, $color, $size]);
         return $result->fetch(\PDO::FETCH_ASSOC);
     }
+    function minPrice($product_id){
+        $sql = "SELECT MIN(price) as min FROM $this->table WHERE product_id=?";
+        $result = $this->connect->prepare($sql);
+        $result->execute([$product_id]);
+        return $result->fetch(\PDO::FETCH_ASSOC)['min'];
+    }
+    function maxPrice($product_id){
+        $sql = "SELECT MAX(price) as max FROM $this->table WHERE product_id=?";
+        $result = $this->connect->prepare($sql);
+        $result->execute([$product_id]);
+        return $result->fetch(\PDO::FETCH_ASSOC)['max'];
+    }
     function decreaseQuantity($id, $quantity){
         $sql = "UPDATE $this->table SET quantity = quantity - ? WHERE id=?";
         $result = $this->connect->prepare($sql);
