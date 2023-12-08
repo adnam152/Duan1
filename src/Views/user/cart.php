@@ -370,6 +370,10 @@ endif;
         const payment_method = document.getElementById('payment_method');
         const bill_detail = document.querySelectorAll('a[data-cart-id]');
         const total_money = document.getElementById('total_money');
+        if(!document.querySelector('#bill_detail_container a.product')) {
+            alert("Giỏ hàng trống");
+            return;
+        }
 
         // nếu thanh toán online thì chuyển sang trang thanh toán
         if (payment_method.value == "Thanh toán online VNPay") {
